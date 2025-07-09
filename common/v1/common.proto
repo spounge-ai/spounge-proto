@@ -1,0 +1,16 @@
+syntax = "proto3";
+package spounge.common.v1;
+
+import "google/protobuf/struct.proto";
+
+message Status {
+  int32 code = 1;
+  string message = 2;
+  google.protobuf.Struct details = 3;
+}
+
+message File {
+  string file_name = 1;
+  string mime_type = 2;
+  bytes content = 3;
+}
