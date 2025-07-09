@@ -1,0 +1,11 @@
+# buf.yaml
+version: v1
+name: buf.build/spounge/protos
+roots:
+  - spounge
+lint:
+  use:
+    - DEFAULT
+breaking:
+  use:
+    - FILE
