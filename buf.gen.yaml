@@ -1,3 +1,4 @@
+# NOT USING, instead use make generate (calls script in scripts/)
 version: v2
 clean: true
 
