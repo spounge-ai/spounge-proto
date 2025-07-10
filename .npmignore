@@ -1,0 +1,17 @@
+# Ignore everything except gen/ts for publishing
+*
+!gen/
+!gen/ts/
+!gen/ts/**/*.js
+!gen/ts/**/*.d.ts
+
+# Ignore config and build scripts
+generate.sh
+buf.yaml
+buf.lock
+go.mod
+go.sum
+tsconfig.json
+README.md
+.gitignore
+.npmignore

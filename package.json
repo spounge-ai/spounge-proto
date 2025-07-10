@@ -1,0 +1,33 @@
+{
+  "name": "@spounge/proto",
+  "version": "1.0.0",
+  "description": "Shared protobuf definitions for Spounge microservices",
+  "main": "gen/ts/index.js",
+  "types": "gen/ts/index.d.ts",
+  "files": [
+    "gen/ts/"
+  ],
+  "scripts": {
+    "build": "bash scripts/generate.sh",
+    "prepare": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spounge/proto.git"
+  },
+  "keywords": [
+    "protobuf",
+    "grpc",
+    "spounge"
+  ],
+  "author": "Evan Huang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/spounge/proto/issues"
+  },
+  "homepage": "https://github.com/spounge/proto#readme",
+  "devDependencies": {
+    "ts-protoc-gen": "^0.15.0"
+  },
+  "dependencies": {}
+}

@@ -1,17 +1,12 @@
-.PHONY: generate-buf all help
+.PHONY: gen clean
 
-# Default target (for now)
-all: generate-buf
+gen:
+	@echo "Making generate.sh executable..."
+	chmod +x scripts/generate.sh
+	@echo "Generating protobuf code..."
+	bash scripts/generate.sh
 
-# Generate buf.yaml from proto scripts
-generate-buf:
-	@chmod +x ./scripts/construct_buf_yaml.sh
-	@echo "Generating buf.yaml..."
-	@bash ./scripts/construct_buf_yaml.sh
-	@echo "Done!"
-
-# Help target to list available commands
-help:
-	@echo "Available targets:"
-	@echo "  make generate-buf           Generate buf.yaml"
-	@echo "  make all                   Default: generate-buf"
+clean:
+	@echo "Cleaning generated files..."
+	rm -rf gen/go/*
+	rm -rf gen/ts/*
