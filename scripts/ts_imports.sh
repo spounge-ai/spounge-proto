@@ -1,3 +1,6 @@
+# needs to be fixed, errors with installing found deps
+
+
 #!/bin/bash
 set -e
 
