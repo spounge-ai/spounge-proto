@@ -1,10 +1,17 @@
 .PHONY: generate clean build test tag-release
 
 # Generate protobuf files
-generate:
-	@echo "Generating protobuf files..."
+gen: gen-go gen-ts
+
+gen-go:
+	@echo "Generating Go protobuf files..."
 	@chmod +x scripts/generate_pb.sh
-	@./scripts/generate_pb.sh
+	@./scripts/generate_pb.sh go
+
+gen-ts:
+	@echo "Generating TypeScript protobuf files..."
+	@chmod +x scripts/generate_pb.sh
+	@./scripts/generate_pb.sh ts
 
 ts-imports:
 	@echo "Getting TypeScript imports..."

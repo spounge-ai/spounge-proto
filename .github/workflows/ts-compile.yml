@@ -62,7 +62,7 @@ jobs:
       run: npm install -g ts-protoc-gen
     
     - name: Generate TypeScript protobuf files
-      run: make generate
+      run: make gen ts
     
     - name: Build TypeScript
       run: npm run build
@@ -70,5 +70,5 @@ jobs:
     - name: Check TypeScript compilation
       run: npm run compile
     
-    - name: Run TypeScript imports script
-      run: make ts-imports
+#    - name: Run TypeScript imports script
+#      run: make ts-imports

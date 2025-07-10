@@ -1,4 +1,5 @@
 # needs to be fixed, errors with installing found deps
+# for now manually add in node deps
 
 
 #!/bin/bash
