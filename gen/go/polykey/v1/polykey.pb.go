@@ -4,9 +4,10 @@
 // 	protoc        v6.31.1
 // source: polykey/v1/polykey.proto
 
-package _go
+package polykeyv1
 
 import (
+	v1 "github.com/spoungeai/spounge-proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	structpb "google.golang.org/protobuf/types/known/structpb"
@@ -29,7 +30,7 @@ type ExecuteToolRequest struct {
 	Parameters    *structpb.Struct       `protobuf:"bytes,2,opt,name=parameters,proto3" json:"parameters,omitempty"`
 	UserId        string                 `protobuf:"bytes,3,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	WorkflowRunId string                 `protobuf:"bytes,4,opt,name=workflow_run_id,json=workflowRunId,proto3" json:"workflow_run_id,omitempty"`
-	Metadata      *Metadata              `protobuf:"bytes,5,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	Metadata      *v1.Metadata           `protobuf:"bytes,5,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -92,7 +93,7 @@ func (x *ExecuteToolRequest) GetWorkflowRunId() string {
 	return ""
 }
 
-func (x *ExecuteToolRequest) GetMetadata() *Metadata {
+func (x *ExecuteToolRequest) GetMetadata() *v1.Metadata {
 	if x != nil {
 		return x.Metadata
 	}
@@ -102,14 +103,14 @@ func (x *ExecuteToolRequest) GetMetadata() *Metadata {
 // ExecuteToolResponse contains the output and status from ExecuteTool.
 type ExecuteToolResponse struct {
 	state  protoimpl.MessageState `protogen:"open.v1"`
-	Status *Status                `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
+	Status *v1.Status             `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
 	// Types that are valid to be assigned to Output:
 	//
 	//	*ExecuteToolResponse_StringOutput
 	//	*ExecuteToolResponse_StructOutput
 	//	*ExecuteToolResponse_FileOutput
 	Output        isExecuteToolResponse_Output `protobuf_oneof:"output"`
-	Metadata      *Metadata                    `protobuf:"bytes,5,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	Metadata      *v1.Metadata                 `protobuf:"bytes,5,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -144,7 +145,7 @@ func (*ExecuteToolResponse) Descriptor() ([]byte, []int) {
 	return file_polykey_v1_polykey_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *ExecuteToolResponse) GetStatus() *Status {
+func (x *ExecuteToolResponse) GetStatus() *v1.Status {
 	if x != nil {
 		return x.Status
 	}
@@ -176,7 +177,7 @@ func (x *ExecuteToolResponse) GetStructOutput() *structpb.Struct {
 	return nil
 }
 
-func (x *ExecuteToolResponse) GetFileOutput() *File {
+func (x *ExecuteToolResponse) GetFileOutput() *v1.File {
 	if x != nil {
 		if x, ok := x.Output.(*ExecuteToolResponse_FileOutput); ok {
 			return x.FileOutput
@@ -185,7 +186,7 @@ func (x *ExecuteToolResponse) GetFileOutput() *File {
 	return nil
 }
 
-func (x *ExecuteToolResponse) GetMetadata() *Metadata {
+func (x *ExecuteToolResponse) GetMetadata() *v1.Metadata {
 	if x != nil {
 		return x.Metadata
 	}
@@ -205,7 +206,7 @@ type ExecuteToolResponse_StructOutput struct {
 }
 
 type ExecuteToolResponse_FileOutput struct {
-	FileOutput *File `protobuf:"bytes,4,opt,name=file_output,json=fileOutput,proto3,oneof"`
+	FileOutput *v1.File `protobuf:"bytes,4,opt,name=file_output,json=fileOutput,proto3,oneof"`
 }
 
 func (*ExecuteToolResponse_StringOutput) isExecuteToolResponse_Output() {}
@@ -221,7 +222,7 @@ type ExecuteToolStreamRequest struct {
 	Parameters    *structpb.Struct       `protobuf:"bytes,2,opt,name=parameters,proto3" json:"parameters,omitempty"`
 	UserId        string                 `protobuf:"bytes,3,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	WorkflowRunId string                 `protobuf:"bytes,4,opt,name=workflow_run_id,json=workflowRunId,proto3" json:"workflow_run_id,omitempty"`
-	Metadata      *Metadata              `protobuf:"bytes,5,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	Metadata      *v1.Metadata           `protobuf:"bytes,5,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -284,7 +285,7 @@ func (x *ExecuteToolStreamRequest) GetWorkflowRunId() string {
 	return ""
 }
 
-func (x *ExecuteToolStreamRequest) GetMetadata() *Metadata {
+func (x *ExecuteToolStreamRequest) GetMetadata() *v1.Metadata {
 	if x != nil {
 		return x.Metadata
 	}
@@ -294,14 +295,14 @@ func (x *ExecuteToolStreamRequest) GetMetadata() *Metadata {
 // ExecuteToolStreamResponse represents streamed output from the tool.
 type ExecuteToolStreamResponse struct {
 	state  protoimpl.MessageState `protogen:"open.v1"`
-	Status *Status                `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
+	Status *v1.Status             `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
 	// Types that are valid to be assigned to Output:
 	//
 	//	*ExecuteToolStreamResponse_StringOutput
 	//	*ExecuteToolStreamResponse_StructOutput
 	//	*ExecuteToolStreamResponse_FileOutput
 	Output        isExecuteToolStreamResponse_Output `protobuf_oneof:"output"`
-	Metadata      *Metadata                          `protobuf:"bytes,5,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	Metadata      *v1.Metadata                       `protobuf:"bytes,5,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -336,7 +337,7 @@ func (*ExecuteToolStreamResponse) Descriptor() ([]byte, []int) {
 	return file_polykey_v1_polykey_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *ExecuteToolStreamResponse) GetStatus() *Status {
+func (x *ExecuteToolStreamResponse) GetStatus() *v1.Status {
 	if x != nil {
 		return x.Status
 	}
@@ -368,7 +369,7 @@ func (x *ExecuteToolStreamResponse) GetStructOutput() *structpb.Struct {
 	return nil
 }
 
-func (x *ExecuteToolStreamResponse) GetFileOutput() *File {
+func (x *ExecuteToolStreamResponse) GetFileOutput() *v1.File {
 	if x != nil {
 		if x, ok := x.Output.(*ExecuteToolStreamResponse_FileOutput); ok {
 			return x.FileOutput
@@ -377,7 +378,7 @@ func (x *ExecuteToolStreamResponse) GetFileOutput() *File {
 	return nil
 }
 
-func (x *ExecuteToolStreamResponse) GetMetadata() *Metadata {
+func (x *ExecuteToolStreamResponse) GetMetadata() *v1.Metadata {
 	if x != nil {
 		return x.Metadata
 	}
@@ -397,7 +398,7 @@ type ExecuteToolStreamResponse_StructOutput struct {
 }
 
 type ExecuteToolStreamResponse_FileOutput struct {
-	FileOutput *File `protobuf:"bytes,4,opt,name=file_output,json=fileOutput,proto3,oneof"`
+	FileOutput *v1.File `protobuf:"bytes,4,opt,name=file_output,json=fileOutput,proto3,oneof"`
 }
 
 func (*ExecuteToolStreamResponse_StringOutput) isExecuteToolStreamResponse_Output() {}
@@ -446,7 +447,7 @@ const file_polykey_v1_polykey_proto_rawDesc = "" +
 	"\x06output2\xc4\x01\n" +
 	"\x0ePolykeyService\x12N\n" +
 	"\vExecuteTool\x12\x1e.polykey.v1.ExecuteToolRequest\x1a\x1f.polykey.v1.ExecuteToolResponse\x12b\n" +
-	"\x11ExecuteToolStream\x12$.polykey.v1.ExecuteToolStreamRequest\x1a%.polykey.v1.ExecuteToolStreamResponse0\x01B\bZ\x06gen/gob\x06proto3"
+	"\x11ExecuteToolStream\x12$.polykey.v1.ExecuteToolStreamRequest\x1a%.polykey.v1.ExecuteToolStreamResponse0\x01B@Z>github.com/spoungeai/spounge-proto/gen/go/polykey/v1;polykeyv1b\x06proto3"
 
 var (
 	file_polykey_v1_polykey_proto_rawDescOnce sync.Once
@@ -467,9 +468,9 @@ var file_polykey_v1_polykey_proto_goTypes = []any{
 	(*ExecuteToolStreamRequest)(nil),  // 2: polykey.v1.ExecuteToolStreamRequest
 	(*ExecuteToolStreamResponse)(nil), // 3: polykey.v1.ExecuteToolStreamResponse
 	(*structpb.Struct)(nil),           // 4: google.protobuf.Struct
-	(*Metadata)(nil),                  // 5: common.v1.Metadata
-	(*Status)(nil),                    // 6: common.v1.Status
-	(*File)(nil),                      // 7: common.v1.File
+	(*v1.Metadata)(nil),               // 5: common.v1.Metadata
+	(*v1.Status)(nil),                 // 6: common.v1.Status
+	(*v1.File)(nil),                   // 7: common.v1.File
 }
 var file_polykey_v1_polykey_proto_depIdxs = []int32{
 	4,  // 0: polykey.v1.ExecuteToolRequest.parameters:type_name -> google.protobuf.Struct
@@ -500,7 +501,6 @@ func file_polykey_v1_polykey_proto_init() {
 	if File_polykey_v1_polykey_proto != nil {
 		return
 	}
-	file_common_v1_common_proto_init()
 	file_polykey_v1_polykey_proto_msgTypes[1].OneofWrappers = []any{
 		(*ExecuteToolResponse_StringOutput)(nil),
 		(*ExecuteToolResponse_StructOutput)(nil),

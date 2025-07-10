@@ -4,7 +4,7 @@
 // 	protoc        v6.31.1
 // source: common/v1/common.proto
 
-package _go
+package commonv1
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -556,7 +556,7 @@ const file_common_v1_common_proto_rawDesc = "" +
 	"\x0fExecutionResult\x12!\n" +
 	"\fexecution_id\x18\x01 \x01(\tR\vexecutionId\x12)\n" +
 	"\x06status\x18\x02 \x01(\v2\x11.common.v1.StatusR\x06status\x12/\n" +
-	"\x06output\x18\x03 \x01(\v2\x17.google.protobuf.StructR\x06outputB\bZ\x06gen/gob\x06proto3"
+	"\x06output\x18\x03 \x01(\v2\x17.google.protobuf.StructR\x06outputB>Z<github.com/spoungeai/spounge-proto/gen/go/common/v1;commonv1b\x06proto3"
 
 var (
 	file_common_v1_common_proto_rawDescOnce sync.Once

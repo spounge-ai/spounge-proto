@@ -4,7 +4,7 @@
 // - protoc             v6.31.1
 // source: polykey/v1/polykey.proto
 
-package _go
+package polykeyv1
 
 import (
 	context "context"
