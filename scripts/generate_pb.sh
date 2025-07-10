@@ -39,11 +39,11 @@ protoc -I="$ROOT_DIR/proto" \
   --go-grpc_out="$ROOT_DIR/gen/go" --go-grpc_opt=paths=source_relative \
   $PROTO_FILES_ARG
 
-echo "Generating TypeScript protobuf code..."
+echo "Generating TypeScript code with ts-proto..."
 protoc -I="$ROOT_DIR/proto" \
-  --plugin=protoc-gen-ts=$(which protoc-gen-ts) \
-  --js_out=import_style=commonjs,binary:"$ROOT_DIR/gen/ts" \
-  --ts_out="$ROOT_DIR/gen/ts" \
+  --plugin=protoc-gen-ts_proto=./node_modules/.bin/protoc-gen-ts_proto \
+  --ts_proto_out="$ROOT_DIR/gen/ts" \
+  --ts_proto_opt=esModuleInterop=true,forceLong=long,useOptionals=true \
   $PROTO_FILES_ARG
 
 echo "Generation completed."

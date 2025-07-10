@@ -3,7 +3,13 @@
 # Generate protobuf files
 generate:
 	@echo "Generating protobuf files..."
-	@./scripts/generate.sh
+	@chmod +x scripts/generate_pb.sh
+	@./scripts/generate_pb.sh
+
+ts-imports:
+	@echo "Getting TypeScript imports..."
+	@chmod +x scripts/ts_imports.sh
+	@./scripts/ts_imports.sh
 
 # Clean generated files
 clean:
