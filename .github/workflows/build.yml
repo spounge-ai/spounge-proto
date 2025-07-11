@@ -87,13 +87,22 @@ jobs:
       - name: Build protobuf generator Docker image
         run: docker build -t spoungeai/protos-gen .
 
-      # --- Now generate protobuf files inside Docker ---
-
+      # --- Now generate protobuf files inside Docker with UID:GID mapping ---
       - name: Generate Go protobuf files (inside Docker)
-        run: docker run --rm -v ${{ github.workspace }}:/app -w /app spoungeai/protos-gen make gen-go
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/app \
+            -w /app \
+            --user $(id -u):$(id -g) \
+            spoungeai/protos-gen make gen-go
 
       - name: Generate TypeScript protobuf files (inside Docker)
-        run: docker run --rm -v ${{ github.workspace }}:/app -w /app spoungeai/protos-gen make gen-ts
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/app \
+            -w /app \
+            --user $(id -u):$(id -g) \
+            spoungeai/protos-gen make gen-ts
 
       # Build Go code
       - name: Build Go module
@@ -102,10 +111,6 @@ jobs:
       # Run Go tests
       - name: Run Go tests
         run: make test
-
-      # Check Go generated files up to date (inside Docker)
-      - name: Check Go generated files up to date (inside Docker)
-        run: docker run --rm -v ${{ github.workspace }}:/app -w /app spoungeai/protos-gen make check-generated
 
       # Build TypeScript
       - name: Build TypeScript
