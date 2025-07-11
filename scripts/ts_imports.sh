@@ -54,7 +54,7 @@ create_index() {
         # Export only the main types from other files
         find "$dir" -maxdepth 1 -name "*.ts" -not -name "index.ts" | tail -n +2 | while read -r file; do
             local basename=$(basename "$file" .ts)
-            local main_type=$(echo "$basename" | sed 's/^./\U&/')
+            local main_type="$(echo "${basename:0:1}" | tr '[:lower:]' '[:upper:]')${basename:1}"
             echo "export { $main_type } from './$basename';" >> "$temp_index"
         done
     else
