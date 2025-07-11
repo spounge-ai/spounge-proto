@@ -1,0 +1,7 @@
+# Include generated protobuf files in language detection
+gen/ts/**/*.ts linguist-detectable
+gen/go/**/*.go linguist-detectable
+
+# Optional: Override language detection for specific extensions
+*.ts linguist-language=TypeScript
+*.go linguist-language=Go
