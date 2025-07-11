@@ -23,3 +23,8 @@ Thumbs.db
 logs/
 *.log
  
+# Ignore all JS build output and declaration files in gen/ts
+gen/ts/**/*.js
+gen/ts/**/*.d.ts
+gen/ts/**/*.js.map
+gen/ts/**/*.d.ts.map

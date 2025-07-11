@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "prebuild": "npm run clean",
-    "build": "bash scripts/generate_pb.sh && npm run compile",
+    "build": "make gen-ts && make ts-imports && npm run compile",
     "compile": "tsc",
     "clean": "rm -rf gen/ts/*",
     "dev": "npm run build -- --watch"
