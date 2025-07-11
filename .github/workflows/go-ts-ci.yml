@@ -2,7 +2,7 @@ name: Go + TypeScript CI
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main, dev, ci]
     paths:
       - 'proto/**'
       - 'gen/go/**'
@@ -18,7 +18,7 @@ on:
       - '.github/workflows/go-ci.yml'
       - '.github/workflows/typescript-ci.yml'
   pull_request:
-    branches: [main, develop]
+    branches: [main, dev, ci]
     paths:
       - 'proto/**'
       - 'gen/go/**'
