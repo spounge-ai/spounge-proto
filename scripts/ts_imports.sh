@@ -167,19 +167,3 @@ find "$TS_GEN_DIR" -name "*.bak" -delete
 
 print_success "TypeScript index files generated successfully"
 
-
-# Generate gen/ts/package.json
-
-
-cat > "$TS_GEN_DIR/package.json" <<EOF
-{
-  "name": "@spoungeai/spounge-proto-ts",
-  "version": "1.0.0",
-  "main": "./index.js",
-  "types": "./index.d.ts",
-  "sideEffects": false,
-  "private": false
-}
-EOF
-
-print_success "Generated: $TS_GEN_DIR/package.json"
