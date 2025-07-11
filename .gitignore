@@ -22,6 +22,4 @@ Thumbs.db
 # Logs
 logs/
 *.log
-
-# Dependency directories
-vendor/
+ 
