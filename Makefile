@@ -1,7 +1,5 @@
 .PHONY: generate clean build test tag-release gen gen-go gen-ts lint check-generated install-tools help docker-build docker-gen-go docker-gen-ts docker-gen check-generated-docker
 
-DOCKER_IMAGE := spoungeai/protos-gen
-
 # --- Existing targets ---
 
 generate: gen
@@ -68,8 +66,12 @@ help:
 	@echo "  make docker-gen-ts   - Generate TypeScript protobuf files inside Docker"
 	@echo "  make check-generated-docker - Check generated files inside Docker"
 
-# --- New Docker targets ---
+ 
+
+# --- New Docker targets --
 # Build the protobuf generation Docker image
+DOCKER_IMAGE ?= spoungeai/protos-gen
+ 
 docker-build:
 	@echo "Building Docker image for protobuf generation..."
 	@docker build -t $(DOCKER_IMAGE) .
@@ -96,3 +98,7 @@ check-generated-docker:
 # Build image and generate all protobuf files (Go + TS)
 docker-setup: docker-build docker-gen
 	@echo "🚀 Docker setup complete: image built and protobuf files generated."
+
+fix-permissions:
+	@echo "Fixing permissions for generated files and cache..."
+	@sudo chown -R $(shell id -u):$(shell id -g) .
