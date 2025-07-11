@@ -1,6 +1,10 @@
 # Use official Go Alpine image
 FROM golang:1.24-alpine
 
+# Set environment variables
+ENV PROTOC_VERSION=31.1
+ENV PATH="/go/bin:/usr/local/bin:$PATH"
+
 # Install dependencies
 RUN apk add --no-cache \
     bash \
@@ -11,37 +15,32 @@ RUN apk add --no-cache \
     npm \
     git
 
-# Set environment variables
-ENV PROTOC_VERSION=31.1
-ENV PATH="/go/bin:/usr/local/bin:${PATH}"
-
 # Install protoc
-RUN curl -Lo /tmp/protoc.zip https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-linux-x86_64.zip \
+RUN curl -sSL -o /tmp/protoc.zip https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-linux-x86_64.zip \
     && unzip /tmp/protoc.zip -d /usr/local \
-    && rm /tmp/protoc.zip
-
-# Verify protoc installed
-RUN protoc --version
+    && rm -rf /tmp/protoc.zip
 
 # Install Go plugins
 RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@latest \
     && go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 
-# Install ts-proto globally
-RUN npm install -g ts-proto
+# Install ts-proto globally and clean npm cache
+RUN npm install -g ts-proto \
+    && npm cache clean --force
 
 # Set working directory
 WORKDIR /app
 
-# Cache go and npm dependencies separately (faster rebuilds)
+# Cache Go dependencies
 COPY go.mod go.sum ./
 RUN go mod download
 
+# Cache npm dependencies
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm ci --omit=dev
 
-# Copy the rest of the source code
+# Copy remaining project files
 COPY . .
 
-# Default to bash for interactive container
+# Default command
 CMD ["bash"]
