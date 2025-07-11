@@ -1,4 +1,4 @@
-name: Release NPM Package
+name: Semantic Release
 
 on:
   push:
@@ -6,75 +6,22 @@ on:
       - release
 
 jobs:
-  filter_npm_changes:
+  release:
     runs-on: ubuntu-latest
-    outputs:
-      npm_changes: ${{ steps.filter.outputs.npm_changes }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@v4
 
-      - name: Filter for npm-related changes
-        id: filter
-        uses: dorny/paths-filter@v3
-        with:
-          filters: |
-            npm_changes:
-              - 'proto/**'
-              - 'gen/ts/**'
-              - 'package.json'
-              - 'package-lock.json'
-              - '.releaserc.json'
-
-  release_npm:
-    needs: filter_npm_changes
-    if: needs.filter_npm_changes.outputs.npm_changes == 'true'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      issues: write
-      pull-requests: write
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Setup Node.js environment
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 'lts/*'
+          node-version: '24'
           cache: 'npm'
-          cache-dependency-path: 'package-lock.json'
-          registry-url: 'https://registry.npmjs.org'
 
-      - name: Install root dependencies
+      - name: Install dependencies
         run: npm ci
 
-      - name: Build generated TypeScript package
-        run: npm run build
-
-      - name: Install dependencies for gen/ts package
-        run: npm ci
-        working-directory: gen/ts
-
-      # Optional: If you have tests, run them here
-      # - name: Run tests for gen/ts package
-      #   run: npm test
-      #   working-directory: gen/ts
-
-      - name: Configure Git for semantic-release
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Semantic Release
-        uses: cycjimmy/semantic-release-action@v4
-        with:
-          semantic_version: 20
-          pkgRoot: gen/ts
+      - name: Run Semantic Release
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
