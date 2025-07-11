@@ -3,6 +3,6 @@ gen/go/**/*.pb.go linguist-generated=false linguist-language=Go
 gen/go/**/*.pb.ts linguist-generated=false linguist-language=TypeScript
 gen/ts/**/*.ts linguist-generated=false linguist-language=TypeScript
 
-# Include .proto files
-*.proto linguist-detectable linguist-language=Protocol Buffer
-proto/**/*.proto linguist-detectable linguist-language=Protocol Buffer
+# Force proto detection - multiple attempts
+*.proto linguist-detectable
+proto/**/*.proto linguist-detectable
