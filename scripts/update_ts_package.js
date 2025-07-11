@@ -6,19 +6,23 @@ const rootPkgPath = path.resolve(__dirname, '../package.json');
 const tsGenDir = path.resolve(__dirname, '../gen/ts');
 const tsPkgPath = path.join(tsGenDir, 'package.json');
 
-function loadRootPackage() {
+function loadJson(filePath) {
   try {
-    return JSON.parse(fs.readFileSync(rootPkgPath, 'utf-8'));
+    return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
   } catch (err) {
-    console.error('Error reading root package.json:', err);
+    if (err.code === 'ENOENT') {
+      // File not found — return null to create new package.json later
+      return null;
+    }
+    console.error(`Error reading JSON file at ${filePath}:`, err);
     process.exit(1);
   }
 }
 
-function generateTsPackage(rootPkg) {
+function generateTsPackage(rootPkg, tsPkg) {
   return {
-    name: rootPkg.name ? rootPkg.name + '-ts' : '@spounge/proto-ts',
-    version: rootPkg.version || '1.0.0',
+    name: (tsPkg && tsPkg.name) || (rootPkg.name ? rootPkg.name + '-ts' : '@spounge/proto-ts'),
+    version: (tsPkg && tsPkg.version) || rootPkg.version || '1.0.0',
     main: './index.js',
     types: './index.d.ts',
     sideEffects: false,
@@ -32,16 +36,17 @@ function generateTsPackage(rootPkg) {
   };
 }
 
-function writeTsPackage(pkg, filePath) {
+function writeJson(filePath, json) {
   try {
-    fs.writeFileSync(filePath, JSON.stringify(pkg, null, 2) + '\n', 'utf-8');
-    console.log('✅ Generated:', filePath);
+    fs.writeFileSync(filePath, JSON.stringify(json, null, 2) + '\n', 'utf-8');
+    console.log('✅ Updated:', filePath);
   } catch (err) {
-    console.error('Error writing package.json:', err);
+    console.error(`Error writing JSON file at ${filePath}:`, err);
     process.exit(1);
   }
 }
 
-const rootPkg = loadRootPackage();
-const tsPkg = generateTsPackage(rootPkg);
-writeTsPackage(tsPkg, tsPkgPath);
+const rootPkg = loadJson(rootPkgPath);
+const tsPkg = loadJson(tsPkgPath);
+const updatedTsPkg = generateTsPackage(rootPkg, tsPkg);
+writeJson(tsPkgPath, updatedTsPkg);

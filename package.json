@@ -1,6 +1,6 @@
 {
   "name": "@spounge/proto",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Shared protobuf definitions for Spounge microservices",
   "main": "gen/ts/index.js",
   "types": "gen/ts/index.d.ts",
@@ -33,12 +33,11 @@
     "url": "https://github.com/spoungeai/spounge-proto/issues"
   },
   "homepage": "https://github.com/spoungeai/spounge-proto#readme",
+  "workspaces": [
+    "gen/ts"
+  ],
   "devDependencies": {
-    "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^11.0.3",
-    "@semantic-release/npm": "^12.0.2",
-    "semantic-release": "^24.2.7",
+    "@changesets/cli": "^2.29.5",
     "ts-proto": "^2.7.5",
     "typescript": "^5.3.0"
   },
