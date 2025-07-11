@@ -1,0 +1,20 @@
+{
+  "name": "@spounge/proto-ts",
+  "version": "1.0.0",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "sideEffects": false,
+  "private": false,
+  "files": [
+    "*.js",
+    "*.d.ts",
+    "common",
+    "google",
+    "polykey"
+  ],
+  "dependencies": {
+    "protobufjs": "^7.2.5",
+    "long": "^5.2.3",
+    "rxjs": "^7.8.2"
+  }
+}

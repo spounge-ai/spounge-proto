@@ -38,6 +38,11 @@ lint:
 	@echo "Linting proto files..."
 	@buf lint
 
+init-pkg:
+	@echo "Packaging Go and Ts modues..."
+	@chmod +x scripts/init_package_meta.sh
+	@./scripts/init_package_meta.sh
+
 tag-release:
 	@echo "Current tags:"
 	@git tag -l | sort -V | tail -5

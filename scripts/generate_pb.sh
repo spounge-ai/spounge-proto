@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-source "$(dirname "${BASH_SOURCE[0]}")/spounge-prettier.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/spounge_prettier.sh"
 # ... [your existing colors, symbols, functions, etc.] ...
 
 # Parse input parameter for generation mode
