@@ -1,0 +1,66 @@
+name: NPM Package Release
+
+on:
+  push:
+    branches:
+      - release
+
+jobs:
+  filter_npm_changes:
+    runs-on: ubuntu-latest
+    outputs:
+      npm_changes: ${{ steps.filter.outputs.npm_changes }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            npm_changes:
+              - 'proto/**'
+              - 'gen/ts/**'
+              - 'package.json'
+              - 'package-lock.json'
+              - '.releaserc.json'
+
+  release_npm:
+    runs-on: ubuntu-latest
+    needs: filter_npm_changes
+    if: needs.filter_npm_changes.outputs.npm_changes == 'true'
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
+          cache-dependency-path: 'package-lock.json'
+
+      - run: npm ci
+
+      - run: npm test
+
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - uses: cycjimmy/semantic-release-action@v4
+        with:
+          semantic_version: 20
+          extra_plugins: |
+            @semantic-release/changelog
+            @semantic-release/git
+            @semantic-release/npm
+            @semantic-release/github
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
