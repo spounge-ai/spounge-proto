@@ -1,7 +1,4 @@
-# Include generated protobuf files in language detection
-gen/ts/**/*.ts linguist-detectable
-gen/go/**/*.go linguist-detectable
-
-# Optional: Override language detection for specific extensions
-*.ts linguist-language=TypeScript
-*.go linguist-language=Go
+# Override protobuf file detection
+gen/go/**/*.pb.go linguist-generated=false linguist-language=Go
+gen/go/**/*.pb.ts linguist-generated=false linguist-language=TypeScript
+gen/ts/**/*.ts linguist-generated=false linguist-language=TypeScript
