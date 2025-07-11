@@ -1,4 +1,0 @@
-version: v2
-directories:
-  - protos/common/v1
-  - protos/polykey/v1
