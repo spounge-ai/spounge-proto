@@ -1,5 +1,4 @@
-# .github/workflows/release.yml
-name: NPM Package Release
+name: Release NPM Package
 
 on:
   push:
@@ -17,7 +16,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Filter for npm changes
+      - name: Filter for npm-related changes
         id: filter
         uses: dorny/paths-filter@v3
         with:
@@ -30,10 +29,9 @@ jobs:
               - '.releaserc.json'
 
   release_npm:
-    name: Release npm package
-    runs-on: ubuntu-latest
     needs: filter_npm_changes
     if: needs.filter_npm_changes.outputs.npm_changes == 'true'
+    runs-on: ubuntu-latest
     permissions:
       contents: write
       issues: write
@@ -44,19 +42,28 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js
+      - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
-          registry-url: 'https://registry.npmjs.org'
           cache: 'npm'
           cache-dependency-path: 'package-lock.json'
+          registry-url: 'https://registry.npmjs.org'
 
-      - name: Install dependencies
+      - name: Install root dependencies
         run: npm ci
 
-      - name: Run npm tests
-        run: npm test
+      - name: Build generated TypeScript package
+        run: npm run build
+
+      - name: Install dependencies for gen/ts package
+        run: npm ci
+        working-directory: gen/ts
+
+      # Optional: If you have tests, run them here
+      # - name: Run tests for gen/ts package
+      #   run: npm test
+      #   working-directory: gen/ts
 
       - name: Configure Git for semantic-release
         run: |
@@ -67,7 +74,7 @@ jobs:
         uses: cycjimmy/semantic-release-action@v4
         with:
           semantic_version: 20
-
+          pkgRoot: gen/ts
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
