@@ -2,3 +2,5 @@
 gen/go/**/*.pb.go linguist-generated=false linguist-language=Go
 gen/go/**/*.pb.ts linguist-generated=false linguist-language=TypeScript
 gen/ts/**/*.ts linguist-generated=false linguist-language=TypeScript
+
+*.proto linguist-language=Protocol Buffer
