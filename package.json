@@ -14,7 +14,8 @@
     "compile": "tsc",
     "clean": "rm -rf gen/ts/*",
     "dev": "npm run build -- --watch",
-    "pkg-ts": "node scripts/update_ts_package.js"
+    "pkg-ts": "node scripts/update_ts_package.js",
+    "test": "echo 'Adding test once microservices call upon it.' && exit 0"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,11 @@
   },
   "homepage": "https://github.com/spoungeai/spounge-proto#readme",
   "devDependencies": {
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^11.0.3",
+    "@semantic-release/npm": "^12.0.2",
+    "semantic-release": "^24.2.7",
     "ts-proto": "^2.7.5",
     "typescript": "^5.3.0"
   },

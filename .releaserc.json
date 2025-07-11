@@ -1,0 +1,30 @@
+{
+  "branches": ["release"],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    [
+      "@semantic-release/changelog",
+      {
+        "changelogFile": "CHANGELOG.md"
+      }
+    ],
+    "@semantic-release/npm",
+    [
+      "@semantic-release/git",
+      {
+        "assets": ["CHANGELOG.md", "package.json"],
+        "message": "chore(release): release ${nextRelease.version} for @spounge/proto [skip ci]\n\n${nextRelease.notes}"
+      }
+    ],
+    [
+      "@semantic-release/github",
+      {
+        "assets": [],
+        "successComment": "This release has been published to npm as `@spounge/proto@${nextRelease.version}`."
+      }
+    ]
+  ],
+  "preset": "angular",
+  "tagFormat": "@spounge/proto@${version}"
+}
