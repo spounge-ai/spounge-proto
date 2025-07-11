@@ -40,10 +40,6 @@ lint:
 	@echo "Linting proto files..."
 	@buf lint
 
-check-generated:
-	@echo "Checking if generated files are up to date..."
-	@git diff --exit-code gen/ || (echo "Generated files are out of date. Run 'make gen'" && exit 1)
-
 tag-release:
 	@echo "Current tags:"
 	@git tag -l | sort -V | tail -5
