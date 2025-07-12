@@ -1,0 +1,56 @@
+name: Release TS Proto Package
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'proto/**'
+      - 'gen/ts/**'
+      - '.changeset/**'
+      - '.github/workflows/ts-proto-gen.yml'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.2.0'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build TS output in Docker
+        run: |
+            docker build -t spoungeai/protos-gen .
+            docker run --rm \
+            -v ${{ github.workspace }}:/app \
+            -w /app \
+            spoungeai/protos-gen \
+            sh -c "make gen-ts && make ts-imports && npm run pkg-ts && npm run compile"
+
+
+      - name: Version with Changesets
+        run: npx changeset version
+
+      - name: Commit version bump & changelog
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "chore: version bump [skip ci]" || echo "No changes to commit"
+
+      - name: Push version bump
+        run: git push --follow-tags
+
+      - name: Publish to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx changeset publish
