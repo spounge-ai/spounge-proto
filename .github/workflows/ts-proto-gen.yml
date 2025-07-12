@@ -9,6 +9,14 @@ on:
       - '.changeset/**'
       - '.github/workflows/ts-proto-gen.yml'
 
+  pull_request:
+    branches: [main, ci]
+    paths:
+      - 'proto/**'
+      - 'gen/ts/**'
+      - '.changeset/**'
+      - '.github/workflows/ts-proto-gen.yml'
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -61,12 +69,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           cd gen/ts
-          PACKAGE_VERSION=$(node -p "require('./package.json').version")
-          if npm view "@spounge/proto-ts@$PACKAGE_VERSION" version 2>/dev/null; then
-            echo "Version $PACKAGE_VERSION already published, skipping"
-          else
-            npm publish --access public
-            cd ../..
-            git tag "v$PACKAGE_VERSION"
-            git push --tags
-          fi
+          npm publish --access public
+          cd ../..
+          git tag "v$(node -p "require('./gen/ts/package.json').version")"
+          git push --tags
