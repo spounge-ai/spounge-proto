@@ -67,9 +67,21 @@ jobs:
       - name: Publish to npm
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd gen/ts
-          npm publish --access public
-          cd ../..
-          git tag "v$(node -p "require('./gen/ts/package.json').version")"
-          git push --tags
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          if npm view "@spounge/proto-ts@$PACKAGE_VERSION" version 2>/dev/null; then
+            echo "Version $PACKAGE_VERSION already published, skipping"
+          else
+            npm publish --access public
+            cd ../..
+            git tag "v$PACKAGE_VERSION"
+            git push --tags
+            
+            # Create GitHub release
+            gh release create "v$PACKAGE_VERSION" \
+              --title "@spounge/proto-ts@$PACKAGE_VERSION" \
+              --notes "Release $PACKAGE_VERSION" \
+              --latest
+          fi
