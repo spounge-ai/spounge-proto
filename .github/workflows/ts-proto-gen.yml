@@ -2,8 +2,7 @@ name: Release TS Proto Package
 
 on:
   push:
-    branches: [main, dev, ci]
-
+    branches: [main, ci]
     paths:
       - 'proto/**'
       - 'gen/ts/**'
@@ -60,4 +59,5 @@ jobs:
       - name: Publish to npm
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npx changeset publish
+        working-directory: ./gen/ts
+        run: npm publish --access public
