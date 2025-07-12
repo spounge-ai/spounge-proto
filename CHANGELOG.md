@@ -1,5 +1,11 @@
 # @spounge/proto
 
+## 1.0.4
+
+### Patch Changes
+
+- [`fe8d193`](https://github.com/SpoungeAI/spounge-proto/commit/fe8d1935245e00bb11bd1deed1cebd545cfed662) Thanks [@Evantopian](https://github.com/Evantopian)! - tagging @spounge/proto-ts versions for github
+
 ## 1.0.3
 
 ### Patch Changes
