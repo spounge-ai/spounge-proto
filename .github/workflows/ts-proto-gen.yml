@@ -8,6 +8,7 @@ on:
       - 'proto/**'
       - 'gen/ts/**'
       - '.changeset/**'
+      - '.github/workflows/ts-proto-gen.yml'
 
 jobs:
   release:
