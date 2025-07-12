@@ -59,5 +59,9 @@ jobs:
       - name: Publish to npm
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        working-directory: ./gen/ts
-        run: npm publish --access public
+        run: |
+          cd gen/ts
+          npm publish --access public
+          cd ../..
+          git tag "v$(node -p "require('./gen/ts/package.json').version")"
+          git push --tags
