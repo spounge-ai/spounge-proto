@@ -2,8 +2,8 @@ name: Release TS Proto Package
 
 on:
   push:
-    branches:
-      - main
+    branches: [main, dev, ci]
+
     paths:
       - 'proto/**'
       - 'gen/ts/**'
