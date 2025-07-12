@@ -2,8 +2,7 @@ name: Release TS Proto Package
 
 on:
   push:
-    branches:
-      - main
+    branches: [main, ci]
     paths:
       - 'proto/**'
       - 'gen/ts/**'
@@ -13,10 +12,16 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -36,10 +41,9 @@ jobs:
             spoungeai/protos-gen \
             sh -c "make gen-ts && make ts-imports && npm run pkg-ts && npm run compile"
 
-
       - name: Version with Changesets
         env:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx changeset version
 
       - name: Commit version bump & changelog
@@ -55,4 +59,14 @@ jobs:
       - name: Publish to npm
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npx changeset publish
+        run: |
+          cd gen/ts
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          if npm view "@spounge/proto-ts@$PACKAGE_VERSION" version 2>/dev/null; then
+            echo "Version $PACKAGE_VERSION already published, skipping"
+          else
+            npm publish --access public
+            cd ../..
+            git tag "v$PACKAGE_VERSION"
+            git push --tags
+          fi
