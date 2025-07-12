@@ -1,6 +1,6 @@
 // Re-export utility types from single source to avoid conflicts
-export type { DeepPartial, Exact, MessageFns } from './common/v1/common';
-export { protobufPackage } from './common/v1/common';
+export type { DeepPartial, Exact, MessageFns } from './google/protobuf/timestamp';
+export { protobufPackage } from './google/protobuf/timestamp';
 
 export * from './common';
 export * from './google';
