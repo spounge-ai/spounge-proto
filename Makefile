@@ -49,11 +49,18 @@ tag-release:
 	@echo "Enter new version (e.g., v1.0.0):"
 	@read VERSION && git tag $$VERSION && git push origin $$VERSION
 
-install-tools:
-	@echo "Installing required tools..."
+install-tools-go:
+	@echo "Installing Go protobuf tools..."
 	@go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 	@go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+
+install-tools-ts:
+	@echo "Installing TypeScript protobuf tool..."
 	@npm install -g ts-protoc-gen
+
+install-tools: install-tools-go install-tools-ts
+	@echo "All tools installed."
+
 
 help:
 	@echo "Available commands:"

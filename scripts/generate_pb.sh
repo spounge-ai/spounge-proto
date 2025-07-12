@@ -72,7 +72,23 @@ if [ -z "$MODE" ] || [ "$MODE" == "go" ]; then
     --go-grpc_out="$ROOT_DIR/gen/go" --go-grpc_opt=paths=source_relative \
     $PROTO_FILES_ARG
   print_success "Go protobuf generation complete"
+
+  # --- Ensure go.mod exists in gen/go ---
+  GO_MOD_FILE="$ROOT_DIR/gen/go/go.mod"
+  if [ ! -f "$GO_MOD_FILE" ]; then
+    echo "module github.com/spoungeai/spounge-proto/gen/go" > "$GO_MOD_FILE"
+    echo "" >> "$GO_MOD_FILE"
+    echo "go 1.24.1" >> "$GO_MOD_FILE"
+    print_info "Created go.mod in gen/go"
+  else
+    print_info "go.mod already exists in gen/go"
+  fi
+
+  # Run go mod tidy to update dependencies to latest compatible versions
+  cd "$ROOT_DIR/gen/go" && go mod tidy
+  print_success "Go modules tidied in gen/go"
 fi
+
 
 # Generate TypeScript code if no param or param is 'ts'
 if [ -z "$MODE" ] || [ "$MODE" == "ts" ]; then
@@ -124,10 +140,11 @@ fi
 # Update Go modules only if Go generation ran
 if [ -z "$MODE" ] || [ "$MODE" == "go" ]; then
   print_section "📦 UPDATING GO MODULES"
-  echo -e "${YELLOW}${GEAR} Running go mod tidy...${NC}"
-  cd "$ROOT_DIR" && go mod tidy
-  print_success "Go modules updated successfully"
+  echo -e "${YELLOW}${GEAR} Running go mod tidy in gen/go...${NC}"
+  cd "$ROOT_DIR/gen/go" && go mod tidy
+  print_success "Go modules updated successfully in gen/go"
 fi
+
 
 # Final summary
 print_header "🎉 GENERATION COMPLETE"
