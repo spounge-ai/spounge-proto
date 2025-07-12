@@ -38,6 +38,8 @@ jobs:
 
 
       - name: Version with Changesets
+        env:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
         run: npx changeset version
 
       - name: Commit version bump & changelog
