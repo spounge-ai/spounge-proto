@@ -1,5 +1,11 @@
 # @spounge/proto
 
+## 1.0.3
+
+### Patch Changes
+
+- [`2e80ad5`](https://github.com/SpoungeAI/spounge-proto/commit/2e80ad560fd7837544d3f548478e6e3ac18cc6b4) Thanks [@Evantopian](https://github.com/Evantopian)! - implementing checks for CI, irrelevant to package functionality"
+
 ## 1.0.2
 
 ### Patch Changes
