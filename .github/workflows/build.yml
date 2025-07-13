@@ -98,8 +98,8 @@ jobs:
           context: .
           push: true
           tags: ${{ steps.lower-tag.outputs.repo_lower }}:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=registry,ref=${{ steps.lower-tag.outputs.repo_lower }}:cache
+          cache-to: type=registry,ref=${{ steps.lower-tag.outputs.repo_lower }}:cache,mode=max
 
       - name: Generate Go protobuf files (inside Docker)
         run: |
