@@ -100,14 +100,12 @@ jobs:
       - name: Check for changesets updates
         id: check-changeset
         run: |
-          git fetch --unshallow || true
-          changed_files=$(git diff --name-only HEAD^ HEAD 2>/dev/null || git diff-tree --no-commit-id --name-only -r HEAD)
-          if echo "$changed_files" | grep -q '^\.changeset/'; then
+          if ls .changeset/*.md 1> /dev/null 2>&1; then
             echo "changeset=true" >> $GITHUB_OUTPUT
           else
             echo "changeset=false" >> $GITHUB_OUTPUT
           fi
-
+          
       - name: Run changeset version bump if changesets updated
         if: steps.check-changeset.outputs.changeset == 'true'
         run: npx changeset version
