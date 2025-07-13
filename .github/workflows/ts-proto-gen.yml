@@ -47,13 +47,18 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Compute lowercase image tag
+        id: lower-tag
+        run: |
+          echo "repo_lower=$(echo 'ghcr.io/${{ github.repository_owner }}/protos-gen' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
+
       - name: Build TS and Go output in Docker (using GHCR image)
         run: |
-          docker pull ghcr.io/${{ github.repository_owner }}/protos-gen:latest
+          docker pull ${{ steps.lower-tag.outputs.repo_lower }}:latest
           docker run --rm \
             -v ${{ github.workspace }}:/app \
             -w /app \
-            ghcr.io/${{ github.repository_owner }}/protos-gen:latest \
+            ${{ steps.lower-tag.outputs.repo_lower }}:latest \
             sh -c "make gen && npm run build"
 
       - name: Commit version bump & changelog
