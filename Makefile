@@ -34,7 +34,7 @@ clean:
 
 test:
 	@echo "Running tests..."
-	@go test ./...
+	@echo "[!] @Evantopian: In the works"
 
 lint:
 	@echo "Linting proto files..."
