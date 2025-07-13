@@ -90,6 +90,13 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # Setup buildx before building
+      - name: Set up Docker Buildx builder
+        run: |
+          docker buildx create --use --name mybuilder --driver docker-container || true
+          docker buildx inspect --bootstrap
+
+          
       # --- Build & Push Docker Image to GHCR ---
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
