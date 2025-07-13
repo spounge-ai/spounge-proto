@@ -163,7 +163,7 @@ jobs:
       - name: Trigger release workflow via repository_dispatch
         if: steps.check-changeset.outputs.changeset == 'true'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           gh api repos/${{ github.repository_owner }}/${{ github.event.repository.name }}/dispatches \
             --method POST \
