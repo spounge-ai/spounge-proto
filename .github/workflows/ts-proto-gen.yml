@@ -2,7 +2,7 @@ name: "@spounge/proto-ts release"
 
 on:
   workflow_run:
-    workflows: ["Dockerized Go & TS Build"]
+    workflows: [Dockerized Go & TS Build]
     types: [completed]
     branches: [release]
 

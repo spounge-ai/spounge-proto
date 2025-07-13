@@ -51,7 +51,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Cache Go modules early
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
@@ -73,7 +72,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      # Install npm deps early for protoc plugin availability
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -82,7 +80,6 @@ jobs:
       - name: Install npm dependencies
         run: npm ci
 
-      # --- GHCR Login ---
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
         with:
@@ -90,20 +87,16 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Setup buildx before building
       - name: Set up Docker Buildx builder
         run: |
           docker buildx create --use --name mybuilder --driver docker-container || true
           docker buildx inspect --bootstrap
 
-          
-      # repo lower
-      - name: Compute lowercase image tag
+      - name: Compute lowercase repo image tag
         id: lower-tag
         run: |
-          echo "repo_lower=$(echo 'ghcr.io/${{ github.repository_owner }}/protos-gen:latest' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
+          echo "repo_lower=ghcr.io/spounge/protos-gen:latest" >> "$GITHUB_OUTPUT"
 
-      # --- Build & Push Docker Image to GHCR ---
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
@@ -113,13 +106,12 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      # Now you can run the image locally without rebuilding:
       - name: Generate Go protobuf files (inside Docker)
         run: |
           docker run --rm \
             -v ${{ github.workspace }}:/app \
             -w /app \
-            ghcr.io/${{ github.repository_owner }}/protos-gen:latest \
+            ${{ steps.lower-tag.outputs.repo_lower }} \
             sh -c "make gen-go"
 
       - name: Generate TypeScript protobuf files (inside Docker)
@@ -127,7 +119,7 @@ jobs:
           docker run --rm \
             -v ${{ github.workspace }}:/app \
             -w /app \
-            ghcr.io/${{ github.repository_owner }}/protos-gen:latest \
+            ${{ steps.lower-tag.outputs.repo_lower }} \
             sh -c "npm run build"
 
       - name: Run tests inside Docker
@@ -135,5 +127,5 @@ jobs:
           docker run --rm \
             -v ${{ github.workspace }}:/app \
             -w /app \
-            ghcr.io/${{ github.repository_owner }}/protos-gen:latest \
+            ${{ steps.lower-tag.outputs.repo_lower }} \
             sh -c "make test"
