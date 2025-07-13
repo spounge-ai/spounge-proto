@@ -1,11 +1,10 @@
-name: "@Spounge/proto-ts Release"
+name: "@Spounge/proto Package Release"
 
 on:
   workflow_run:
     workflows: [Dockerized Go & TS Build]
     types: [completed]
-    branches: []
-
+    branches: [main]
 jobs:
   release:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
@@ -26,6 +25,11 @@ jobs:
         with:
           node-version: '24.2.0'
           registry-url: 'https://registry.npmjs.org'
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
 
       - name: Version with Changesets (before build)
         id: version
@@ -51,6 +55,15 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/protos-gen:latest \
             sh -c "npm run build"
 
+      - name: Build TS and Go output in Docker (using GHCR image)
+        run: |
+          docker pull ghcr.io/${{ github.repository_owner }}/protos-gen:latest
+          docker run --rm \
+            -v ${{ github.workspace }}:/app \
+            -w /app \
+            ghcr.io/${{ github.repository_owner }}/protos-gen:latest \
+            sh -c "make gen && npm run build"
+
       - name: Commit version bump & changelog
         run: |
           git config user.name "github-actions[bot]"
@@ -64,7 +77,7 @@ jobs:
         if: steps.version.outputs.COMMIT_SHA != github.sha
         run: git push --follow-tags
 
-      - name: Publish to npm
+      - name: Publish to npm and create Go module tag
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -76,12 +89,15 @@ jobs:
           else
             npm publish --access public
             cd ../..
+            
+            # Create tags for both npm and Go module
             git tag "v$PACKAGE_VERSION"
+            git tag "gen/go/v$PACKAGE_VERSION"
             git push --tags
             
             # Create GitHub release
             gh release create "v$PACKAGE_VERSION" \
               --title "@spounge/proto-ts@$PACKAGE_VERSION" \
-              --notes "Release $PACKAGE_VERSION" \
+              --notes "Release $PACKAGE_VERSION - includes Go module gen/go/v$PACKAGE_VERSION" \
               --latest
           fi
