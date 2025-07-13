@@ -1,3 +1,5 @@
+name: "@Spounge/proto-ts Release"
+
 on:
   workflow_run:
     workflows: [Dockerized Go & TS Build]
@@ -6,7 +8,7 @@ on:
 
 jobs:
   release:
-    if: ${{ github.event.workflow_run.event == 'push' && github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
