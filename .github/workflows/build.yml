@@ -132,12 +132,21 @@ jobs:
         id: check-bump
         run: |
           git fetch --unshallow || true
-          # Check if last commit message contains version bump
-          if git log -1 --pretty=%B | grep -q 'chore: version bump'; then
+          last_commit_msg=$(git log -1 --pretty=%B)
+          if echo "$last_commit_msg" | grep -q 'chore: version bump'; then
             echo "bump=true" >> $GITHUB_OUTPUT
-          # Or if any .changeset files changed in this push
-          elif git diff --name-only HEAD^ HEAD | grep -q '^\.changeset/'; then
+            exit 0
+          fi
+          changed_files=$(git diff --name-only HEAD^ HEAD 2>/dev/null || git diff-tree --no-commit-id --name-only -r HEAD)
+          if echo "$changed_files" | grep -q '^\.changeset/'; then
             echo "bump=true" >> $GITHUB_OUTPUT
           else
             echo "bump=false" >> $GITHUB_OUTPUT
           fi
+
+      - name: Trigger release workflow if version bumped
+        if: steps.check-bump.outputs.bump == 'true'
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event-type: trigger-release
