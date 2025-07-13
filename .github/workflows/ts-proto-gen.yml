@@ -1,13 +1,11 @@
 name: "@Spounge/proto Package Release"
 
 on:
-  workflow_run:
-    workflows: [Dockerized Go & TS Build]
-    types: [completed]
-    branches: [main]
+  push:
+    branches: [main, go-release]
+
 jobs:
-  release:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+ release:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -31,6 +29,9 @@ jobs:
         with:
           go-version: '1.21'
 
+      - name: Install npm dependencies
+        run: npm ci
+
       - name: Version with Changesets (before build)
         id: version
         env:
@@ -46,22 +47,23 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build TS output in Docker (using GHCR image)
+      - name: Compute lowercase image tag
+        id: lower-tag
         run: |
-          docker pull ghcr.io/${{ github.repository_owner }}/protos-gen:latest
-          docker run --rm \
-            -v ${{ github.workspace }}:/app \
-            -w /app \
-            ghcr.io/${{ github.repository_owner }}/protos-gen:latest \
-            sh -c "npm run build"
+          echo "repo_lower=$(echo 'ghcr.io/${{ github.repository_owner }}/protos-gen' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Docker Buildx builder
+        run: |
+          docker buildx create --use --name mybuilder --driver docker-container || true
+          docker buildx inspect --bootstrap
 
       - name: Build TS and Go output in Docker (using GHCR image)
         run: |
-          docker pull ghcr.io/${{ github.repository_owner }}/protos-gen:latest
+          docker pull ${{ steps.lower-tag.outputs.repo_lower }}:latest
           docker run --rm \
             -v ${{ github.workspace }}:/app \
             -w /app \
-            ghcr.io/${{ github.repository_owner }}/protos-gen:latest \
+            ${{ steps.lower-tag.outputs.repo_lower }}:latest \
             sh -c "make gen && npm run build"
 
       - name: Commit version bump & changelog
