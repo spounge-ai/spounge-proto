@@ -2,7 +2,7 @@ name: "@Spounge/proto Package Release"
 
 on:
   repository_dispatch:
-    types: [trigger-release]
+    types: [release]
 
 jobs:
  release:
@@ -49,6 +49,11 @@ jobs:
           docker buildx create --use --name mybuilder --driver docker-container || true
           docker buildx inspect --bootstrap
 
+      - name: Version with Changesets
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+        run: npx changeset version
       - name: Build TS and Go output in Docker (using GHCR image)
         run: |
           docker pull ${{ steps.lower-tag.outputs.repo_lower }}:latest
@@ -58,6 +63,7 @@ jobs:
             ${{ steps.lower-tag.outputs.repo_lower }}:latest \
             sh -c "make gen && npm run build"
 
+            
       - name: Push version bump
         run: git push --follow-tags
 

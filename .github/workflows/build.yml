@@ -11,9 +11,6 @@ on:
       - 'scripts/ts_imports.sh'
       - '.github/workflows/build.yml'
       - 'README.md'
-      - '.changeset/**'
-      - '.github/workflows/test_dispatcher.yml'
-
 
   pull_request:
     paths:
@@ -24,15 +21,13 @@ on:
       - 'scripts/generate_pb.sh'
       - 'scripts/ts_imports.sh'
       - '.github/workflows/build.yml'
-      - '.changeset/**'
+
 
 jobs:
   lint-proto:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Setup buf
         uses: bufbuild/buf-setup-action@v1
@@ -99,22 +94,6 @@ jobs:
         run: |
           echo "repo_lower=$(echo 'ghcr.io/${{ github.repository_owner }}/protos-gen' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
 
-      - name: Check for changesets updates
-        id: check-changeset
-        run: |
-          if ls .changeset/*.md 1> /dev/null 2>&1; then
-            echo "changeset=true" >> $GITHUB_OUTPUT
-          else
-            echo "changeset=false" >> $GITHUB_OUTPUT
-          fi
-          
-      - name: Run changeset version bump if changesets updated
-        if: steps.check-changeset.outputs.changeset == 'true'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx changeset version
-
-
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
@@ -147,24 +126,3 @@ jobs:
             -w /app \
             ${{ steps.lower-tag.outputs.repo_lower }}:latest \
             sh -c "make test"
-            
-
-      - name: Commit version bump & changelog
-        if: steps.check-changeset.outputs.changeset == 'true'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
-          if ! git diff --cached --quiet; then
-            git commit -m "chore: version bump [skip ci]"
-            git push origin HEAD:${{ github.ref }}
-          fi
-
-      - name: Trigger release workflow via repository_dispatch
-        if: steps.check-changeset.outputs.changeset == 'true'
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
-        run: |
-          gh api repos/${{ github.repository_owner }}/${{ github.event.repository.name }}/dispatches \
-            --method POST \
-            --raw-field event_type=trigger-release
