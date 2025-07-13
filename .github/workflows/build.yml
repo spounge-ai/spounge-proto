@@ -12,6 +12,8 @@ on:
       - '.github/workflows/build.yml'
       - 'README.md'
       - '.changeset/**'
+      - '.github/workflows/test_dispatcher.yml'
+
 
   pull_request:
     paths:
