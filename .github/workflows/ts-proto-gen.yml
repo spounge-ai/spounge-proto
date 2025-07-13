@@ -79,11 +79,18 @@ jobs:
 
       - name: Build TS and Go output in Docker (using GHCR image)
         run: |
-          docker pull ${{ steps.lower-tag.outputs.repo_lower }}:latest || echo "Proceeding without cached image"
+          IMAGE=${{ steps.lower-tag.outputs.repo_lower }}:latest
+          if docker pull "$IMAGE"; then
+            echo "Pulled $IMAGE successfully"
+          else
+            echo "⚠️ Failed to pull $IMAGE - building image locally"
+            docker build -t "$IMAGE" .
+          fi
+
           docker run --rm \
             -v ${{ github.workspace }}:/app \
             -w /app \
-            ${{ steps.lower-tag.outputs.repo_lower }}:latest \
+            "$IMAGE" \
             sh -c "make gen && npm run build"
 
       - name: Push version bump
