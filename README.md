@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="./spounge.webp" alt="Spounge Logo" width="80" style="border-radius: 15px" />
+  <img src="./SpoungeBordered.png" alt="Spounge Logo" width="80" />
   <br/>
   Spounge – Centralized Protocol Buffers
     <p align="center">
@@ -74,7 +74,7 @@ Make sure you have [Docker](https.www.docker.com/get-started) installed.
 
 ```bash
 # Clone the repo
-git clone [https://github.com/spoungeai/spounge-proto.git](https://github.com/spoungeai/spounge-proto.git)
+git clone git@github.com:SpoungeAI/spounge-proto.git
 cd spounge-proto
 
 # Build the Docker image and generate clients
@@ -114,7 +114,7 @@ make gen-ts    # regenerate TypeScript client only
 Add the Go client to your project:
 
 ```bash
-go get [github.com/spoungeai/spounge-proto/gen/go@vX.Y.Z](https://github.com/spoungeai/spounge-proto/gen/go@vX.Y.Z)
+go get github.com/spoungeai/spounge-proto/gen/go@vX.Y.Z
 ```
 
 Import and use the generated clients:
