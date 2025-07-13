@@ -108,6 +108,8 @@ jobs:
           
       - name: Run changeset version bump if changesets updated
         if: steps.check-changeset.outputs.changeset == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx changeset version
 
 
