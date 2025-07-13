@@ -1,11 +1,24 @@
-name: "@Spounge/proto Package Release"
+name: "Spounge/proto Package Release"
 
 on:
-  repository_dispatch:
-    types: [release]
+  push:
+    branches: [release]
+    paths:
+      - 'proto/**'
+      - 'gen/ts/**'
+      - '.changeset/**'
+      - '.github/workflows/proto-package-release.yml'
+
+  pull_request:
+    branches: [release]
+    paths:
+      - 'proto/**'
+      - 'gen/ts/**'
+      - '.changeset/**'
+      - '.github/workflows/proto-package-release.yml'
 
 jobs:
- release:
+  release:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -49,22 +62,32 @@ jobs:
           docker buildx create --use --name mybuilder --driver docker-container || true
           docker buildx inspect --bootstrap
 
+      - name: Check for pending changesets
+        id: changesets
+        run: |
+          if [[ -n "$(find .changeset -name '*.md' -print -quit)" ]]; then
+            echo "has_changesets=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_changesets=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Version with Changesets
+        if: steps.changesets.outputs.has_changesets == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
         run: npx changeset version
+
       - name: Build TS and Go output in Docker (using GHCR image)
         run: |
-          docker pull ${{ steps.lower-tag.outputs.repo_lower }}:latest
+          docker pull ${{ steps.lower-tag.outputs.repo_lower }}:latest || echo "Proceeding without cached image"
           docker run --rm \
             -v ${{ github.workspace }}:/app \
             -w /app \
             ${{ steps.lower-tag.outputs.repo_lower }}:latest \
             sh -c "make gen && npm run build"
 
-            
       - name: Push version bump
+        if: steps.changesets.outputs.has_changesets == 'true'
         run: git push --follow-tags
 
       - name: Publish to npm and create Go module tag
@@ -74,18 +97,28 @@ jobs:
         run: |
           cd gen/ts
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
+
           if npm view "@spounge/proto-ts@$PACKAGE_VERSION" version 2>/dev/null; then
             echo "Version $PACKAGE_VERSION already published, skipping"
+            exit 0
+          fi
+
+          npm publish --access public || { echo "Publish failed"; exit 1; }
+          cd ../..
+
+          # Tag repo
+          if git rev-parse "v$PACKAGE_VERSION" >/dev/null 2>&1; then
+            echo "Tag v$PACKAGE_VERSION already exists, skipping tag"
           else
-            npm publish --access public
-            cd ../..
-            
-            # Create tags for both npm and Go module
             git tag "v$PACKAGE_VERSION"
             git tag "gen/go/v$PACKAGE_VERSION"
             git push --tags
-            
-            # Create GitHub release
+          fi
+
+          # Create GitHub release if not exists
+          if gh release view "v$PACKAGE_VERSION" >/dev/null 2>&1; then
+            echo "GitHub release v$PACKAGE_VERSION already exists, skipping"
+          else
             gh release create "v$PACKAGE_VERSION" \
               --title "@spounge/proto-ts@$PACKAGE_VERSION" \
               --notes "Release $PACKAGE_VERSION - includes Go module gen/go/v$PACKAGE_VERSION" \
