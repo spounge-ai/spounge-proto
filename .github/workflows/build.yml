@@ -11,6 +11,7 @@ on:
       - 'scripts/ts_imports.sh'
       - '.github/workflows/build.yml'
       - 'README.md'
+      - '.changeset/**'
 
   pull_request:
     paths:
@@ -21,7 +22,7 @@ on:
       - 'scripts/generate_pb.sh'
       - 'scripts/ts_imports.sh'
       - '.github/workflows/build.yml'
-
+      - '.changeset/**'
 
 jobs:
   lint-proto:
