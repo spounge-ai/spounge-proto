@@ -29,6 +29,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup buf
         uses: bufbuild/buf-setup-action@v1
@@ -95,6 +97,22 @@ jobs:
         run: |
           echo "repo_lower=$(echo 'ghcr.io/${{ github.repository_owner }}/protos-gen' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
 
+      - name: Check for changesets updates
+        id: check-changeset
+        run: |
+          git fetch --unshallow || true
+          changed_files=$(git diff --name-only HEAD^ HEAD 2>/dev/null || git diff-tree --no-commit-id --name-only -r HEAD)
+          if echo "$changed_files" | grep -q '^\.changeset/'; then
+            echo "changeset=true" >> $GITHUB_OUTPUT
+          else
+            echo "changeset=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run changeset version bump if changesets updated
+        if: steps.check-changeset.outputs.changeset == 'true'
+        run: npx changeset version
+
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
@@ -128,25 +146,23 @@ jobs:
             ${{ steps.lower-tag.outputs.repo_lower }}:latest \
             sh -c "make test"
             
-      - name: Check if version bump commit exists or changesets changed
-        id: check-bump
+
+      - name: Commit version bump & changelog
+        if: steps.check-changeset.outputs.changeset == 'true'
         run: |
-          git fetch --unshallow || true
-          last_commit_msg=$(git log -1 --pretty=%B)
-          if echo "$last_commit_msg" | grep -q 'chore: version bump'; then
-            echo "bump=true" >> $GITHUB_OUTPUT
-            exit 0
-          fi
-          changed_files=$(git diff --name-only HEAD^ HEAD 2>/dev/null || git diff-tree --no-commit-id --name-only -r HEAD)
-          if echo "$changed_files" | grep -q '^\.changeset/'; then
-            echo "bump=true" >> $GITHUB_OUTPUT
-          else
-            echo "bump=false" >> $GITHUB_OUTPUT
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: version bump [skip ci]"
+            git push origin HEAD:${{ github.ref }}
           fi
 
-      - name: Trigger release workflow if version bumped
-        if: steps.check-bump.outputs.bump == 'true'
-        uses: peter-evans/repository-dispatch@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          event-type: trigger-release
+      - name: Trigger release workflow via repository_dispatch
+        if: steps.check-changeset.outputs.changeset == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api repos/${{ github.repository_owner }}/${{ github.event.repository.name }}/dispatches \
+            --method POST \
+            --raw-field event_type=trigger-release
