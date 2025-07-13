@@ -1,145 +1,238 @@
-# [AWAITING UPDATE (need to configure for correct installation and usage guide)]
+<h1 align="center">
+  <img src="./spounge.webp" alt="Spounge Logo" width="80" style="border-radius: 15px;" />
+  <br/>
+  Spounge – Centralized Protocol Buffers
+</h1>
 
-# Spounge AI - Centralized Protocol Buffers
+<p align="center">
+  <a href="https://github.com/spoungeai/spounge-proto/actions/workflows/build.yml">
+    <img
+      src="https://img.shields.io/github/actions/workflow/status/spoungeai/spounge-proto/build.yml?label=Build&style=flat-square&color=brightgreen"
+      alt="Build"
+      style="border-radius:4px;" />
+  </a>
+  <a href="https://www.npmjs.com/package/@spounge/proto-ts">
+    <img
+      src="https://img.shields.io/npm/v/@spounge/proto-ts?label=%40spounge%2Fproto-ts&style=flat-square&color=blue"
+      alt="@spounge/proto-ts"
+      style="border-radius:4px;" />
+  </a>
+  <a href="https://opensource.org/licenses/MIT">
+    <img
+      src="https://img.shields.io/badge/License-MIT-blue?style=flat-square"
+      alt="MIT License"
+      style="border-radius:4px;" />
+  </a>
+  <a href="./CHANGELOG.md">
+    <img
+      src="https://img.shields.io/badge/Changelog-Available-blue?style=flat-square"
+      alt="Changelog"
+      style="border-radius:4px;" />
+  </a>
+</p>
 
-This repository is the definitive source of truth for the Protocol Buffer (Protobuf) definitions that govern data contracts and gRPC service interfaces across the Spounge AI ecosystem. It provides a robust framework for generating and distributing versioned, type-safe client libraries for Go and TypeScript, ensuring seamless and reliable communication between all microservices and applications.
+---
 
-## Key Capabilities
+## Table of Contents
 
-  - **Single Source of Truth**: Centralized schema management ensures all teams build from the same data contracts.
-  - **Type-Safe Generation**: Automatically generate clients for Go and TypeScript, eliminating bugs at compile time.
-  - **Automated Workflow**: Use `make` and Docker to reliably generate, lint, and test definitions and clients.
-  - **Cross-Platform Consistency**: Guarantees that backend and frontend services speak the same language.
-  - **Enterprise-Ready**: Versioned, linted, and designed for scalable CI/CD integration and deployment.
+- [About](#about)
+- [Key Features](#key-features)
+- [Getting Started](#getting-started)
+  - [Quick Start with Docker](#quick-start-with-docker)
+  - [Local Setup (Without Docker)](#local-setup-without-docker)
+- [Usage](#usage)
+  - [Go Module](#go-module)
+  - [TypeScript Package](#typescript-package)
+- [Development](#development)
+- [Running Tests](#running-tests)
+- [License](#license)
+- [Contact](#contact)
 
------
+---
 
-## Quick Start
+## About
 
-Get up and running with a single command using our Docker-based workflow (requires **Docker**):
+**Spounge-Proto** is the canonical repository for all Protocol Buffer (`.proto`) definitions powering data contracts and gRPC service interfaces throughout the Spounge AI ecosystem.
+
+Designed primarily for our large language model (LLM) workflows, this repository serves as a universal translator for Protobuf schemas, enabling seamless communication between microservices implemented in various languages and platforms.
+
+Automated code generation ensures consistent, type-safe clients for Go and TypeScript, minimizing integration errors and speeding up development.
+
+---
+
+## Key Features
+
+- 🔑 **Single Source of Truth**: Centralized `.proto` files under `proto/` ensure all teams build from the same, authoritative schema.
+- 🛠️ **Automatic Client Generation**: Generate idiomatic Go and TypeScript client libraries with zero manual effort.
+- 🚀 **Containerized Workflow**: Use Docker and Makefiles for reproducible builds, linting, testing, and generation.
+- 🔄 **Cross-Platform Consistency**: Guarantees uniform API contracts between backend and frontend.
+- 📦 **CI/CD Friendly**: Pre-configured GitHub Actions automate build, test, and release pipelines.
+
+---
+
+## Getting Started
+
+### Quick Start with Docker
+
+Make sure you have [Docker](https://www.docker.com/get-started) installed.
 
 ```bash
-# Clone the repository and navigate into it
+# Clone the repo
 git clone https://github.com/spoungeai/spounge-proto.git
 cd spounge-proto
 
-# Build the environment and generate all clients
+# Build the Docker image and generate clients
 make docker-setup
-```
+````
 
-Alternatively, if you have **Go** and **Node.js** installed locally:
+Generated clients will be in the `gen/` directory.
+
+---
+
+### Local Setup (Without Docker)
+
+Install required tools locally:
+
+* [Go 1.24.1+](https://golang.org/dl/)
+* [Node.js 24.2.0+](https://nodejs.org/en/download/)
+* npm (comes with Node.js)
+
+Install protoc plugins and dependencies:
 
 ```bash
-# Install local tooling
 make install-tools
-
-# Generate all clients
-make generate
 ```
 
-The generated code will be available in the `gen/` directory.
-
------
-
-## Go Module
-
-This repository generates and publishes a native Go module for use in backend microservices.
-
-### Installation
-
-To add the module to your Go project, run:
+After editing `.proto` files, regenerate clients:
 
 ```bash
-go get github.com/spoungeai/spounge-proto@latest
+make gen       # regenerate all clients (Go + TypeScript)
+make gen-go    # regenerate Go client only
+make gen-ts    # regenerate TypeScript client only
 ```
 
-### Usage
+---
 
-You can then import the generated packages and use the gRPC clients and message types directly in your application.
+## Usage
+
+### Go Module
+
+Add the Go client to your project:
+
+```bash
+go get github.com/spoungeai/spounge-proto/gen/go@vX.Y.Z
+```
+
+Import and use the generated clients:
 
 ```go
+package main
+
 import (
-    "context"
-    polykeypb "github.com/spoungeai/spounge-proto/gen/go/polykey/v1"
-    "google.golang.org/grpc"
+	"context"
+	"log"
+
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/protobuf/types/known/structpb"
+
+	polykeyv1 "github.com/spoungeai/spounge-proto/gen/go/polykey/v1"
 )
 
-// <fill in with a detailed Go usage example,
-// for instance, how to create a client and make a call.>
-
 func main() {
-    // ... setup gRPC connection
-    client := polykeypb.NewPolykeyServiceClient(conn)
-    res, err := client.YourMethod(context.Background(), &polykeypb.YourRequest{
-        // ...
-    })
+	conn, err := grpc.Dial("localhost:50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		log.Fatalf("failed to connect: %v", err)
+	}
+	defer conn.Close()
+
+	client := polykeyv1.NewPolykeyServiceClient(conn)
+
+	params, err := structpb.NewStruct(map[string]interface{}{
+		"prompt": "Tell me a joke about gRPC.",
+	})
+	if err != nil {
+		log.Fatalf("failed to create struct: %v", err)
+	}
+
+	resp, err := client.ExecuteTool(context.Background(), &polykeyv1.ExecuteToolRequest{
+		ToolName:   "joke_generator",
+		Parameters: params,
+		UserId:     "user-12345",
+	})
+	if err != nil {
+		log.Fatalf("ExecuteTool RPC failed: %v", err)
+	}
+
+	log.Printf("Status: %s", resp.GetStatus().GetMessage())
+	log.Printf("Output: %s", resp.GetStringOutput())
 }
 ```
 
-### Resources
+---
 
-  - 📚 **Go Package Docs**: [pkg.go.dev/github.com/spoungeai/spounge-proto](https://www.google.com/search?q=https://pkg.go.dev/github.com/spoungeai/spounge-proto)
+### TypeScript Package
 
------
-
-## TypeScript NPM Package
-
-A distributable NPM package is generated for use in frontend applications or Node.js services.
-
-### Installation
-
-To add the package to your project using **npm** or **yarn**:
+Install via npm or yarn:
 
 ```bash
 npm install @spounge/proto-ts
+# or
+yarn add @spounge/proto-ts
 ```
 
-### Usage
-
-Import the generated clients and message types for use with a gRPC-Web transport like `@protobuf-ts/grpcweb-transport`.
+Example usage with gRPC-Web:
 
 ```typescript
-import { PolykeyServiceClient } from '@spounge/proto-ts/polykey/v1/polykey';
+import { PolykeyServiceClient } from '@spounge/proto-ts/polykey/v1/polykey.client';
 import { GrpcWebFetchTransport } from '@protobuf-ts/grpcweb-transport';
-import type { YourRequest } from '@spounge/proto-ts/polykey/v1/polykey';
-
-
-// <fill in with a detailed TypeScript usage example,
-// showing transport setup and a client call.>
+import { Struct } from '@spounge/proto-ts/google/protobuf/struct';
 
 const transport = new GrpcWebFetchTransport({
-  baseUrl: 'http://localhost:8080'
+  baseUrl: 'http://localhost:8080',
 });
 
 const client = new PolykeyServiceClient(transport);
 
-const call = client.yourMethod({
-    // ... request properties
-});
+async function executeTool() {
+  try {
+    const request = {
+      toolName: 'joke_generator',
+      parameters: Struct.fromJson({ prompt: 'Tell me a joke about TypeScript.' }),
+      userId: 'user-abcde',
+    };
+
+    const call = await client.executeTool(request);
+    const response = call.response;
+
+    console.log('Status:', response.status?.message);
+    console.log('Output:', response.output.oneofKind === 'stringOutput' ? response.output.stringOutput : 'N/A');
+  } catch (error) {
+    console.error('RPC error:', error);
+  }
+}
+
+executeTool();
 ```
 
-### Resources
+---
+## Development
 
-  - 📦 **NPM Package**: [npmjs.com/package/@spounge/proto-ts](https://www.google.com/search?q=https://www.npmjs.com/package/%40spounge/proto-ts)
+Add or update `.proto` files in `proto/`, then regenerate clients. Submit a pull request.
 
------
+---
+## Running Tests
 
-## Development & Contributing
+Testing has been moved to individual microservices that consume this repository. Since Protobuf definitions are shared across services, each service is responsible for validating its own integration and usage of the generated clients.
 
-Need to make a change to a `.proto` file?
-
-1.  **Modify the `.proto` file** in the `proto/` directory.
-2.  **Run `make generate`** to update the generated clients.
-3.  **Submit a Pull Request** for review.
-
-For more detailed instructions, see our **[Contributing Guide](https://www.google.com/search?q=%23fill-in-link-to-CONTRIBUTING.md)**.
-
-### Support
-
-Reach out to the team in the \<**\#fill-in-slack-channel**\> channel.
-
------
+---
 
 ## License
 
-This project is licensed under the **MIT License**. See the [`LICENSE`](https://www.google.com/search?q=./LICENSE) file for full details.
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+## Contact
+
+🧽 For questions, support, or to report bugs, please open an issue or contact the maintainers at [dev@spounge.com](mailto:dev@spounge.com).
