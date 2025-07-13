@@ -4,7 +4,7 @@ on:
   workflow_run:
     workflows: [Dockerized Go & TS Build]
     types: [completed]
-    branches: [ts-release]
+    branches: []
 
 jobs:
   release:

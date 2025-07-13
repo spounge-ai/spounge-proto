@@ -2,40 +2,46 @@
   <img src="./spounge.webp" alt="Spounge Logo" width="80" style="border-radius: 15px;" />
   <br/>
   Spounge – Centralized Protocol Buffers
+    <p align="center">
+        <a href="https://github.com/spoungeai/spounge-proto/actions/workflows/build.yml">
+            <img
+            src="https://img.shields.io/github/actions/workflow/status/spoungeai/spounge-proto/build.yml?label=Build&style=flat-square&color=brightgreen"
+            alt="Build"
+            style="border-radius:4px;" />
+        </a>
+        <a href="https://www.npmjs.com/package/@spounge/proto-ts">
+            <img
+            src="https://img.shields.io/npm/v/@spounge/proto-ts?label=%40spounge%2Fproto-ts&style=flat-square&color=blue"
+            alt="@spounge/proto-ts"
+            style="border-radius:4px;" />
+        </a>
+        <a href="https://opensource.org/licenses/MIT">
+            <img
+            src="https://img.shields.io/badge/License-MIT-blue?style=flat-square"
+            alt="MIT License"
+            style="border-radius:4px;" />
+        </a>
+        <a href="./CHANGELOG.md">
+            <img
+            src="https://img.shields.io/badge/Changelog-Available-blue?style=flat-square"
+            alt="Changelog"
+            style="border-radius:4px;" />
+        </a>
+    </p>
+
 </h1>
 
-<p align="center">
-  <a href="https://github.com/spoungeai/spounge-proto/actions/workflows/build.yml">
-    <img
-      src="https://img.shields.io/github/actions/workflow/status/spoungeai/spounge-proto/build.yml?label=Build&style=flat-square&color=brightgreen"
-      alt="Build"
-      style="border-radius:4px;" />
-  </a>
-  <a href="https://www.npmjs.com/package/@spounge/proto-ts">
-    <img
-      src="https://img.shields.io/npm/v/@spounge/proto-ts?label=%40spounge%2Fproto-ts&style=flat-square&color=blue"
-      alt="@spounge/proto-ts"
-      style="border-radius:4px;" />
-  </a>
-  <a href="https://opensource.org/licenses/MIT">
-    <img
-      src="https://img.shields.io/badge/License-MIT-blue?style=flat-square"
-      alt="MIT License"
-      style="border-radius:4px;" />
-  </a>
-  <a href="./CHANGELOG.md">
-    <img
-      src="https://img.shields.io/badge/Changelog-Available-blue?style=flat-square"
-      alt="Changelog"
-      style="border-radius:4px;" />
-  </a>
-</p>
 
----
+## About
+
+**Spounge-Proto** is the canonical repository for all Protocol Buffer (`.proto`) definitions powering data contracts and gRPC service interfaces throughout the Spounge AI ecosystem.
+
+Designed primarily for our large language model (LLM) workflows, this repository serves as a universal translator for Protobuf schemas, enabling seamless communication between microservices implemented in various languages and platforms.
+
+Automated code generation ensures consistent, type-safe clients for Go and TypeScript, minimizing integration errors and speeding up development.
 
 ## Table of Contents
 
-- [About](#about)
 - [Key Features](#key-features)
 - [Getting Started](#getting-started)
   - [Quick Start with Docker](#quick-start-with-docker)
@@ -47,16 +53,6 @@
 - [Running Tests](#running-tests)
 - [License](#license)
 - [Contact](#contact)
-
----
-
-## About
-
-**Spounge-Proto** is the canonical repository for all Protocol Buffer (`.proto`) definitions powering data contracts and gRPC service interfaces throughout the Spounge AI ecosystem.
-
-Designed primarily for our large language model (LLM) workflows, this repository serves as a universal translator for Protobuf schemas, enabling seamless communication between microservices implemented in various languages and platforms.
-
-Automated code generation ensures consistent, type-safe clients for Go and TypeScript, minimizing integration errors and speeding up development.
 
 ---
 
@@ -74,11 +70,11 @@ Automated code generation ensures consistent, type-safe clients for Go and TypeS
 
 ### Quick Start with Docker
 
-Make sure you have [Docker](https://www.docker.com/get-started) installed.
+Make sure you have [Docker](https.www.docker.com/get-started) installed.
 
 ```bash
 # Clone the repo
-git clone https://github.com/spoungeai/spounge-proto.git
+git clone [https://github.com/spoungeai/spounge-proto.git](https://github.com/spoungeai/spounge-proto.git)
 cd spounge-proto
 
 # Build the Docker image and generate clients
@@ -87,15 +83,13 @@ make docker-setup
 
 Generated clients will be in the `gen/` directory.
 
----
-
 ### Local Setup (Without Docker)
 
 Install required tools locally:
 
-* [Go 1.24.1+](https://golang.org/dl/)
-* [Node.js 24.2.0+](https://nodejs.org/en/download/)
-* npm (comes with Node.js)
+  * [Go 1.24.1+](https://golang.org/dl/)
+  * [Node.js 24.2.0+](https://nodejs.org/en/download/)
+  * npm (comes with Node.js)
 
 Install protoc plugins and dependencies:
 
@@ -111,7 +105,7 @@ make gen-go    # regenerate Go client only
 make gen-ts    # regenerate TypeScript client only
 ```
 
----
+-----
 
 ## Usage
 
@@ -120,7 +114,7 @@ make gen-ts    # regenerate TypeScript client only
 Add the Go client to your project:
 
 ```bash
-go get github.com/spoungeai/spounge-proto/gen/go@vX.Y.Z
+go get [github.com/spoungeai/spounge-proto/gen/go@vX.Y.Z](https://github.com/spoungeai/spounge-proto/gen/go@vX.Y.Z)
 ```
 
 Import and use the generated clients:
@@ -129,47 +123,45 @@ Import and use the generated clients:
 package main
 
 import (
-	"context"
-	"log"
+    "context"
+    "log"
 
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
-	"google.golang.org/protobuf/types/known/structpb"
+    "google.golang.org/grpc"
+    "google.golang.org/grpc/credentials/insecure"
+    "google.golang.org/protobuf/types/known/structpb"
 
-	polykeyv1 "github.com/spoungeai/spounge-proto/gen/go/polykey/v1"
+    polykeyv1 "[github.com/spoungeai/spounge-proto/gen/go/polykey/v1](https://github.com/spoungeai/spounge-proto/gen/go/polykey/v1)"
 )
 
 func main() {
-	conn, err := grpc.Dial("localhost:50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
-	if err != nil {
-		log.Fatalf("failed to connect: %v", err)
-	}
-	defer conn.Close()
+    conn, err := grpc.Dial("localhost:50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
+    if err != nil {
+        log.Fatalf("failed to connect: %v", err)
+    }
+    defer conn.Close()
 
-	client := polykeyv1.NewPolykeyServiceClient(conn)
+    client := polykeyv1.NewPolykeyServiceClient(conn)
 
-	params, err := structpb.NewStruct(map[string]interface{}{
-		"prompt": "Tell me a joke about gRPC.",
-	})
-	if err != nil {
-		log.Fatalf("failed to create struct: %v", err)
-	}
+    params, err := structpb.NewStruct(map[string]interface{}{
+        "prompt": "Tell me a joke about gRPC.",
+    })
+    if err != nil {
+        log.Fatalf("failed to create struct: %v", err)
+    }
 
-	resp, err := client.ExecuteTool(context.Background(), &polykeyv1.ExecuteToolRequest{
-		ToolName:   "joke_generator",
-		Parameters: params,
-		UserId:     "user-12345",
-	})
-	if err != nil {
-		log.Fatalf("ExecuteTool RPC failed: %v", err)
-	}
+    resp, err := client.ExecuteTool(context.Background(), &polykeyv1.ExecuteToolRequest{
+        ToolName:   "joke_generator",
+        Parameters: params,
+        UserId:     "user-12345",
+    })
+    if err != nil {
+        log.Fatalf("ExecuteTool RPC failed: %v", err)
+    }
 
-	log.Printf("Status: %s", resp.GetStatus().GetMessage())
-	log.Printf("Output: %s", resp.GetStringOutput())
+    log.Printf("Status: %s", resp.GetStatus().GetMessage())
+    log.Printf("Output: %s", resp.GetStringOutput())
 }
 ```
-
----
 
 ### TypeScript Package
 
@@ -215,23 +207,19 @@ async function executeTool() {
 executeTool();
 ```
 
----
+-----
+
 ## Development
 
 Add or update `.proto` files in `proto/`, then regenerate clients. Submit a pull request.
 
----
 ## Running Tests
 
 Testing has been moved to individual microservices that consume this repository. Since Protobuf definitions are shared across services, each service is responsible for validating its own integration and usage of the generated clients.
 
----
-
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
-
----
+This project is licensed under the [MIT License](https://www.google.com/search?q=LICENSE).
 
 ## Contact
 
