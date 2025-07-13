@@ -32,7 +32,7 @@ RUN npm install -g ts-proto \
 WORKDIR /app
 
 # Cache Go dependencies
-COPY go.mod go.sum ./
+COPY gen/go/go.mod gen/go/go.sum ./ 
 RUN go mod download
 
 # Cache npm dependencies
