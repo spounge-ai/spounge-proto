@@ -1,4 +1,4 @@
-name: "@Spounge/proto-ts Release"
+name: "@Spounge/proto Package Release"
 
 on:
   workflow_run:
