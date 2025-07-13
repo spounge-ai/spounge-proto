@@ -4,11 +4,7 @@ on:
   workflow_run:
     workflows: [Dockerized Go & TS Build]
     types: [completed]
-    branches:
-      - release
-      - ts-release
-      - go-release
-
+    branches: [main]
 jobs:
   release:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
