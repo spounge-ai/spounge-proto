@@ -1,4 +1,4 @@
-name: Go + TypeScript CI
+name: Dockerized Go & TS Build
 
 on:
   push:
@@ -82,16 +82,31 @@ jobs:
       - name: Install npm dependencies
         run: npm ci
 
-      # Build protobuf generator Docker image
-      - name: Build protobuf generator Docker image
-        run: docker build -t spoungeai/protos-gen .
+      # --- GHCR Login ---
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
+      # --- Build & Push Docker Image to GHCR ---
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/protos-gen:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # Now you can run the image locally without rebuilding:
       - name: Generate Go protobuf files (inside Docker)
         run: |
           docker run --rm \
             -v ${{ github.workspace }}:/app \
             -w /app \
-            spoungeai/protos-gen \
+            ghcr.io/${{ github.repository_owner }}/protos-gen:latest \
             sh -c "make gen-go"
 
       - name: Generate TypeScript protobuf files (inside Docker)
@@ -99,18 +114,13 @@ jobs:
           docker run --rm \
             -v ${{ github.workspace }}:/app \
             -w /app \
-            spoungeai/protos-gen \
-            sh -c "make gen-ts"
+            ghcr.io/${{ github.repository_owner }}/protos-gen:latest \
+            sh -c "npm run build"
 
-      - name: Run build and tests inside Docker
+      - name: Run tests inside Docker
         run: |
           docker run --rm \
             -v ${{ github.workspace }}:/app \
             -w /app \
-            spoungeai/protos-gen \
-            sh -c "make build && make test && npm run build && npm run compile"
-
-
-      # Optional TS imports
-      # - name: Run TypeScript imports script
-      #   run: make ts-imports
+            ghcr.io/${{ github.repository_owner }}/protos-gen:latest \
+            sh -c "make test"

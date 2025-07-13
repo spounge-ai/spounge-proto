@@ -1,24 +1,14 @@
-name: Release TS Proto Package
+name: "@spounge/proto-ts release"
 
 on:
-  push:
-    branches: [main, release]
-    paths:
-      - 'proto/**'
-      - 'gen/ts/**'
-      - '.changeset/**'
-      - '.github/workflows/ts-proto-gen.yml'
-
-  pull_request:
-    branches: [main, release]
-    paths:
-      - 'proto/**'
-      - 'gen/ts/**'
-      - '.changeset/**'
-      - '.github/workflows/ts-proto-gen.yml'
+  workflow_run:
+    workflows: ["Dockerized Go & TS Build"]
+    types: [completed]
+    branches: [release]
 
 jobs:
   release:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -37,18 +27,22 @@ jobs:
           node-version: '24.2.0'
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build TS output in Docker
+      - name: Build TS output in Docker (using GHCR image)
         run: |
-            docker build -t spoungeai/protos-gen .
-            docker run --rm \
+          docker pull ghcr.io/${{ github.repository_owner }}/protos-gen:latest
+          docker run --rm \
             -v ${{ github.workspace }}:/app \
             -w /app \
-            spoungeai/protos-gen \
+            ghcr.io/${{ github.repository_owner }}/protos-gen:latest \
             sh -c "npm run build"
-            
+
       - name: Version with Changesets
         id: version
         env:
@@ -57,12 +51,12 @@ jobs:
           npx changeset version
           echo "COMMIT_SHA=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
-      - name: Rebuild after version bump
+      - name: Rebuild after version bump (using GHCR image)
         run: |
           docker run --rm \
             -v ${{ github.workspace }}:/app \
             -w /app \
-            spoungeai/protos-gen \
+            ghcr.io/${{ github.repository_owner }}/protos-gen:latest \
             sh -c "npm run build"
 
       - name: Commit version bump & changelog
@@ -70,7 +64,9 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "chore: version bump [skip ci]" || echo "No changes to commit"
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: version bump, skipping ci"
+          fi
 
       - name: Push version bump
         if: steps.version.outputs.COMMIT_SHA != github.sha
