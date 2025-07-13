@@ -5,27 +5,27 @@ SCRIPTS_DIR := scripts
 GEN_PB := $(SCRIPTS_DIR)/generate_pb.sh
 TS_IMPORTS := $(SCRIPTS_DIR)/ts_imports.sh
 BEAUTIFY := $(SCRIPTS_DIR)/spounge_prettier.sh
-
-# --- Existing targets ---
+PROTO_SCRIPTS := $(GEN_PB) $(TS_IMPORTS) $(BEAUTIFY)
 
 generate: gen
 
 gen: gen-go gen-ts
 
 chmod-scripts:
-	@chmod +x $$(BEAUTIFY) $(GEN_PB) $(TS_IMPORTS) 
+	@echo "Making scripts executable..."
+	@chmod +x $(PROTO_SCRIPTS)
 
 gen-go: chmod-scripts
 	@echo "Generating Go protobuf files..."
-	@./$(GEN_PB) go
+	@$(GEN_PB) go
 
 gen-ts: chmod-scripts
 	@echo "Generating TypeScript protobuf files..."
-	@./$(GEN_PB) ts
+	@$(GEN_PB) ts
 
 ts-imports: chmod-scripts
 	@echo "Getting TypeScript imports..."
-	@./$(TS_IMPORTS)
+	@$(TS_IMPORTS)
 
 clean:
 	@echo "Cleaning generated files..."

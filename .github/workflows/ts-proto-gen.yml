@@ -48,15 +48,18 @@ jobs:
             -w /app \
             spoungeai/protos-gen \
             sh -c "npm run build"
-
+            
       - name: Version with Changesets
+        id: version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx changeset version
+        run: |
+          npx changeset version
+          echo "COMMIT_SHA=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
       - name: Rebuild after version bump
         run: |
-            docker run --rm \
+          docker run --rm \
             -v ${{ github.workspace }}:/app \
             -w /app \
             spoungeai/protos-gen \
@@ -70,6 +73,7 @@ jobs:
           git commit -m "chore: version bump [skip ci]" || echo "No changes to commit"
 
       - name: Push version bump
+        if: steps.version.outputs.COMMIT_SHA != github.sha
         run: git push --follow-tags
 
       - name: Publish to npm
