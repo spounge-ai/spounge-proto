@@ -79,7 +79,7 @@ jobs:
 
       - name: Build TS and Go output in Docker (using GHCR image)
         run: |
-          IMAGE=${{ steps.lower-tag.outputs.repo_lower }}:latest
+          IMAGE=${{ steps.lower-tag.outputs.repo_lower }}:cache
           if docker pull "$IMAGE"; then
             echo "Pulled $IMAGE successfully"
           else
