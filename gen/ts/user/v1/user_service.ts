@@ -5,10 +5,11 @@
 // source: user/v1/user_service.proto
 
 /* eslint-disable */
-import { BinaryReader } from "@bufbuild/protobuf/wire";
-import { Empty } from "../../google/protobuf/empty";
-import { APIKey, APIKeysResponse, CreateAPIKeyRequest, DeleteAPIKeyRequest, ListAPIKeysRequest } from "./api_key";
-import { DeleteProfileRequest, GetProfileRequest, ProfileResponse, UpdateProfileRequest } from "./user";
+import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
+import Long from "long";
+import { EntityId, Pagination, Status } from "../../common/v1/common";
+import { APIKey } from "./api_key";
+import { DeleteProfileRequest, GetProfileRequest, UpdateProfileRequest, UserProfile } from "./user";
 import {
   CreateOverlayRequest,
   CreateWorkflowRequest,
@@ -18,17 +19,1228 @@ import {
   GetWorkflowRequest,
   ListOverlaysRequest,
   ListOverlaysResponse,
-  OverlayResponse,
-  WorkflowResponse,
+  OverlayPreview,
+  WorkflowConfig,
 } from "./workflow";
 
 export const protobufPackage = "user.v1";
 
-/** Profile service methods */
+/** User Profile Service */
+export interface GetProfileResponse {
+  status?: Status | undefined;
+  profile?: UserProfile | undefined;
+}
+
+export interface UpdateProfileResponse {
+  status?: Status | undefined;
+  profile?: UserProfile | undefined;
+}
+
+export interface DeleteProfileResponse {
+  status?: Status | undefined;
+}
+
+/** API Key Service */
+export interface CreateKeyRequest {
+  userId: string;
+  hashedKey: string;
+  name: string;
+}
+
+export interface CreateKeyResponse {
+  status?: Status | undefined;
+  key?: APIKey | undefined;
+}
+
+export interface DeleteKeyRequest {
+  id?: EntityId | undefined;
+}
+
+export interface DeleteKeyResponse {
+  status?: Status | undefined;
+}
+
+export interface ListKeysRequest {
+  userId: string;
+  page: number;
+  pageSize: number;
+}
+
+export interface ListKeysResponse {
+  status?: Status | undefined;
+  keys: APIKey[];
+  pagination?: Pagination | undefined;
+}
+
+/** Workflow Service */
+export interface CreateOverlayResponse {
+  status?: Status | undefined;
+  config?: OverlayPreview | undefined;
+}
+
+export interface GetOverlayResponse {
+  status?: Status | undefined;
+  config?: OverlayPreview | undefined;
+}
+
+export interface DeleteOverlayResponse {
+  status?: Status | undefined;
+}
+
+export interface CreateWorkflowResponse {
+  status?: Status | undefined;
+  config?: WorkflowConfig | undefined;
+}
+
+export interface GetWorkflowResponse {
+  status?: Status | undefined;
+  config?: WorkflowConfig | undefined;
+}
+
+export interface DeleteWorkflowResponse {
+  status?: Status | undefined;
+}
+
+function createBaseGetProfileResponse(): GetProfileResponse {
+  return { status: undefined, profile: undefined };
+}
+
+export const GetProfileResponse: MessageFns<GetProfileResponse> = {
+  encode(message: GetProfileResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.status !== undefined) {
+      Status.encode(message.status, writer.uint32(10).fork()).join();
+    }
+    if (message.profile !== undefined) {
+      UserProfile.encode(message.profile, writer.uint32(18).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): GetProfileResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseGetProfileResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.status = Status.decode(reader, reader.uint32());
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.profile = UserProfile.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): GetProfileResponse {
+    return {
+      status: isSet(object.status) ? Status.fromJSON(object.status) : undefined,
+      profile: isSet(object.profile) ? UserProfile.fromJSON(object.profile) : undefined,
+    };
+  },
+
+  toJSON(message: GetProfileResponse): unknown {
+    const obj: any = {};
+    if (message.status !== undefined) {
+      obj.status = Status.toJSON(message.status);
+    }
+    if (message.profile !== undefined) {
+      obj.profile = UserProfile.toJSON(message.profile);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<GetProfileResponse>, I>>(base?: I): GetProfileResponse {
+    return GetProfileResponse.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<GetProfileResponse>, I>>(object: I): GetProfileResponse {
+    const message = createBaseGetProfileResponse();
+    message.status = (object.status !== undefined && object.status !== null)
+      ? Status.fromPartial(object.status)
+      : undefined;
+    message.profile = (object.profile !== undefined && object.profile !== null)
+      ? UserProfile.fromPartial(object.profile)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseUpdateProfileResponse(): UpdateProfileResponse {
+  return { status: undefined, profile: undefined };
+}
+
+export const UpdateProfileResponse: MessageFns<UpdateProfileResponse> = {
+  encode(message: UpdateProfileResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.status !== undefined) {
+      Status.encode(message.status, writer.uint32(10).fork()).join();
+    }
+    if (message.profile !== undefined) {
+      UserProfile.encode(message.profile, writer.uint32(18).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): UpdateProfileResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseUpdateProfileResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.status = Status.decode(reader, reader.uint32());
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.profile = UserProfile.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): UpdateProfileResponse {
+    return {
+      status: isSet(object.status) ? Status.fromJSON(object.status) : undefined,
+      profile: isSet(object.profile) ? UserProfile.fromJSON(object.profile) : undefined,
+    };
+  },
+
+  toJSON(message: UpdateProfileResponse): unknown {
+    const obj: any = {};
+    if (message.status !== undefined) {
+      obj.status = Status.toJSON(message.status);
+    }
+    if (message.profile !== undefined) {
+      obj.profile = UserProfile.toJSON(message.profile);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<UpdateProfileResponse>, I>>(base?: I): UpdateProfileResponse {
+    return UpdateProfileResponse.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<UpdateProfileResponse>, I>>(object: I): UpdateProfileResponse {
+    const message = createBaseUpdateProfileResponse();
+    message.status = (object.status !== undefined && object.status !== null)
+      ? Status.fromPartial(object.status)
+      : undefined;
+    message.profile = (object.profile !== undefined && object.profile !== null)
+      ? UserProfile.fromPartial(object.profile)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseDeleteProfileResponse(): DeleteProfileResponse {
+  return { status: undefined };
+}
+
+export const DeleteProfileResponse: MessageFns<DeleteProfileResponse> = {
+  encode(message: DeleteProfileResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.status !== undefined) {
+      Status.encode(message.status, writer.uint32(10).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): DeleteProfileResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseDeleteProfileResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.status = Status.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): DeleteProfileResponse {
+    return { status: isSet(object.status) ? Status.fromJSON(object.status) : undefined };
+  },
+
+  toJSON(message: DeleteProfileResponse): unknown {
+    const obj: any = {};
+    if (message.status !== undefined) {
+      obj.status = Status.toJSON(message.status);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<DeleteProfileResponse>, I>>(base?: I): DeleteProfileResponse {
+    return DeleteProfileResponse.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<DeleteProfileResponse>, I>>(object: I): DeleteProfileResponse {
+    const message = createBaseDeleteProfileResponse();
+    message.status = (object.status !== undefined && object.status !== null)
+      ? Status.fromPartial(object.status)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseCreateKeyRequest(): CreateKeyRequest {
+  return { userId: "", hashedKey: "", name: "" };
+}
+
+export const CreateKeyRequest: MessageFns<CreateKeyRequest> = {
+  encode(message: CreateKeyRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.userId !== "") {
+      writer.uint32(10).string(message.userId);
+    }
+    if (message.hashedKey !== "") {
+      writer.uint32(18).string(message.hashedKey);
+    }
+    if (message.name !== "") {
+      writer.uint32(26).string(message.name);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): CreateKeyRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseCreateKeyRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.userId = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.hashedKey = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.name = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): CreateKeyRequest {
+    return {
+      userId: isSet(object.userId) ? globalThis.String(object.userId) : "",
+      hashedKey: isSet(object.hashedKey) ? globalThis.String(object.hashedKey) : "",
+      name: isSet(object.name) ? globalThis.String(object.name) : "",
+    };
+  },
+
+  toJSON(message: CreateKeyRequest): unknown {
+    const obj: any = {};
+    if (message.userId !== "") {
+      obj.userId = message.userId;
+    }
+    if (message.hashedKey !== "") {
+      obj.hashedKey = message.hashedKey;
+    }
+    if (message.name !== "") {
+      obj.name = message.name;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<CreateKeyRequest>, I>>(base?: I): CreateKeyRequest {
+    return CreateKeyRequest.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<CreateKeyRequest>, I>>(object: I): CreateKeyRequest {
+    const message = createBaseCreateKeyRequest();
+    message.userId = object.userId ?? "";
+    message.hashedKey = object.hashedKey ?? "";
+    message.name = object.name ?? "";
+    return message;
+  },
+};
+
+function createBaseCreateKeyResponse(): CreateKeyResponse {
+  return { status: undefined, key: undefined };
+}
+
+export const CreateKeyResponse: MessageFns<CreateKeyResponse> = {
+  encode(message: CreateKeyResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.status !== undefined) {
+      Status.encode(message.status, writer.uint32(10).fork()).join();
+    }
+    if (message.key !== undefined) {
+      APIKey.encode(message.key, writer.uint32(18).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): CreateKeyResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseCreateKeyResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.status = Status.decode(reader, reader.uint32());
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.key = APIKey.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): CreateKeyResponse {
+    return {
+      status: isSet(object.status) ? Status.fromJSON(object.status) : undefined,
+      key: isSet(object.key) ? APIKey.fromJSON(object.key) : undefined,
+    };
+  },
+
+  toJSON(message: CreateKeyResponse): unknown {
+    const obj: any = {};
+    if (message.status !== undefined) {
+      obj.status = Status.toJSON(message.status);
+    }
+    if (message.key !== undefined) {
+      obj.key = APIKey.toJSON(message.key);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<CreateKeyResponse>, I>>(base?: I): CreateKeyResponse {
+    return CreateKeyResponse.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<CreateKeyResponse>, I>>(object: I): CreateKeyResponse {
+    const message = createBaseCreateKeyResponse();
+    message.status = (object.status !== undefined && object.status !== null)
+      ? Status.fromPartial(object.status)
+      : undefined;
+    message.key = (object.key !== undefined && object.key !== null) ? APIKey.fromPartial(object.key) : undefined;
+    return message;
+  },
+};
+
+function createBaseDeleteKeyRequest(): DeleteKeyRequest {
+  return { id: undefined };
+}
+
+export const DeleteKeyRequest: MessageFns<DeleteKeyRequest> = {
+  encode(message: DeleteKeyRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.id !== undefined) {
+      EntityId.encode(message.id, writer.uint32(10).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): DeleteKeyRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseDeleteKeyRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.id = EntityId.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): DeleteKeyRequest {
+    return { id: isSet(object.id) ? EntityId.fromJSON(object.id) : undefined };
+  },
+
+  toJSON(message: DeleteKeyRequest): unknown {
+    const obj: any = {};
+    if (message.id !== undefined) {
+      obj.id = EntityId.toJSON(message.id);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<DeleteKeyRequest>, I>>(base?: I): DeleteKeyRequest {
+    return DeleteKeyRequest.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<DeleteKeyRequest>, I>>(object: I): DeleteKeyRequest {
+    const message = createBaseDeleteKeyRequest();
+    message.id = (object.id !== undefined && object.id !== null) ? EntityId.fromPartial(object.id) : undefined;
+    return message;
+  },
+};
+
+function createBaseDeleteKeyResponse(): DeleteKeyResponse {
+  return { status: undefined };
+}
+
+export const DeleteKeyResponse: MessageFns<DeleteKeyResponse> = {
+  encode(message: DeleteKeyResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.status !== undefined) {
+      Status.encode(message.status, writer.uint32(10).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): DeleteKeyResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseDeleteKeyResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.status = Status.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): DeleteKeyResponse {
+    return { status: isSet(object.status) ? Status.fromJSON(object.status) : undefined };
+  },
+
+  toJSON(message: DeleteKeyResponse): unknown {
+    const obj: any = {};
+    if (message.status !== undefined) {
+      obj.status = Status.toJSON(message.status);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<DeleteKeyResponse>, I>>(base?: I): DeleteKeyResponse {
+    return DeleteKeyResponse.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<DeleteKeyResponse>, I>>(object: I): DeleteKeyResponse {
+    const message = createBaseDeleteKeyResponse();
+    message.status = (object.status !== undefined && object.status !== null)
+      ? Status.fromPartial(object.status)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseListKeysRequest(): ListKeysRequest {
+  return { userId: "", page: 0, pageSize: 0 };
+}
+
+export const ListKeysRequest: MessageFns<ListKeysRequest> = {
+  encode(message: ListKeysRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.userId !== "") {
+      writer.uint32(10).string(message.userId);
+    }
+    if (message.page !== 0) {
+      writer.uint32(16).int32(message.page);
+    }
+    if (message.pageSize !== 0) {
+      writer.uint32(24).int32(message.pageSize);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): ListKeysRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseListKeysRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.userId = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.page = reader.int32();
+          continue;
+        }
+        case 3: {
+          if (tag !== 24) {
+            break;
+          }
+
+          message.pageSize = reader.int32();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): ListKeysRequest {
+    return {
+      userId: isSet(object.userId) ? globalThis.String(object.userId) : "",
+      page: isSet(object.page) ? globalThis.Number(object.page) : 0,
+      pageSize: isSet(object.pageSize) ? globalThis.Number(object.pageSize) : 0,
+    };
+  },
+
+  toJSON(message: ListKeysRequest): unknown {
+    const obj: any = {};
+    if (message.userId !== "") {
+      obj.userId = message.userId;
+    }
+    if (message.page !== 0) {
+      obj.page = Math.round(message.page);
+    }
+    if (message.pageSize !== 0) {
+      obj.pageSize = Math.round(message.pageSize);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<ListKeysRequest>, I>>(base?: I): ListKeysRequest {
+    return ListKeysRequest.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<ListKeysRequest>, I>>(object: I): ListKeysRequest {
+    const message = createBaseListKeysRequest();
+    message.userId = object.userId ?? "";
+    message.page = object.page ?? 0;
+    message.pageSize = object.pageSize ?? 0;
+    return message;
+  },
+};
+
+function createBaseListKeysResponse(): ListKeysResponse {
+  return { status: undefined, keys: [], pagination: undefined };
+}
+
+export const ListKeysResponse: MessageFns<ListKeysResponse> = {
+  encode(message: ListKeysResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.status !== undefined) {
+      Status.encode(message.status, writer.uint32(10).fork()).join();
+    }
+    for (const v of message.keys) {
+      APIKey.encode(v!, writer.uint32(18).fork()).join();
+    }
+    if (message.pagination !== undefined) {
+      Pagination.encode(message.pagination, writer.uint32(26).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): ListKeysResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseListKeysResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.status = Status.decode(reader, reader.uint32());
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.keys.push(APIKey.decode(reader, reader.uint32()));
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.pagination = Pagination.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): ListKeysResponse {
+    return {
+      status: isSet(object.status) ? Status.fromJSON(object.status) : undefined,
+      keys: globalThis.Array.isArray(object?.keys) ? object.keys.map((e: any) => APIKey.fromJSON(e)) : [],
+      pagination: isSet(object.pagination) ? Pagination.fromJSON(object.pagination) : undefined,
+    };
+  },
+
+  toJSON(message: ListKeysResponse): unknown {
+    const obj: any = {};
+    if (message.status !== undefined) {
+      obj.status = Status.toJSON(message.status);
+    }
+    if (message.keys?.length) {
+      obj.keys = message.keys.map((e) => APIKey.toJSON(e));
+    }
+    if (message.pagination !== undefined) {
+      obj.pagination = Pagination.toJSON(message.pagination);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<ListKeysResponse>, I>>(base?: I): ListKeysResponse {
+    return ListKeysResponse.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<ListKeysResponse>, I>>(object: I): ListKeysResponse {
+    const message = createBaseListKeysResponse();
+    message.status = (object.status !== undefined && object.status !== null)
+      ? Status.fromPartial(object.status)
+      : undefined;
+    message.keys = object.keys?.map((e) => APIKey.fromPartial(e)) || [];
+    message.pagination = (object.pagination !== undefined && object.pagination !== null)
+      ? Pagination.fromPartial(object.pagination)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseCreateOverlayResponse(): CreateOverlayResponse {
+  return { status: undefined, config: undefined };
+}
+
+export const CreateOverlayResponse: MessageFns<CreateOverlayResponse> = {
+  encode(message: CreateOverlayResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.status !== undefined) {
+      Status.encode(message.status, writer.uint32(10).fork()).join();
+    }
+    if (message.config !== undefined) {
+      OverlayPreview.encode(message.config, writer.uint32(18).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): CreateOverlayResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseCreateOverlayResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.status = Status.decode(reader, reader.uint32());
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.config = OverlayPreview.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): CreateOverlayResponse {
+    return {
+      status: isSet(object.status) ? Status.fromJSON(object.status) : undefined,
+      config: isSet(object.config) ? OverlayPreview.fromJSON(object.config) : undefined,
+    };
+  },
+
+  toJSON(message: CreateOverlayResponse): unknown {
+    const obj: any = {};
+    if (message.status !== undefined) {
+      obj.status = Status.toJSON(message.status);
+    }
+    if (message.config !== undefined) {
+      obj.config = OverlayPreview.toJSON(message.config);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<CreateOverlayResponse>, I>>(base?: I): CreateOverlayResponse {
+    return CreateOverlayResponse.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<CreateOverlayResponse>, I>>(object: I): CreateOverlayResponse {
+    const message = createBaseCreateOverlayResponse();
+    message.status = (object.status !== undefined && object.status !== null)
+      ? Status.fromPartial(object.status)
+      : undefined;
+    message.config = (object.config !== undefined && object.config !== null)
+      ? OverlayPreview.fromPartial(object.config)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseGetOverlayResponse(): GetOverlayResponse {
+  return { status: undefined, config: undefined };
+}
+
+export const GetOverlayResponse: MessageFns<GetOverlayResponse> = {
+  encode(message: GetOverlayResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.status !== undefined) {
+      Status.encode(message.status, writer.uint32(10).fork()).join();
+    }
+    if (message.config !== undefined) {
+      OverlayPreview.encode(message.config, writer.uint32(18).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): GetOverlayResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseGetOverlayResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.status = Status.decode(reader, reader.uint32());
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.config = OverlayPreview.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): GetOverlayResponse {
+    return {
+      status: isSet(object.status) ? Status.fromJSON(object.status) : undefined,
+      config: isSet(object.config) ? OverlayPreview.fromJSON(object.config) : undefined,
+    };
+  },
+
+  toJSON(message: GetOverlayResponse): unknown {
+    const obj: any = {};
+    if (message.status !== undefined) {
+      obj.status = Status.toJSON(message.status);
+    }
+    if (message.config !== undefined) {
+      obj.config = OverlayPreview.toJSON(message.config);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<GetOverlayResponse>, I>>(base?: I): GetOverlayResponse {
+    return GetOverlayResponse.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<GetOverlayResponse>, I>>(object: I): GetOverlayResponse {
+    const message = createBaseGetOverlayResponse();
+    message.status = (object.status !== undefined && object.status !== null)
+      ? Status.fromPartial(object.status)
+      : undefined;
+    message.config = (object.config !== undefined && object.config !== null)
+      ? OverlayPreview.fromPartial(object.config)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseDeleteOverlayResponse(): DeleteOverlayResponse {
+  return { status: undefined };
+}
+
+export const DeleteOverlayResponse: MessageFns<DeleteOverlayResponse> = {
+  encode(message: DeleteOverlayResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.status !== undefined) {
+      Status.encode(message.status, writer.uint32(10).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): DeleteOverlayResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseDeleteOverlayResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.status = Status.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): DeleteOverlayResponse {
+    return { status: isSet(object.status) ? Status.fromJSON(object.status) : undefined };
+  },
+
+  toJSON(message: DeleteOverlayResponse): unknown {
+    const obj: any = {};
+    if (message.status !== undefined) {
+      obj.status = Status.toJSON(message.status);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<DeleteOverlayResponse>, I>>(base?: I): DeleteOverlayResponse {
+    return DeleteOverlayResponse.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<DeleteOverlayResponse>, I>>(object: I): DeleteOverlayResponse {
+    const message = createBaseDeleteOverlayResponse();
+    message.status = (object.status !== undefined && object.status !== null)
+      ? Status.fromPartial(object.status)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseCreateWorkflowResponse(): CreateWorkflowResponse {
+  return { status: undefined, config: undefined };
+}
+
+export const CreateWorkflowResponse: MessageFns<CreateWorkflowResponse> = {
+  encode(message: CreateWorkflowResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.status !== undefined) {
+      Status.encode(message.status, writer.uint32(10).fork()).join();
+    }
+    if (message.config !== undefined) {
+      WorkflowConfig.encode(message.config, writer.uint32(18).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): CreateWorkflowResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseCreateWorkflowResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.status = Status.decode(reader, reader.uint32());
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.config = WorkflowConfig.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): CreateWorkflowResponse {
+    return {
+      status: isSet(object.status) ? Status.fromJSON(object.status) : undefined,
+      config: isSet(object.config) ? WorkflowConfig.fromJSON(object.config) : undefined,
+    };
+  },
+
+  toJSON(message: CreateWorkflowResponse): unknown {
+    const obj: any = {};
+    if (message.status !== undefined) {
+      obj.status = Status.toJSON(message.status);
+    }
+    if (message.config !== undefined) {
+      obj.config = WorkflowConfig.toJSON(message.config);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<CreateWorkflowResponse>, I>>(base?: I): CreateWorkflowResponse {
+    return CreateWorkflowResponse.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<CreateWorkflowResponse>, I>>(object: I): CreateWorkflowResponse {
+    const message = createBaseCreateWorkflowResponse();
+    message.status = (object.status !== undefined && object.status !== null)
+      ? Status.fromPartial(object.status)
+      : undefined;
+    message.config = (object.config !== undefined && object.config !== null)
+      ? WorkflowConfig.fromPartial(object.config)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseGetWorkflowResponse(): GetWorkflowResponse {
+  return { status: undefined, config: undefined };
+}
+
+export const GetWorkflowResponse: MessageFns<GetWorkflowResponse> = {
+  encode(message: GetWorkflowResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.status !== undefined) {
+      Status.encode(message.status, writer.uint32(10).fork()).join();
+    }
+    if (message.config !== undefined) {
+      WorkflowConfig.encode(message.config, writer.uint32(18).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): GetWorkflowResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseGetWorkflowResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.status = Status.decode(reader, reader.uint32());
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.config = WorkflowConfig.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): GetWorkflowResponse {
+    return {
+      status: isSet(object.status) ? Status.fromJSON(object.status) : undefined,
+      config: isSet(object.config) ? WorkflowConfig.fromJSON(object.config) : undefined,
+    };
+  },
+
+  toJSON(message: GetWorkflowResponse): unknown {
+    const obj: any = {};
+    if (message.status !== undefined) {
+      obj.status = Status.toJSON(message.status);
+    }
+    if (message.config !== undefined) {
+      obj.config = WorkflowConfig.toJSON(message.config);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<GetWorkflowResponse>, I>>(base?: I): GetWorkflowResponse {
+    return GetWorkflowResponse.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<GetWorkflowResponse>, I>>(object: I): GetWorkflowResponse {
+    const message = createBaseGetWorkflowResponse();
+    message.status = (object.status !== undefined && object.status !== null)
+      ? Status.fromPartial(object.status)
+      : undefined;
+    message.config = (object.config !== undefined && object.config !== null)
+      ? WorkflowConfig.fromPartial(object.config)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseDeleteWorkflowResponse(): DeleteWorkflowResponse {
+  return { status: undefined };
+}
+
+export const DeleteWorkflowResponse: MessageFns<DeleteWorkflowResponse> = {
+  encode(message: DeleteWorkflowResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.status !== undefined) {
+      Status.encode(message.status, writer.uint32(10).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): DeleteWorkflowResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseDeleteWorkflowResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.status = Status.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): DeleteWorkflowResponse {
+    return { status: isSet(object.status) ? Status.fromJSON(object.status) : undefined };
+  },
+
+  toJSON(message: DeleteWorkflowResponse): unknown {
+    const obj: any = {};
+    if (message.status !== undefined) {
+      obj.status = Status.toJSON(message.status);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<DeleteWorkflowResponse>, I>>(base?: I): DeleteWorkflowResponse {
+    return DeleteWorkflowResponse.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<DeleteWorkflowResponse>, I>>(object: I): DeleteWorkflowResponse {
+    const message = createBaseDeleteWorkflowResponse();
+    message.status = (object.status !== undefined && object.status !== null)
+      ? Status.fromPartial(object.status)
+      : undefined;
+    return message;
+  },
+};
+
 export interface UserProfileService {
-  GetProfile(request: GetProfileRequest): Promise<ProfileResponse>;
-  UpdateProfile(request: UpdateProfileRequest): Promise<ProfileResponse>;
-  DeleteProfile(request: DeleteProfileRequest): Promise<Empty>;
+  GetProfile(request: GetProfileRequest): Promise<GetProfileResponse>;
+  UpdateProfile(request: UpdateProfileRequest): Promise<UpdateProfileResponse>;
+  DeleteProfile(request: DeleteProfileRequest): Promise<DeleteProfileResponse>;
 }
 
 export const UserProfileServiceServiceName = "user.v1.UserProfileService";
@@ -42,30 +1254,29 @@ export class UserProfileServiceClientImpl implements UserProfileService {
     this.UpdateProfile = this.UpdateProfile.bind(this);
     this.DeleteProfile = this.DeleteProfile.bind(this);
   }
-  GetProfile(request: GetProfileRequest): Promise<ProfileResponse> {
+  GetProfile(request: GetProfileRequest): Promise<GetProfileResponse> {
     const data = GetProfileRequest.encode(request).finish();
     const promise = this.rpc.request(this.service, "GetProfile", data);
-    return promise.then((data) => ProfileResponse.decode(new BinaryReader(data)));
+    return promise.then((data) => GetProfileResponse.decode(new BinaryReader(data)));
   }
 
-  UpdateProfile(request: UpdateProfileRequest): Promise<ProfileResponse> {
+  UpdateProfile(request: UpdateProfileRequest): Promise<UpdateProfileResponse> {
     const data = UpdateProfileRequest.encode(request).finish();
     const promise = this.rpc.request(this.service, "UpdateProfile", data);
-    return promise.then((data) => ProfileResponse.decode(new BinaryReader(data)));
+    return promise.then((data) => UpdateProfileResponse.decode(new BinaryReader(data)));
   }
 
-  DeleteProfile(request: DeleteProfileRequest): Promise<Empty> {
+  DeleteProfile(request: DeleteProfileRequest): Promise<DeleteProfileResponse> {
     const data = DeleteProfileRequest.encode(request).finish();
     const promise = this.rpc.request(this.service, "DeleteProfile", data);
-    return promise.then((data) => Empty.decode(new BinaryReader(data)));
+    return promise.then((data) => DeleteProfileResponse.decode(new BinaryReader(data)));
   }
 }
 
-/** API key service methods */
 export interface APIKeyService {
-  CreateKey(request: CreateAPIKeyRequest): Promise<APIKey>;
-  DeleteKey(request: DeleteAPIKeyRequest): Promise<Empty>;
-  ListKeys(request: ListAPIKeysRequest): Promise<APIKeysResponse>;
+  CreateKey(request: CreateKeyRequest): Promise<CreateKeyResponse>;
+  DeleteKey(request: DeleteKeyRequest): Promise<DeleteKeyResponse>;
+  ListKeys(request: ListKeysRequest): Promise<ListKeysResponse>;
 }
 
 export const APIKeyServiceServiceName = "user.v1.APIKeyService";
@@ -79,34 +1290,33 @@ export class APIKeyServiceClientImpl implements APIKeyService {
     this.DeleteKey = this.DeleteKey.bind(this);
     this.ListKeys = this.ListKeys.bind(this);
   }
-  CreateKey(request: CreateAPIKeyRequest): Promise<APIKey> {
-    const data = CreateAPIKeyRequest.encode(request).finish();
+  CreateKey(request: CreateKeyRequest): Promise<CreateKeyResponse> {
+    const data = CreateKeyRequest.encode(request).finish();
     const promise = this.rpc.request(this.service, "CreateKey", data);
-    return promise.then((data) => APIKey.decode(new BinaryReader(data)));
+    return promise.then((data) => CreateKeyResponse.decode(new BinaryReader(data)));
   }
 
-  DeleteKey(request: DeleteAPIKeyRequest): Promise<Empty> {
-    const data = DeleteAPIKeyRequest.encode(request).finish();
+  DeleteKey(request: DeleteKeyRequest): Promise<DeleteKeyResponse> {
+    const data = DeleteKeyRequest.encode(request).finish();
     const promise = this.rpc.request(this.service, "DeleteKey", data);
-    return promise.then((data) => Empty.decode(new BinaryReader(data)));
+    return promise.then((data) => DeleteKeyResponse.decode(new BinaryReader(data)));
   }
 
-  ListKeys(request: ListAPIKeysRequest): Promise<APIKeysResponse> {
-    const data = ListAPIKeysRequest.encode(request).finish();
+  ListKeys(request: ListKeysRequest): Promise<ListKeysResponse> {
+    const data = ListKeysRequest.encode(request).finish();
     const promise = this.rpc.request(this.service, "ListKeys", data);
-    return promise.then((data) => APIKeysResponse.decode(new BinaryReader(data)));
+    return promise.then((data) => ListKeysResponse.decode(new BinaryReader(data)));
   }
 }
 
-/** Workflow config service methods */
 export interface ConfigService {
-  CreateOverlay(request: CreateOverlayRequest): Promise<OverlayResponse>;
-  GetOverlay(request: GetOverlayRequest): Promise<OverlayResponse>;
+  CreateOverlay(request: CreateOverlayRequest): Promise<CreateOverlayResponse>;
+  GetOverlay(request: GetOverlayRequest): Promise<GetOverlayResponse>;
   ListOverlays(request: ListOverlaysRequest): Promise<ListOverlaysResponse>;
-  DeleteOverlay(request: DeleteOverlayRequest): Promise<Empty>;
-  CreateWorkflow(request: CreateWorkflowRequest): Promise<WorkflowResponse>;
-  GetWorkflow(request: GetWorkflowRequest): Promise<WorkflowResponse>;
-  DeleteWorkflow(request: DeleteWorkflowRequest): Promise<Empty>;
+  DeleteOverlay(request: DeleteOverlayRequest): Promise<DeleteOverlayResponse>;
+  CreateWorkflow(request: CreateWorkflowRequest): Promise<CreateWorkflowResponse>;
+  GetWorkflow(request: GetWorkflowRequest): Promise<GetWorkflowResponse>;
+  DeleteWorkflow(request: DeleteWorkflowRequest): Promise<DeleteWorkflowResponse>;
 }
 
 export const ConfigServiceServiceName = "user.v1.ConfigService";
@@ -124,16 +1334,16 @@ export class ConfigServiceClientImpl implements ConfigService {
     this.GetWorkflow = this.GetWorkflow.bind(this);
     this.DeleteWorkflow = this.DeleteWorkflow.bind(this);
   }
-  CreateOverlay(request: CreateOverlayRequest): Promise<OverlayResponse> {
+  CreateOverlay(request: CreateOverlayRequest): Promise<CreateOverlayResponse> {
     const data = CreateOverlayRequest.encode(request).finish();
     const promise = this.rpc.request(this.service, "CreateOverlay", data);
-    return promise.then((data) => OverlayResponse.decode(new BinaryReader(data)));
+    return promise.then((data) => CreateOverlayResponse.decode(new BinaryReader(data)));
   }
 
-  GetOverlay(request: GetOverlayRequest): Promise<OverlayResponse> {
+  GetOverlay(request: GetOverlayRequest): Promise<GetOverlayResponse> {
     const data = GetOverlayRequest.encode(request).finish();
     const promise = this.rpc.request(this.service, "GetOverlay", data);
-    return promise.then((data) => OverlayResponse.decode(new BinaryReader(data)));
+    return promise.then((data) => GetOverlayResponse.decode(new BinaryReader(data)));
   }
 
   ListOverlays(request: ListOverlaysRequest): Promise<ListOverlaysResponse> {
@@ -142,31 +1352,56 @@ export class ConfigServiceClientImpl implements ConfigService {
     return promise.then((data) => ListOverlaysResponse.decode(new BinaryReader(data)));
   }
 
-  DeleteOverlay(request: DeleteOverlayRequest): Promise<Empty> {
+  DeleteOverlay(request: DeleteOverlayRequest): Promise<DeleteOverlayResponse> {
     const data = DeleteOverlayRequest.encode(request).finish();
     const promise = this.rpc.request(this.service, "DeleteOverlay", data);
-    return promise.then((data) => Empty.decode(new BinaryReader(data)));
+    return promise.then((data) => DeleteOverlayResponse.decode(new BinaryReader(data)));
   }
 
-  CreateWorkflow(request: CreateWorkflowRequest): Promise<WorkflowResponse> {
+  CreateWorkflow(request: CreateWorkflowRequest): Promise<CreateWorkflowResponse> {
     const data = CreateWorkflowRequest.encode(request).finish();
     const promise = this.rpc.request(this.service, "CreateWorkflow", data);
-    return promise.then((data) => WorkflowResponse.decode(new BinaryReader(data)));
+    return promise.then((data) => CreateWorkflowResponse.decode(new BinaryReader(data)));
   }
 
-  GetWorkflow(request: GetWorkflowRequest): Promise<WorkflowResponse> {
+  GetWorkflow(request: GetWorkflowRequest): Promise<GetWorkflowResponse> {
     const data = GetWorkflowRequest.encode(request).finish();
     const promise = this.rpc.request(this.service, "GetWorkflow", data);
-    return promise.then((data) => WorkflowResponse.decode(new BinaryReader(data)));
+    return promise.then((data) => GetWorkflowResponse.decode(new BinaryReader(data)));
   }
 
-  DeleteWorkflow(request: DeleteWorkflowRequest): Promise<Empty> {
+  DeleteWorkflow(request: DeleteWorkflowRequest): Promise<DeleteWorkflowResponse> {
     const data = DeleteWorkflowRequest.encode(request).finish();
     const promise = this.rpc.request(this.service, "DeleteWorkflow", data);
-    return promise.then((data) => Empty.decode(new BinaryReader(data)));
+    return promise.then((data) => DeleteWorkflowResponse.decode(new BinaryReader(data)));
   }
 }
 
 interface Rpc {
   request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>;
+}
+
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
+
+export type DeepPartial<T> = T extends Builtin ? T
+  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
+  : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
+  : Partial<T>;
+
+type KeysOfUnion<T> = T extends T ? keyof T : never;
+export type Exact<P, I extends P> = P extends Builtin ? P
+  : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
+
+function isSet(value: any): boolean {
+  return value !== null && value !== undefined;
+}
+
+export interface MessageFns<T> {
+  encode(message: T, writer?: BinaryWriter): BinaryWriter;
+  decode(input: BinaryReader | Uint8Array, length?: number): T;
+  fromJSON(object: any): T;
+  toJSON(message: T): unknown;
+  create<I extends Exact<DeepPartial<T>, I>>(base?: I): T;
+  fromPartial<I extends Exact<DeepPartial<T>, I>>(object: I): T;
 }

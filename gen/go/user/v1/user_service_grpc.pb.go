@@ -11,7 +11,6 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -28,12 +27,10 @@ const (
 // UserProfileServiceClient is the client API for UserProfileService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-//
-// Profile service methods
 type UserProfileServiceClient interface {
-	GetProfile(ctx context.Context, in *GetProfileRequest, opts ...grpc.CallOption) (*ProfileResponse, error)
-	UpdateProfile(ctx context.Context, in *UpdateProfileRequest, opts ...grpc.CallOption) (*ProfileResponse, error)
-	DeleteProfile(ctx context.Context, in *DeleteProfileRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	GetProfile(ctx context.Context, in *GetProfileRequest, opts ...grpc.CallOption) (*GetProfileResponse, error)
+	UpdateProfile(ctx context.Context, in *UpdateProfileRequest, opts ...grpc.CallOption) (*UpdateProfileResponse, error)
+	DeleteProfile(ctx context.Context, in *DeleteProfileRequest, opts ...grpc.CallOption) (*DeleteProfileResponse, error)
 }
 
 type userProfileServiceClient struct {
@@ -44,9 +41,9 @@ func NewUserProfileServiceClient(cc grpc.ClientConnInterface) UserProfileService
 	return &userProfileServiceClient{cc}
 }
 
-func (c *userProfileServiceClient) GetProfile(ctx context.Context, in *GetProfileRequest, opts ...grpc.CallOption) (*ProfileResponse, error) {
+func (c *userProfileServiceClient) GetProfile(ctx context.Context, in *GetProfileRequest, opts ...grpc.CallOption) (*GetProfileResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ProfileResponse)
+	out := new(GetProfileResponse)
 	err := c.cc.Invoke(ctx, UserProfileService_GetProfile_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -54,9 +51,9 @@ func (c *userProfileServiceClient) GetProfile(ctx context.Context, in *GetProfil
 	return out, nil
 }
 
-func (c *userProfileServiceClient) UpdateProfile(ctx context.Context, in *UpdateProfileRequest, opts ...grpc.CallOption) (*ProfileResponse, error) {
+func (c *userProfileServiceClient) UpdateProfile(ctx context.Context, in *UpdateProfileRequest, opts ...grpc.CallOption) (*UpdateProfileResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ProfileResponse)
+	out := new(UpdateProfileResponse)
 	err := c.cc.Invoke(ctx, UserProfileService_UpdateProfile_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -64,9 +61,9 @@ func (c *userProfileServiceClient) UpdateProfile(ctx context.Context, in *Update
 	return out, nil
 }
 
-func (c *userProfileServiceClient) DeleteProfile(ctx context.Context, in *DeleteProfileRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *userProfileServiceClient) DeleteProfile(ctx context.Context, in *DeleteProfileRequest, opts ...grpc.CallOption) (*DeleteProfileResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(emptypb.Empty)
+	out := new(DeleteProfileResponse)
 	err := c.cc.Invoke(ctx, UserProfileService_DeleteProfile_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -77,12 +74,10 @@ func (c *userProfileServiceClient) DeleteProfile(ctx context.Context, in *Delete
 // UserProfileServiceServer is the server API for UserProfileService service.
 // All implementations must embed UnimplementedUserProfileServiceServer
 // for forward compatibility.
-//
-// Profile service methods
 type UserProfileServiceServer interface {
-	GetProfile(context.Context, *GetProfileRequest) (*ProfileResponse, error)
-	UpdateProfile(context.Context, *UpdateProfileRequest) (*ProfileResponse, error)
-	DeleteProfile(context.Context, *DeleteProfileRequest) (*emptypb.Empty, error)
+	GetProfile(context.Context, *GetProfileRequest) (*GetProfileResponse, error)
+	UpdateProfile(context.Context, *UpdateProfileRequest) (*UpdateProfileResponse, error)
+	DeleteProfile(context.Context, *DeleteProfileRequest) (*DeleteProfileResponse, error)
 	mustEmbedUnimplementedUserProfileServiceServer()
 }
 
@@ -93,13 +88,13 @@ type UserProfileServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedUserProfileServiceServer struct{}
 
-func (UnimplementedUserProfileServiceServer) GetProfile(context.Context, *GetProfileRequest) (*ProfileResponse, error) {
+func (UnimplementedUserProfileServiceServer) GetProfile(context.Context, *GetProfileRequest) (*GetProfileResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetProfile not implemented")
 }
-func (UnimplementedUserProfileServiceServer) UpdateProfile(context.Context, *UpdateProfileRequest) (*ProfileResponse, error) {
+func (UnimplementedUserProfileServiceServer) UpdateProfile(context.Context, *UpdateProfileRequest) (*UpdateProfileResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateProfile not implemented")
 }
-func (UnimplementedUserProfileServiceServer) DeleteProfile(context.Context, *DeleteProfileRequest) (*emptypb.Empty, error) {
+func (UnimplementedUserProfileServiceServer) DeleteProfile(context.Context, *DeleteProfileRequest) (*DeleteProfileResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteProfile not implemented")
 }
 func (UnimplementedUserProfileServiceServer) mustEmbedUnimplementedUserProfileServiceServer() {}
@@ -210,12 +205,10 @@ const (
 // APIKeyServiceClient is the client API for APIKeyService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-//
-// API key service methods
 type APIKeyServiceClient interface {
-	CreateKey(ctx context.Context, in *CreateAPIKeyRequest, opts ...grpc.CallOption) (*APIKey, error)
-	DeleteKey(ctx context.Context, in *DeleteAPIKeyRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	ListKeys(ctx context.Context, in *ListAPIKeysRequest, opts ...grpc.CallOption) (*APIKeysResponse, error)
+	CreateKey(ctx context.Context, in *CreateKeyRequest, opts ...grpc.CallOption) (*CreateKeyResponse, error)
+	DeleteKey(ctx context.Context, in *DeleteKeyRequest, opts ...grpc.CallOption) (*DeleteKeyResponse, error)
+	ListKeys(ctx context.Context, in *ListKeysRequest, opts ...grpc.CallOption) (*ListKeysResponse, error)
 }
 
 type aPIKeyServiceClient struct {
@@ -226,9 +219,9 @@ func NewAPIKeyServiceClient(cc grpc.ClientConnInterface) APIKeyServiceClient {
 	return &aPIKeyServiceClient{cc}
 }
 
-func (c *aPIKeyServiceClient) CreateKey(ctx context.Context, in *CreateAPIKeyRequest, opts ...grpc.CallOption) (*APIKey, error) {
+func (c *aPIKeyServiceClient) CreateKey(ctx context.Context, in *CreateKeyRequest, opts ...grpc.CallOption) (*CreateKeyResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(APIKey)
+	out := new(CreateKeyResponse)
 	err := c.cc.Invoke(ctx, APIKeyService_CreateKey_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -236,9 +229,9 @@ func (c *aPIKeyServiceClient) CreateKey(ctx context.Context, in *CreateAPIKeyReq
 	return out, nil
 }
 
-func (c *aPIKeyServiceClient) DeleteKey(ctx context.Context, in *DeleteAPIKeyRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *aPIKeyServiceClient) DeleteKey(ctx context.Context, in *DeleteKeyRequest, opts ...grpc.CallOption) (*DeleteKeyResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(emptypb.Empty)
+	out := new(DeleteKeyResponse)
 	err := c.cc.Invoke(ctx, APIKeyService_DeleteKey_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -246,9 +239,9 @@ func (c *aPIKeyServiceClient) DeleteKey(ctx context.Context, in *DeleteAPIKeyReq
 	return out, nil
 }
 
-func (c *aPIKeyServiceClient) ListKeys(ctx context.Context, in *ListAPIKeysRequest, opts ...grpc.CallOption) (*APIKeysResponse, error) {
+func (c *aPIKeyServiceClient) ListKeys(ctx context.Context, in *ListKeysRequest, opts ...grpc.CallOption) (*ListKeysResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(APIKeysResponse)
+	out := new(ListKeysResponse)
 	err := c.cc.Invoke(ctx, APIKeyService_ListKeys_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -259,12 +252,10 @@ func (c *aPIKeyServiceClient) ListKeys(ctx context.Context, in *ListAPIKeysReque
 // APIKeyServiceServer is the server API for APIKeyService service.
 // All implementations must embed UnimplementedAPIKeyServiceServer
 // for forward compatibility.
-//
-// API key service methods
 type APIKeyServiceServer interface {
-	CreateKey(context.Context, *CreateAPIKeyRequest) (*APIKey, error)
-	DeleteKey(context.Context, *DeleteAPIKeyRequest) (*emptypb.Empty, error)
-	ListKeys(context.Context, *ListAPIKeysRequest) (*APIKeysResponse, error)
+	CreateKey(context.Context, *CreateKeyRequest) (*CreateKeyResponse, error)
+	DeleteKey(context.Context, *DeleteKeyRequest) (*DeleteKeyResponse, error)
+	ListKeys(context.Context, *ListKeysRequest) (*ListKeysResponse, error)
 	mustEmbedUnimplementedAPIKeyServiceServer()
 }
 
@@ -275,13 +266,13 @@ type APIKeyServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedAPIKeyServiceServer struct{}
 
-func (UnimplementedAPIKeyServiceServer) CreateKey(context.Context, *CreateAPIKeyRequest) (*APIKey, error) {
+func (UnimplementedAPIKeyServiceServer) CreateKey(context.Context, *CreateKeyRequest) (*CreateKeyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateKey not implemented")
 }
-func (UnimplementedAPIKeyServiceServer) DeleteKey(context.Context, *DeleteAPIKeyRequest) (*emptypb.Empty, error) {
+func (UnimplementedAPIKeyServiceServer) DeleteKey(context.Context, *DeleteKeyRequest) (*DeleteKeyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteKey not implemented")
 }
-func (UnimplementedAPIKeyServiceServer) ListKeys(context.Context, *ListAPIKeysRequest) (*APIKeysResponse, error) {
+func (UnimplementedAPIKeyServiceServer) ListKeys(context.Context, *ListKeysRequest) (*ListKeysResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListKeys not implemented")
 }
 func (UnimplementedAPIKeyServiceServer) mustEmbedUnimplementedAPIKeyServiceServer() {}
@@ -306,7 +297,7 @@ func RegisterAPIKeyServiceServer(s grpc.ServiceRegistrar, srv APIKeyServiceServe
 }
 
 func _APIKeyService_CreateKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateAPIKeyRequest)
+	in := new(CreateKeyRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -318,13 +309,13 @@ func _APIKeyService_CreateKey_Handler(srv interface{}, ctx context.Context, dec 
 		FullMethod: APIKeyService_CreateKey_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(APIKeyServiceServer).CreateKey(ctx, req.(*CreateAPIKeyRequest))
+		return srv.(APIKeyServiceServer).CreateKey(ctx, req.(*CreateKeyRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _APIKeyService_DeleteKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteAPIKeyRequest)
+	in := new(DeleteKeyRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -336,13 +327,13 @@ func _APIKeyService_DeleteKey_Handler(srv interface{}, ctx context.Context, dec 
 		FullMethod: APIKeyService_DeleteKey_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(APIKeyServiceServer).DeleteKey(ctx, req.(*DeleteAPIKeyRequest))
+		return srv.(APIKeyServiceServer).DeleteKey(ctx, req.(*DeleteKeyRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _APIKeyService_ListKeys_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListAPIKeysRequest)
+	in := new(ListKeysRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -354,7 +345,7 @@ func _APIKeyService_ListKeys_Handler(srv interface{}, ctx context.Context, dec f
 		FullMethod: APIKeyService_ListKeys_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(APIKeyServiceServer).ListKeys(ctx, req.(*ListAPIKeysRequest))
+		return srv.(APIKeyServiceServer).ListKeys(ctx, req.(*ListKeysRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -396,16 +387,14 @@ const (
 // ConfigServiceClient is the client API for ConfigService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-//
-// Workflow config service methods
 type ConfigServiceClient interface {
-	CreateOverlay(ctx context.Context, in *CreateOverlayRequest, opts ...grpc.CallOption) (*OverlayResponse, error)
-	GetOverlay(ctx context.Context, in *GetOverlayRequest, opts ...grpc.CallOption) (*OverlayResponse, error)
+	CreateOverlay(ctx context.Context, in *CreateOverlayRequest, opts ...grpc.CallOption) (*CreateOverlayResponse, error)
+	GetOverlay(ctx context.Context, in *GetOverlayRequest, opts ...grpc.CallOption) (*GetOverlayResponse, error)
 	ListOverlays(ctx context.Context, in *ListOverlaysRequest, opts ...grpc.CallOption) (*ListOverlaysResponse, error)
-	DeleteOverlay(ctx context.Context, in *DeleteOverlayRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	CreateWorkflow(ctx context.Context, in *CreateWorkflowRequest, opts ...grpc.CallOption) (*WorkflowResponse, error)
-	GetWorkflow(ctx context.Context, in *GetWorkflowRequest, opts ...grpc.CallOption) (*WorkflowResponse, error)
-	DeleteWorkflow(ctx context.Context, in *DeleteWorkflowRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	DeleteOverlay(ctx context.Context, in *DeleteOverlayRequest, opts ...grpc.CallOption) (*DeleteOverlayResponse, error)
+	CreateWorkflow(ctx context.Context, in *CreateWorkflowRequest, opts ...grpc.CallOption) (*CreateWorkflowResponse, error)
+	GetWorkflow(ctx context.Context, in *GetWorkflowRequest, opts ...grpc.CallOption) (*GetWorkflowResponse, error)
+	DeleteWorkflow(ctx context.Context, in *DeleteWorkflowRequest, opts ...grpc.CallOption) (*DeleteWorkflowResponse, error)
 }
 
 type configServiceClient struct {
@@ -416,9 +405,9 @@ func NewConfigServiceClient(cc grpc.ClientConnInterface) ConfigServiceClient {
 	return &configServiceClient{cc}
 }
 
-func (c *configServiceClient) CreateOverlay(ctx context.Context, in *CreateOverlayRequest, opts ...grpc.CallOption) (*OverlayResponse, error) {
+func (c *configServiceClient) CreateOverlay(ctx context.Context, in *CreateOverlayRequest, opts ...grpc.CallOption) (*CreateOverlayResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(OverlayResponse)
+	out := new(CreateOverlayResponse)
 	err := c.cc.Invoke(ctx, ConfigService_CreateOverlay_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -426,9 +415,9 @@ func (c *configServiceClient) CreateOverlay(ctx context.Context, in *CreateOverl
 	return out, nil
 }
 
-func (c *configServiceClient) GetOverlay(ctx context.Context, in *GetOverlayRequest, opts ...grpc.CallOption) (*OverlayResponse, error) {
+func (c *configServiceClient) GetOverlay(ctx context.Context, in *GetOverlayRequest, opts ...grpc.CallOption) (*GetOverlayResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(OverlayResponse)
+	out := new(GetOverlayResponse)
 	err := c.cc.Invoke(ctx, ConfigService_GetOverlay_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -446,9 +435,9 @@ func (c *configServiceClient) ListOverlays(ctx context.Context, in *ListOverlays
 	return out, nil
 }
 
-func (c *configServiceClient) DeleteOverlay(ctx context.Context, in *DeleteOverlayRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *configServiceClient) DeleteOverlay(ctx context.Context, in *DeleteOverlayRequest, opts ...grpc.CallOption) (*DeleteOverlayResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(emptypb.Empty)
+	out := new(DeleteOverlayResponse)
 	err := c.cc.Invoke(ctx, ConfigService_DeleteOverlay_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -456,9 +445,9 @@ func (c *configServiceClient) DeleteOverlay(ctx context.Context, in *DeleteOverl
 	return out, nil
 }
 
-func (c *configServiceClient) CreateWorkflow(ctx context.Context, in *CreateWorkflowRequest, opts ...grpc.CallOption) (*WorkflowResponse, error) {
+func (c *configServiceClient) CreateWorkflow(ctx context.Context, in *CreateWorkflowRequest, opts ...grpc.CallOption) (*CreateWorkflowResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(WorkflowResponse)
+	out := new(CreateWorkflowResponse)
 	err := c.cc.Invoke(ctx, ConfigService_CreateWorkflow_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -466,9 +455,9 @@ func (c *configServiceClient) CreateWorkflow(ctx context.Context, in *CreateWork
 	return out, nil
 }
 
-func (c *configServiceClient) GetWorkflow(ctx context.Context, in *GetWorkflowRequest, opts ...grpc.CallOption) (*WorkflowResponse, error) {
+func (c *configServiceClient) GetWorkflow(ctx context.Context, in *GetWorkflowRequest, opts ...grpc.CallOption) (*GetWorkflowResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(WorkflowResponse)
+	out := new(GetWorkflowResponse)
 	err := c.cc.Invoke(ctx, ConfigService_GetWorkflow_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -476,9 +465,9 @@ func (c *configServiceClient) GetWorkflow(ctx context.Context, in *GetWorkflowRe
 	return out, nil
 }
 
-func (c *configServiceClient) DeleteWorkflow(ctx context.Context, in *DeleteWorkflowRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *configServiceClient) DeleteWorkflow(ctx context.Context, in *DeleteWorkflowRequest, opts ...grpc.CallOption) (*DeleteWorkflowResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(emptypb.Empty)
+	out := new(DeleteWorkflowResponse)
 	err := c.cc.Invoke(ctx, ConfigService_DeleteWorkflow_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -489,16 +478,14 @@ func (c *configServiceClient) DeleteWorkflow(ctx context.Context, in *DeleteWork
 // ConfigServiceServer is the server API for ConfigService service.
 // All implementations must embed UnimplementedConfigServiceServer
 // for forward compatibility.
-//
-// Workflow config service methods
 type ConfigServiceServer interface {
-	CreateOverlay(context.Context, *CreateOverlayRequest) (*OverlayResponse, error)
-	GetOverlay(context.Context, *GetOverlayRequest) (*OverlayResponse, error)
+	CreateOverlay(context.Context, *CreateOverlayRequest) (*CreateOverlayResponse, error)
+	GetOverlay(context.Context, *GetOverlayRequest) (*GetOverlayResponse, error)
 	ListOverlays(context.Context, *ListOverlaysRequest) (*ListOverlaysResponse, error)
-	DeleteOverlay(context.Context, *DeleteOverlayRequest) (*emptypb.Empty, error)
-	CreateWorkflow(context.Context, *CreateWorkflowRequest) (*WorkflowResponse, error)
-	GetWorkflow(context.Context, *GetWorkflowRequest) (*WorkflowResponse, error)
-	DeleteWorkflow(context.Context, *DeleteWorkflowRequest) (*emptypb.Empty, error)
+	DeleteOverlay(context.Context, *DeleteOverlayRequest) (*DeleteOverlayResponse, error)
+	CreateWorkflow(context.Context, *CreateWorkflowRequest) (*CreateWorkflowResponse, error)
+	GetWorkflow(context.Context, *GetWorkflowRequest) (*GetWorkflowResponse, error)
+	DeleteWorkflow(context.Context, *DeleteWorkflowRequest) (*DeleteWorkflowResponse, error)
 	mustEmbedUnimplementedConfigServiceServer()
 }
 
@@ -509,25 +496,25 @@ type ConfigServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedConfigServiceServer struct{}
 
-func (UnimplementedConfigServiceServer) CreateOverlay(context.Context, *CreateOverlayRequest) (*OverlayResponse, error) {
+func (UnimplementedConfigServiceServer) CreateOverlay(context.Context, *CreateOverlayRequest) (*CreateOverlayResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateOverlay not implemented")
 }
-func (UnimplementedConfigServiceServer) GetOverlay(context.Context, *GetOverlayRequest) (*OverlayResponse, error) {
+func (UnimplementedConfigServiceServer) GetOverlay(context.Context, *GetOverlayRequest) (*GetOverlayResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOverlay not implemented")
 }
 func (UnimplementedConfigServiceServer) ListOverlays(context.Context, *ListOverlaysRequest) (*ListOverlaysResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListOverlays not implemented")
 }
-func (UnimplementedConfigServiceServer) DeleteOverlay(context.Context, *DeleteOverlayRequest) (*emptypb.Empty, error) {
+func (UnimplementedConfigServiceServer) DeleteOverlay(context.Context, *DeleteOverlayRequest) (*DeleteOverlayResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteOverlay not implemented")
 }
-func (UnimplementedConfigServiceServer) CreateWorkflow(context.Context, *CreateWorkflowRequest) (*WorkflowResponse, error) {
+func (UnimplementedConfigServiceServer) CreateWorkflow(context.Context, *CreateWorkflowRequest) (*CreateWorkflowResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateWorkflow not implemented")
 }
-func (UnimplementedConfigServiceServer) GetWorkflow(context.Context, *GetWorkflowRequest) (*WorkflowResponse, error) {
+func (UnimplementedConfigServiceServer) GetWorkflow(context.Context, *GetWorkflowRequest) (*GetWorkflowResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetWorkflow not implemented")
 }
-func (UnimplementedConfigServiceServer) DeleteWorkflow(context.Context, *DeleteWorkflowRequest) (*emptypb.Empty, error) {
+func (UnimplementedConfigServiceServer) DeleteWorkflow(context.Context, *DeleteWorkflowRequest) (*DeleteWorkflowResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteWorkflow not implemented")
 }
 func (UnimplementedConfigServiceServer) mustEmbedUnimplementedConfigServiceServer() {}
