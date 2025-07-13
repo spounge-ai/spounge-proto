@@ -97,14 +97,19 @@ jobs:
           docker buildx inspect --bootstrap
 
           
+      # repo lower
+      - name: Compute lowercase image tag
+        id: lower-tag
+        run: |
+          echo "repo_lower=$(echo 'ghcr.io/${{ github.repository_owner }}/protos-gen:latest' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
+
       # --- Build & Push Docker Image to GHCR ---
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-  
-          tags: echo "repo_lower=$(echo 'ghcr.io/${{ github.repository_owner }}/protos-gen:latest' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT
+          tags: ${{ steps.lower-tag.outputs.repo_lower }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
