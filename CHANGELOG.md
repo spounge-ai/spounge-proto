@@ -1,5 +1,11 @@
 # @spounge/proto
 
+## 1.0.6
+
+### Patch Changes
+
+- [`ed1c6ac`](https://github.com/SpoungeAI/spounge-proto/commit/ed1c6ac24a0339fd95ae26f49244bfe847cb0879) Thanks [@Evantopian](https://github.com/Evantopian)! - for git changesets
+
 ## 1.0.5
 
 ### Patch Changes
