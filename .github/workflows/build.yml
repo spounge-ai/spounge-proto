@@ -126,3 +126,17 @@ jobs:
             -w /app \
             ${{ steps.lower-tag.outputs.repo_lower }}:latest \
             sh -c "make test"
+            
+      - name: Check if version bump commit exists or changesets changed
+        id: check-bump
+        run: |
+          git fetch --unshallow || true
+          # Check if last commit message contains version bump
+          if git log -1 --pretty=%B | grep -q 'chore: version bump'; then
+            echo "bump=true" >> $GITHUB_OUTPUT
+          # Or if any .changeset files changed in this push
+          elif git diff --name-only HEAD^ HEAD | grep -q '^\.changeset/'; then
+            echo "bump=true" >> $GITHUB_OUTPUT
+          else
+            echo "bump=false" >> $GITHUB_OUTPUT
+          fi
