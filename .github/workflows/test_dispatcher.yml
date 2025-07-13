@@ -1,0 +1,11 @@
+name: Test Dispatch
+
+on:
+  repository_dispatch:
+    types: [trigger-release]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Dispatch event triggered!"
