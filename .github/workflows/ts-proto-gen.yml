@@ -7,7 +7,7 @@ on:
       - 'proto/**'
       - 'gen/ts/**'
       - '.changeset/**'
-      - '.github/workflows/proto-package-release.yml'
+      - '.github/workflows/ts-proto-gen.yml'
 
   pull_request:
     branches: [release]
@@ -15,7 +15,7 @@ on:
       - 'proto/**'
       - 'gen/ts/**'
       - '.changeset/**'
-      - '.github/workflows/proto-package-release.yml'
+      - '.github/workflows/ts-proto-gen.yml'
 
 jobs:
   release:
