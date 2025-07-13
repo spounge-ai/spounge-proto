@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="./spounge.webp" alt="Spounge Logo" width="80" style="border-radius: 15px;" />
+  <img src="./spounge.webp" alt="Spounge Logo" width="80" style="border-radius: 15px" />
   <br/>
   Spounge – Centralized Protocol Buffers
     <p align="center">

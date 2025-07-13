@@ -10,6 +10,7 @@ on:
       - 'scripts/generate_pb.sh'
       - 'scripts/ts_imports.sh'
       - '.github/workflows/build.yml'
+      - 'README.md'
       
   pull_request:
     paths:
