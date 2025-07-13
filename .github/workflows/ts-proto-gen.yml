@@ -1,13 +1,11 @@
 name: "@Spounge/proto Package Release"
 
 on:
-  workflow_run:
-    workflows: [Dockerized Go & TS Build]
-    types: [completed]
+  push:
     branches: [main]
+
 jobs:
-  release:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+ release:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -45,15 +43,6 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build TS output in Docker (using GHCR image)
-        run: |
-          docker pull ghcr.io/${{ github.repository_owner }}/protos-gen:latest
-          docker run --rm \
-            -v ${{ github.workspace }}:/app \
-            -w /app \
-            ghcr.io/${{ github.repository_owner }}/protos-gen:latest \
-            sh -c "npm run build"
 
       - name: Build TS and Go output in Docker (using GHCR image)
         run: |
