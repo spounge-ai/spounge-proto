@@ -1,6 +1,4 @@
-Of course. Here is the updated README with separate, detailed sections for the Go module and the TypeScript NPM package.
-
------
+# [AWAITING UPDATE (need to configure for correct installation and usage guide)]
 
 # Spounge AI - Centralized Protocol Buffers
 
