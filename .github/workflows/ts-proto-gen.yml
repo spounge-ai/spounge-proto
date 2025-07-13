@@ -2,7 +2,7 @@ name: Release TS Proto Package
 
 on:
   push:
-    branches: [main, ci]
+    branches: [main, release]
     paths:
       - 'proto/**'
       - 'gen/ts/**'
@@ -10,7 +10,7 @@ on:
       - '.github/workflows/ts-proto-gen.yml'
 
   pull_request:
-    branches: [main, ci]
+    branches: [main, release]
     paths:
       - 'proto/**'
       - 'gen/ts/**'
