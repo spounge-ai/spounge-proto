@@ -9,7 +9,6 @@ import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
 import Long from "long";
 import { EntityId, Pagination, Status } from "../../common/v1/common";
 import { APIKey } from "./api_key";
-import { DeleteProfileRequest, GetProfileRequest, UpdateProfileRequest, UserProfile } from "./user";
 import {
   CreateOverlayRequest,
   CreateWorkflowRequest,
@@ -21,7 +20,8 @@ import {
   ListOverlaysResponse,
   OverlayPreview,
   WorkflowConfig,
-} from "./workflow";
+} from "./overlay";
+import { DeleteProfileRequest, GetProfileRequest, UpdateProfileRequest, UserProfile } from "./user";
 
 export const protobufPackage = "user.v1";
 

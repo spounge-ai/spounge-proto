@@ -7,7 +7,7 @@
 package userv1
 
 import (
-	v1 "github.com/spoungeai/spounge-proto/gen/go/common/v1"
+	v1 "github.com/spounge-ai/spounge-proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -793,7 +793,7 @@ var File_user_v1_user_service_proto protoreflect.FileDescriptor
 
 const file_user_v1_user_service_proto_rawDesc = "" +
 	"\n" +
-	"\x1auser/v1/user_service.proto\x12\auser.v1\x1a\x12user/v1/user.proto\x1a\x15user/v1/api_key.proto\x1a\x16user/v1/workflow.proto\x1a\x16common/v1/common.proto\"o\n" +
+	"\x1auser/v1/user_service.proto\x12\auser.v1\x1a\x12user/v1/user.proto\x1a\x15user/v1/api_key.proto\x1a\x15user/v1/overlay.proto\x1a\x16common/v1/common.proto\"o\n" +
 	"\x12GetProfileResponse\x12)\n" +
 	"\x06status\x18\x01 \x01(\v2\x11.common.v1.StatusR\x06status\x12.\n" +
 	"\aprofile\x18\x02 \x01(\v2\x14.user.v1.UserProfileR\aprofile\"r\n" +
@@ -857,7 +857,7 @@ const file_user_v1_user_service_proto_rawDesc = "" +
 	"\rDeleteOverlay\x12\x1d.user.v1.DeleteOverlayRequest\x1a\x1e.user.v1.DeleteOverlayResponse\x12Q\n" +
 	"\x0eCreateWorkflow\x12\x1e.user.v1.CreateWorkflowRequest\x1a\x1f.user.v1.CreateWorkflowResponse\x12H\n" +
 	"\vGetWorkflow\x12\x1b.user.v1.GetWorkflowRequest\x1a\x1c.user.v1.GetWorkflowResponse\x12Q\n" +
-	"\x0eDeleteWorkflow\x12\x1e.user.v1.DeleteWorkflowRequest\x1a\x1f.user.v1.DeleteWorkflowResponseB\x17Z\x15gen/go/user/v1;userv1b\x06proto3"
+	"\x0eDeleteWorkflow\x12\x1e.user.v1.DeleteWorkflowRequest\x1a\x1f.user.v1.DeleteWorkflowResponseB;Z9github.com/spounge-ai/spounge-proto/gen/go/user/v1;userv1b\x06proto3"
 
 var (
 	file_user_v1_user_service_proto_rawDescOnce sync.Once
@@ -970,7 +970,7 @@ func file_user_v1_user_service_proto_init() {
 	}
 	file_user_v1_user_proto_init()
 	file_user_v1_api_key_proto_init()
-	file_user_v1_workflow_proto_init()
+	file_user_v1_overlay_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

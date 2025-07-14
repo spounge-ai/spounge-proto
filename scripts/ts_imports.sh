@@ -28,6 +28,16 @@ find_utility_source() {
     done | head -1
 }
 
+# Get main exported types from a TypeScript file (excluding utility types)
+get_main_exports() {
+    local file="$1"
+    # Extract export statements but exclude utility types
+    grep -E "^export (interface|class|type|const|enum|function)" "$file" 2>/dev/null | \
+    grep -v -E "(DeepPartial|Exact|MessageFns|protobufPackage)" | \
+    sed -E 's/^export (interface|class|type|const|enum|function) ([A-Za-z0-9_]+).*/\2/' | \
+    sort | uniq
+}
+
 # Function to create index file for a directory
 create_index() {
     local dir="$1"
@@ -58,11 +68,50 @@ create_index() {
             echo "export { $main_type } from './$basename';" >> "$temp_index"
         done
     else
-        # Normal export for other directories
-        find "$dir" -maxdepth 1 -name "*.ts" -not -name "index.ts" | while read -r file; do
-            local basename=$(basename "$file" .ts)
-            echo "export * from './$basename';" >> "$temp_index"
+        # For directories with multiple files, export utilities from first file only
+        local files=($(find "$dir" -maxdepth 1 -name "*.ts" -not -name "index.ts" | sort))
+        local utility_source_file=""
+        
+        # Find which file has utility types
+        for file in "${files[@]}"; do
+            if get_utility_types "$file" >/dev/null 2>&1; then
+                utility_source_file="$file"
+                break
+            fi
         done
+
+        # If we have multiple files in the directory, handle utilities specially
+        if [[ ${#files[@]} -gt 1 && -n "$utility_source_file" ]]; then
+            # Export everything from the utility source file
+            local utility_basename=$(basename "$utility_source_file" .ts)
+            echo "export * from './$utility_basename';" >> "$temp_index"
+            
+            # For other files, export only non-utility types
+            for file in "${files[@]}"; do
+                if [[ "$file" != "$utility_source_file" ]]; then
+                    local basename=$(basename "$file" .ts)
+                    local main_exports=$(get_main_exports "$file")
+                    
+                    if [[ -n "$main_exports" ]]; then
+                        # Export specific types, excluding utilities
+                        echo "$main_exports" | while read -r export_name; do
+                            if [[ -n "$export_name" ]]; then
+                                echo "export { $export_name } from './$basename';" >> "$temp_index"
+                            fi
+                        done
+                    else
+                        # Fallback: try to export everything except utilities
+                        echo "export * from './$basename';" >> "$temp_index"
+                    fi
+                fi
+            done
+        else
+            # Single file or no utilities found - use normal export
+            for file in "${files[@]}"; do
+                local basename=$(basename "$file" .ts)
+                echo "export * from './$basename';" >> "$temp_index"
+            done
+        fi
     fi
 
     # Export subdirectories that have TypeScript content
@@ -166,4 +215,3 @@ find "$TS_GEN_DIR" -name "*.ts" -not -name "index.ts" -exec sed -i.bak -E \
 find "$TS_GEN_DIR" -name "*.bak" -delete
 
 print_success "TypeScript index files generated successfully"
-

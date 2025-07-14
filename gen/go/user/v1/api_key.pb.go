@@ -7,7 +7,7 @@
 package userv1
 
 import (
-	v1 "github.com/spoungeai/spounge-proto/gen/go/common/v1"
+	v1 "github.com/spounge-ai/spounge-proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -352,7 +352,7 @@ const file_user_v1_api_key_proto_rawDesc = "" +
 	"\x04keys\x18\x02 \x03(\v2\x0f.user.v1.APIKeyR\x04keys\x125\n" +
 	"\n" +
 	"pagination\x18\x03 \x01(\v2\x15.common.v1.PaginationR\n" +
-	"paginationB\x17Z\x15gen/go/user/v1;userv1b\x06proto3"
+	"paginationB;Z9github.com/spounge-ai/spounge-proto/gen/go/user/v1;userv1b\x06proto3"
 
 var (
 	file_user_v1_api_key_proto_rawDescOnce sync.Once

@@ -2,12 +2,12 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v6.31.1
-// source: user/v1/workflow.proto
+// source: user/v1/overlay.proto
 
 package userv1
 
 import (
-	v1 "github.com/spoungeai/spounge-proto/gen/go/common/v1"
+	v1 "github.com/spounge-ai/spounge-proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	structpb "google.golang.org/protobuf/types/known/structpb"
@@ -40,7 +40,7 @@ type OverlayPreview struct {
 
 func (x *OverlayPreview) Reset() {
 	*x = OverlayPreview{}
-	mi := &file_user_v1_workflow_proto_msgTypes[0]
+	mi := &file_user_v1_overlay_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -52,7 +52,7 @@ func (x *OverlayPreview) String() string {
 func (*OverlayPreview) ProtoMessage() {}
 
 func (x *OverlayPreview) ProtoReflect() protoreflect.Message {
-	mi := &file_user_v1_workflow_proto_msgTypes[0]
+	mi := &file_user_v1_overlay_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -65,7 +65,7 @@ func (x *OverlayPreview) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OverlayPreview.ProtoReflect.Descriptor instead.
 func (*OverlayPreview) Descriptor() ([]byte, []int) {
-	return file_user_v1_workflow_proto_rawDescGZIP(), []int{0}
+	return file_user_v1_overlay_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *OverlayPreview) GetId() string {
@@ -131,7 +131,7 @@ type WorkflowConfig struct {
 
 func (x *WorkflowConfig) Reset() {
 	*x = WorkflowConfig{}
-	mi := &file_user_v1_workflow_proto_msgTypes[1]
+	mi := &file_user_v1_overlay_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -143,7 +143,7 @@ func (x *WorkflowConfig) String() string {
 func (*WorkflowConfig) ProtoMessage() {}
 
 func (x *WorkflowConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_user_v1_workflow_proto_msgTypes[1]
+	mi := &file_user_v1_overlay_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -156,7 +156,7 @@ func (x *WorkflowConfig) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WorkflowConfig.ProtoReflect.Descriptor instead.
 func (*WorkflowConfig) Descriptor() ([]byte, []int) {
-	return file_user_v1_workflow_proto_rawDescGZIP(), []int{1}
+	return file_user_v1_overlay_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *WorkflowConfig) GetId() string {
@@ -203,7 +203,7 @@ type CreateOverlayRequest struct {
 
 func (x *CreateOverlayRequest) Reset() {
 	*x = CreateOverlayRequest{}
-	mi := &file_user_v1_workflow_proto_msgTypes[2]
+	mi := &file_user_v1_overlay_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -215,7 +215,7 @@ func (x *CreateOverlayRequest) String() string {
 func (*CreateOverlayRequest) ProtoMessage() {}
 
 func (x *CreateOverlayRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_v1_workflow_proto_msgTypes[2]
+	mi := &file_user_v1_overlay_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -228,7 +228,7 @@ func (x *CreateOverlayRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateOverlayRequest.ProtoReflect.Descriptor instead.
 func (*CreateOverlayRequest) Descriptor() ([]byte, []int) {
-	return file_user_v1_workflow_proto_rawDescGZIP(), []int{2}
+	return file_user_v1_overlay_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *CreateOverlayRequest) GetConfig() *OverlayPreview {
@@ -247,7 +247,7 @@ type CreateWorkflowRequest struct {
 
 func (x *CreateWorkflowRequest) Reset() {
 	*x = CreateWorkflowRequest{}
-	mi := &file_user_v1_workflow_proto_msgTypes[3]
+	mi := &file_user_v1_overlay_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -259,7 +259,7 @@ func (x *CreateWorkflowRequest) String() string {
 func (*CreateWorkflowRequest) ProtoMessage() {}
 
 func (x *CreateWorkflowRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_v1_workflow_proto_msgTypes[3]
+	mi := &file_user_v1_overlay_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -272,7 +272,7 @@ func (x *CreateWorkflowRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateWorkflowRequest.ProtoReflect.Descriptor instead.
 func (*CreateWorkflowRequest) Descriptor() ([]byte, []int) {
-	return file_user_v1_workflow_proto_rawDescGZIP(), []int{3}
+	return file_user_v1_overlay_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *CreateWorkflowRequest) GetConfig() *WorkflowConfig {
@@ -291,7 +291,7 @@ type GetOverlayRequest struct {
 
 func (x *GetOverlayRequest) Reset() {
 	*x = GetOverlayRequest{}
-	mi := &file_user_v1_workflow_proto_msgTypes[4]
+	mi := &file_user_v1_overlay_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -303,7 +303,7 @@ func (x *GetOverlayRequest) String() string {
 func (*GetOverlayRequest) ProtoMessage() {}
 
 func (x *GetOverlayRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_v1_workflow_proto_msgTypes[4]
+	mi := &file_user_v1_overlay_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -316,7 +316,7 @@ func (x *GetOverlayRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetOverlayRequest.ProtoReflect.Descriptor instead.
 func (*GetOverlayRequest) Descriptor() ([]byte, []int) {
-	return file_user_v1_workflow_proto_rawDescGZIP(), []int{4}
+	return file_user_v1_overlay_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *GetOverlayRequest) GetId() *v1.EntityId {
@@ -335,7 +335,7 @@ type GetWorkflowRequest struct {
 
 func (x *GetWorkflowRequest) Reset() {
 	*x = GetWorkflowRequest{}
-	mi := &file_user_v1_workflow_proto_msgTypes[5]
+	mi := &file_user_v1_overlay_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -347,7 +347,7 @@ func (x *GetWorkflowRequest) String() string {
 func (*GetWorkflowRequest) ProtoMessage() {}
 
 func (x *GetWorkflowRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_v1_workflow_proto_msgTypes[5]
+	mi := &file_user_v1_overlay_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -360,7 +360,7 @@ func (x *GetWorkflowRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetWorkflowRequest.ProtoReflect.Descriptor instead.
 func (*GetWorkflowRequest) Descriptor() ([]byte, []int) {
-	return file_user_v1_workflow_proto_rawDescGZIP(), []int{5}
+	return file_user_v1_overlay_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *GetWorkflowRequest) GetId() *v1.EntityId {
@@ -379,7 +379,7 @@ type DeleteOverlayRequest struct {
 
 func (x *DeleteOverlayRequest) Reset() {
 	*x = DeleteOverlayRequest{}
-	mi := &file_user_v1_workflow_proto_msgTypes[6]
+	mi := &file_user_v1_overlay_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -391,7 +391,7 @@ func (x *DeleteOverlayRequest) String() string {
 func (*DeleteOverlayRequest) ProtoMessage() {}
 
 func (x *DeleteOverlayRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_v1_workflow_proto_msgTypes[6]
+	mi := &file_user_v1_overlay_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -404,7 +404,7 @@ func (x *DeleteOverlayRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteOverlayRequest.ProtoReflect.Descriptor instead.
 func (*DeleteOverlayRequest) Descriptor() ([]byte, []int) {
-	return file_user_v1_workflow_proto_rawDescGZIP(), []int{6}
+	return file_user_v1_overlay_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *DeleteOverlayRequest) GetId() *v1.EntityId {
@@ -423,7 +423,7 @@ type DeleteWorkflowRequest struct {
 
 func (x *DeleteWorkflowRequest) Reset() {
 	*x = DeleteWorkflowRequest{}
-	mi := &file_user_v1_workflow_proto_msgTypes[7]
+	mi := &file_user_v1_overlay_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -435,7 +435,7 @@ func (x *DeleteWorkflowRequest) String() string {
 func (*DeleteWorkflowRequest) ProtoMessage() {}
 
 func (x *DeleteWorkflowRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_v1_workflow_proto_msgTypes[7]
+	mi := &file_user_v1_overlay_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -448,7 +448,7 @@ func (x *DeleteWorkflowRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteWorkflowRequest.ProtoReflect.Descriptor instead.
 func (*DeleteWorkflowRequest) Descriptor() ([]byte, []int) {
-	return file_user_v1_workflow_proto_rawDescGZIP(), []int{7}
+	return file_user_v1_overlay_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *DeleteWorkflowRequest) GetId() *v1.EntityId {
@@ -468,7 +468,7 @@ type OverlayResponse struct {
 
 func (x *OverlayResponse) Reset() {
 	*x = OverlayResponse{}
-	mi := &file_user_v1_workflow_proto_msgTypes[8]
+	mi := &file_user_v1_overlay_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -480,7 +480,7 @@ func (x *OverlayResponse) String() string {
 func (*OverlayResponse) ProtoMessage() {}
 
 func (x *OverlayResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_v1_workflow_proto_msgTypes[8]
+	mi := &file_user_v1_overlay_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -493,7 +493,7 @@ func (x *OverlayResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OverlayResponse.ProtoReflect.Descriptor instead.
 func (*OverlayResponse) Descriptor() ([]byte, []int) {
-	return file_user_v1_workflow_proto_rawDescGZIP(), []int{8}
+	return file_user_v1_overlay_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *OverlayResponse) GetStatus() *v1.Status {
@@ -520,7 +520,7 @@ type WorkflowResponse struct {
 
 func (x *WorkflowResponse) Reset() {
 	*x = WorkflowResponse{}
-	mi := &file_user_v1_workflow_proto_msgTypes[9]
+	mi := &file_user_v1_overlay_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -532,7 +532,7 @@ func (x *WorkflowResponse) String() string {
 func (*WorkflowResponse) ProtoMessage() {}
 
 func (x *WorkflowResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_v1_workflow_proto_msgTypes[9]
+	mi := &file_user_v1_overlay_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -545,7 +545,7 @@ func (x *WorkflowResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WorkflowResponse.ProtoReflect.Descriptor instead.
 func (*WorkflowResponse) Descriptor() ([]byte, []int) {
-	return file_user_v1_workflow_proto_rawDescGZIP(), []int{9}
+	return file_user_v1_overlay_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *WorkflowResponse) GetStatus() *v1.Status {
@@ -573,7 +573,7 @@ type ListOverlaysRequest struct {
 
 func (x *ListOverlaysRequest) Reset() {
 	*x = ListOverlaysRequest{}
-	mi := &file_user_v1_workflow_proto_msgTypes[10]
+	mi := &file_user_v1_overlay_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -585,7 +585,7 @@ func (x *ListOverlaysRequest) String() string {
 func (*ListOverlaysRequest) ProtoMessage() {}
 
 func (x *ListOverlaysRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_v1_workflow_proto_msgTypes[10]
+	mi := &file_user_v1_overlay_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -598,7 +598,7 @@ func (x *ListOverlaysRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListOverlaysRequest.ProtoReflect.Descriptor instead.
 func (*ListOverlaysRequest) Descriptor() ([]byte, []int) {
-	return file_user_v1_workflow_proto_rawDescGZIP(), []int{10}
+	return file_user_v1_overlay_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *ListOverlaysRequest) GetUserId() string {
@@ -633,7 +633,7 @@ type ListOverlaysResponse struct {
 
 func (x *ListOverlaysResponse) Reset() {
 	*x = ListOverlaysResponse{}
-	mi := &file_user_v1_workflow_proto_msgTypes[11]
+	mi := &file_user_v1_overlay_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -645,7 +645,7 @@ func (x *ListOverlaysResponse) String() string {
 func (*ListOverlaysResponse) ProtoMessage() {}
 
 func (x *ListOverlaysResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_v1_workflow_proto_msgTypes[11]
+	mi := &file_user_v1_overlay_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -658,7 +658,7 @@ func (x *ListOverlaysResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListOverlaysResponse.ProtoReflect.Descriptor instead.
 func (*ListOverlaysResponse) Descriptor() ([]byte, []int) {
-	return file_user_v1_workflow_proto_rawDescGZIP(), []int{11}
+	return file_user_v1_overlay_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *ListOverlaysResponse) GetStatus() *v1.Status {
@@ -682,11 +682,11 @@ func (x *ListOverlaysResponse) GetPagination() *v1.Pagination {
 	return nil
 }
 
-var File_user_v1_workflow_proto protoreflect.FileDescriptor
+var File_user_v1_overlay_proto protoreflect.FileDescriptor
 
-const file_user_v1_workflow_proto_rawDesc = "" +
+const file_user_v1_overlay_proto_rawDesc = "" +
 	"\n" +
-	"\x16user/v1/workflow.proto\x12\auser.v1\x1a\x1cgoogle/protobuf/struct.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x16common/v1/common.proto\"\xf4\x01\n" +
+	"\x15user/v1/overlay.proto\x12\auser.v1\x1a\x1cgoogle/protobuf/struct.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x16common/v1/common.proto\"\xf4\x01\n" +
 	"\x0eOverlayPreview\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x12\n" +
@@ -731,22 +731,22 @@ const file_user_v1_workflow_proto_rawDesc = "" +
 	"\boverlays\x18\x02 \x03(\v2\x17.user.v1.OverlayPreviewR\boverlays\x125\n" +
 	"\n" +
 	"pagination\x18\x03 \x01(\v2\x15.common.v1.PaginationR\n" +
-	"paginationB\x17Z\x15gen/go/user/v1;userv1b\x06proto3"
+	"paginationB;Z9github.com/spounge-ai/spounge-proto/gen/go/user/v1;userv1b\x06proto3"
 
 var (
-	file_user_v1_workflow_proto_rawDescOnce sync.Once
-	file_user_v1_workflow_proto_rawDescData []byte
+	file_user_v1_overlay_proto_rawDescOnce sync.Once
+	file_user_v1_overlay_proto_rawDescData []byte
 )
 
-func file_user_v1_workflow_proto_rawDescGZIP() []byte {
-	file_user_v1_workflow_proto_rawDescOnce.Do(func() {
-		file_user_v1_workflow_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_user_v1_workflow_proto_rawDesc), len(file_user_v1_workflow_proto_rawDesc)))
+func file_user_v1_overlay_proto_rawDescGZIP() []byte {
+	file_user_v1_overlay_proto_rawDescOnce.Do(func() {
+		file_user_v1_overlay_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_user_v1_overlay_proto_rawDesc), len(file_user_v1_overlay_proto_rawDesc)))
 	})
-	return file_user_v1_workflow_proto_rawDescData
+	return file_user_v1_overlay_proto_rawDescData
 }
 
-var file_user_v1_workflow_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
-var file_user_v1_workflow_proto_goTypes = []any{
+var file_user_v1_overlay_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_user_v1_overlay_proto_goTypes = []any{
 	(*OverlayPreview)(nil),        // 0: user.v1.OverlayPreview
 	(*WorkflowConfig)(nil),        // 1: user.v1.WorkflowConfig
 	(*CreateOverlayRequest)(nil),  // 2: user.v1.CreateOverlayRequest
@@ -765,7 +765,7 @@ var file_user_v1_workflow_proto_goTypes = []any{
 	(*v1.Status)(nil),             // 15: common.v1.Status
 	(*v1.Pagination)(nil),         // 16: common.v1.Pagination
 }
-var file_user_v1_workflow_proto_depIdxs = []int32{
+var file_user_v1_overlay_proto_depIdxs = []int32{
 	12, // 0: user.v1.OverlayPreview.created_at:type_name -> google.protobuf.Timestamp
 	0,  // 1: user.v1.WorkflowConfig.base_overlay:type_name -> user.v1.OverlayPreview
 	13, // 2: user.v1.WorkflowConfig.api_configs:type_name -> google.protobuf.Struct
@@ -790,26 +790,26 @@ var file_user_v1_workflow_proto_depIdxs = []int32{
 	0,  // [0:17] is the sub-list for field type_name
 }
 
-func init() { file_user_v1_workflow_proto_init() }
-func file_user_v1_workflow_proto_init() {
-	if File_user_v1_workflow_proto != nil {
+func init() { file_user_v1_overlay_proto_init() }
+func file_user_v1_overlay_proto_init() {
+	if File_user_v1_overlay_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_v1_workflow_proto_rawDesc), len(file_user_v1_workflow_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_v1_overlay_proto_rawDesc), len(file_user_v1_overlay_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_user_v1_workflow_proto_goTypes,
-		DependencyIndexes: file_user_v1_workflow_proto_depIdxs,
-		MessageInfos:      file_user_v1_workflow_proto_msgTypes,
+		GoTypes:           file_user_v1_overlay_proto_goTypes,
+		DependencyIndexes: file_user_v1_overlay_proto_depIdxs,
+		MessageInfos:      file_user_v1_overlay_proto_msgTypes,
 	}.Build()
-	File_user_v1_workflow_proto = out.File
-	file_user_v1_workflow_proto_goTypes = nil
-	file_user_v1_workflow_proto_depIdxs = nil
+	File_user_v1_overlay_proto = out.File
+	file_user_v1_overlay_proto_goTypes = nil
+	file_user_v1_overlay_proto_depIdxs = nil
 }
