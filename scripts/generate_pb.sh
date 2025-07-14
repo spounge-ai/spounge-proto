@@ -76,7 +76,7 @@ if [ -z "$MODE" ] || [ "$MODE" == "go" ]; then
   # --- Ensure go.mod exists in gen/go ---
   GO_MOD_FILE="$ROOT_DIR/gen/go/go.mod"
   if [ ! -f "$GO_MOD_FILE" ]; then
-    echo "module github.com/spoungeai/spounge-proto/gen/go" > "$GO_MOD_FILE"
+    echo "module github.com/spounge-ai/spounge-proto/gen/go" > "$GO_MOD_FILE"
     echo "" >> "$GO_MOD_FILE"
     echo "go 1.24.1" >> "$GO_MOD_FILE"
     print_info "Created go.mod in gen/go"

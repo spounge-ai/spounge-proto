@@ -1,3 +1,3 @@
-export * from './timestamp';
+export * from './any';
+export { Timestamp } from './timestamp';
 export { Struct } from './struct';
-export { Any } from './any';
