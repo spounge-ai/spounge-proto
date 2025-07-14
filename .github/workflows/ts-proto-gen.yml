@@ -6,16 +6,20 @@ on:
     paths:
       - 'proto/**'
       - 'gen/ts/**'
+      - 'gen/go/**'
       - '.changeset/**'
       - '.github/workflows/ts-proto-gen.yml'
+      - 'package.json'
 
   pull_request:
     branches: [release]
     paths:
       - 'proto/**'
       - 'gen/ts/**'
+      - 'gen/go/**'
       - '.changeset/**'
       - '.github/workflows/ts-proto-gen.yml'
+      - 'package.json'
 
 jobs:
   release:
