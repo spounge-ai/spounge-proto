@@ -6,7 +6,7 @@ import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/any.proto";
 
-option go_package = "github.com/spoungeai/spounge-proto/gen/go/common/v1;commonv1";
+option go_package = "github.com/spounge-ai/spounge-proto/gen/go/common/v1;commonv1";
 
 // Generic status message for RPC responses and error reporting
 message Status {

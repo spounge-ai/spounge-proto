@@ -1,6 +1,6 @@
 {
   "name": "@spounge/proto",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Shared protobuf definitions for Spounge microservices",
   "main": "gen/ts/index.js",
   "types": "gen/ts/index.d.ts",
