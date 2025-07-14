@@ -7,7 +7,7 @@
 package polykeyv1
 
 import (
-	v1 "github.com/spoungeai/spounge-proto/gen/go/common/v1"
+	v1 "github.com/spounge-ai/spounge-proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	structpb "google.golang.org/protobuf/types/known/structpb"
@@ -447,7 +447,7 @@ const file_polykey_v1_polykey_proto_rawDesc = "" +
 	"\x06output2\xc4\x01\n" +
 	"\x0ePolykeyService\x12N\n" +
 	"\vExecuteTool\x12\x1e.polykey.v1.ExecuteToolRequest\x1a\x1f.polykey.v1.ExecuteToolResponse\x12b\n" +
-	"\x11ExecuteToolStream\x12$.polykey.v1.ExecuteToolStreamRequest\x1a%.polykey.v1.ExecuteToolStreamResponse0\x01B@Z>github.com/spoungeai/spounge-proto/gen/go/polykey/v1;polykeyv1b\x06proto3"
+	"\x11ExecuteToolStream\x12$.polykey.v1.ExecuteToolStreamRequest\x1a%.polykey.v1.ExecuteToolStreamResponse0\x01BAZ?github.com/spounge-ai/spounge-proto/gen/go/polykey/v1;polykeyv1b\x06proto3"
 
 var (
 	file_polykey_v1_polykey_proto_rawDescOnce sync.Once
