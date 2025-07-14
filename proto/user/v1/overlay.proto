@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package user.v1;
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "common/v1/common.proto";
+
+option go_package = "github.com/spounge-ai/spounge-proto/gen/go/user/v1;userv1";
+
+// Smaller preview config used for listing overlays
+message OverlayPreview {
+  string id = 1;
+  string user_id = 2;
+  string name = 3;
+  string overlay_type = 4;
+  string preview_image_url = 5;
+  repeated string key_types = 6;
+  google.protobuf.Timestamp created_at = 7;
+}
+
+// Full dynamic workflow config
+message WorkflowConfig {
+  string id = 1;
+  string user_id = 2;
+  OverlayPreview base_overlay = 3;
+  google.protobuf.Struct api_configs = 4;
+  google.protobuf.Timestamp created_at = 5;
+}
+
+message CreateOverlayRequest {
+  OverlayPreview config = 1;
+}
+
+message CreateWorkflowRequest {
+  WorkflowConfig config = 1;
+}
+
+message GetOverlayRequest {
+  common.v1.EntityId id = 1;
+}
+
+message GetWorkflowRequest {
+  common.v1.EntityId id = 1;
+}
+
+message DeleteOverlayRequest {
+  common.v1.EntityId id = 1;
+}
+
+message DeleteWorkflowRequest {
+  common.v1.EntityId id = 1;
+}
+
+message OverlayResponse {
+  common.v1.Status status = 1;
+  OverlayPreview config = 2;
+}
+
+message WorkflowResponse {
+  common.v1.Status status = 1;
+  WorkflowConfig config = 2;
+}
+
+message ListOverlaysRequest {
+  string user_id = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+}
+
+message ListOverlaysResponse {
+  common.v1.Status status = 1;
+  repeated OverlayPreview overlays = 2;
+  common.v1.Pagination pagination = 3;
+}

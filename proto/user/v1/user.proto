@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package user.v1;
+
+import "google/protobuf/timestamp.proto";
+import "common/v1/common.proto";
+
+option go_package = "github.com/spounge-ai/spounge-proto/gen/go/user/v1;userv1";
+
+message UserProfile {
+  string id = 1;
+  string email = 2;
+  string username = 3;
+  string profile_image_url = 4;
+  string plan = 5;
+  google.protobuf.Timestamp created_at = 6;
+}
+
+message GetProfileRequest {
+  common.v1.EntityId id = 1;
+}
+
+message UpdateProfileRequest {
+  string id = 1;
+  string email = 2;
+  string username = 3;
+  string profile_image_url = 4;
+  string plan = 5;
+}
+
+message DeleteProfileRequest {
+  common.v1.EntityId id = 1;
+}
+
+message ProfileResponse {
+  common.v1.Status status = 1;
+  UserProfile profile = 2;
+}
