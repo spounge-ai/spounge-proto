@@ -1,0 +1,109 @@
+syntax = "proto3";
+
+package user.v1;
+
+import "user/v1/user.proto";
+import "user/v1/api_key.proto";
+import "user/v1/workflow.proto";
+import "common/v1/common.proto";
+
+option go_package = "gen/go/user/v1;userv1";
+
+// User Profile Service
+message GetProfileResponse {
+  common.v1.Status status = 1;
+  UserProfile profile = 2;
+}
+
+message UpdateProfileResponse {
+  common.v1.Status status = 1;
+  UserProfile profile = 2;
+}
+
+message DeleteProfileResponse {
+  common.v1.Status status = 1;
+}
+
+service UserProfileService {
+  rpc GetProfile(GetProfileRequest) returns (GetProfileResponse);
+  rpc UpdateProfile(UpdateProfileRequest) returns (UpdateProfileResponse);
+  rpc DeleteProfile(DeleteProfileRequest) returns (DeleteProfileResponse);
+}
+
+// API Key Service
+message CreateKeyRequest {
+  string user_id = 1;
+  string hashed_key = 2;
+  string name = 3;
+}
+
+message CreateKeyResponse {
+  common.v1.Status status = 1;
+  APIKey key = 2;
+}
+
+message DeleteKeyRequest {
+  common.v1.EntityId id = 1;
+}
+
+message DeleteKeyResponse {
+  common.v1.Status status = 1;
+}
+
+message ListKeysRequest {
+  string user_id = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+}
+
+message ListKeysResponse {
+  common.v1.Status status = 1;
+  repeated APIKey keys = 2;
+  common.v1.Pagination pagination = 3;
+}
+
+service APIKeyService {
+  rpc CreateKey(CreateKeyRequest) returns (CreateKeyResponse);
+  rpc DeleteKey(DeleteKeyRequest) returns (DeleteKeyResponse);
+  rpc ListKeys(ListKeysRequest) returns (ListKeysResponse);
+}
+
+// Workflow Service
+message CreateOverlayResponse {
+  common.v1.Status status = 1;
+  OverlayPreview config = 2;
+}
+
+message GetOverlayResponse {
+  common.v1.Status status = 1;
+  OverlayPreview config = 2;
+}
+
+message DeleteOverlayResponse {
+  common.v1.Status status = 1;
+}
+
+message CreateWorkflowResponse {
+  common.v1.Status status = 1;
+  WorkflowConfig config = 2;
+}
+
+message GetWorkflowResponse {
+  common.v1.Status status = 1;
+  WorkflowConfig config = 2;
+}
+
+message DeleteWorkflowResponse {
+  common.v1.Status status = 1;
+}
+
+service ConfigService {
+  rpc CreateOverlay(CreateOverlayRequest) returns (CreateOverlayResponse);
+  rpc GetOverlay(GetOverlayRequest) returns (GetOverlayResponse);
+  rpc ListOverlays(ListOverlaysRequest) returns (ListOverlaysResponse);
+  rpc DeleteOverlay(DeleteOverlayRequest) returns (DeleteOverlayResponse);
+
+  rpc CreateWorkflow(CreateWorkflowRequest) returns (CreateWorkflowResponse);
+  rpc GetWorkflow(GetWorkflowRequest) returns (GetWorkflowResponse);
+  rpc DeleteWorkflow(DeleteWorkflowRequest) returns (DeleteWorkflowResponse);
+}
