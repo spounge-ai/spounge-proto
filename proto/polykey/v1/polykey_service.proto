@@ -1,0 +1,40 @@
+// File: proto/polykey/v1/polykey_service.proto
+// Defines the secure tool execution gateway.
+syntax = "proto3";
+
+package polykey.v1;
+
+import "common/v1/common.proto";
+import "google/protobuf/struct.proto";
+
+option go_package = "github.com/spoungeai/spounge-protos/gen/go/polykey/v1;polykeyv1";
+
+// PolykeyService is a hardened, minimal-privilege service for securely executing tools.
+service PolykeyService {
+  // Executes a tool with the given parameters.
+  rpc ExecuteTool(ExecuteToolRequest) returns (ExecuteToolResponse);
+}
+
+// ExecuteToolRequest contains the full context for a tool execution.
+message ExecuteToolRequest {
+  // The fully qualified name of the tool to run, e.g., "llm.v1.GenerateText".
+  string tool_name = 1;
+  // The parameters for the tool.
+  google.protobuf.Struct parameters = 2;
+  // Optional ID of a user-managed secret to use for this execution.
+  optional string secret_id = 3;
+  // Metadata containing user_id, workflow_run_id, etc.
+  common.v1.Metadata metadata = 4;
+}
+
+// ExecuteToolResponse contains the output from the tool execution.
+message ExecuteToolResponse {
+  common.v1.Status status = 1;
+
+  // The output of the tool can be one of several types.
+  oneof output {
+    string string_output = 2;
+    google.protobuf.Struct struct_output = 3;
+    common.v1.File file_output = 4;
+  }
+}

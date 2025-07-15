@@ -1,0 +1,44 @@
+// File: proto/auth/v1/auth_service.proto
+// Defines the authentication service for user login, logout, and token management.
+syntax = "proto3";
+
+package auth.v1;
+
+import "auth/v1/token.proto";
+import "common/v1/common.proto";
+import "google/protobuf/empty.proto";
+import "user/v1/user.proto";
+
+option go_package = "github.com/spoungeai/spounge-protos/gen/go/auth/v1;authv1";
+
+// AuthService handles user authentication and session management.
+service AuthService {
+  rpc Login(LoginRequest) returns (LoginResponse) {}
+  rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse) {}
+  // Logout invalidates the user's session based on the provided auth token.
+  rpc Logout(google.protobuf.Empty) returns (LogoutResponse) {}
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  common.v1.Status status = 1;
+  AuthToken token = 2;
+  user.v1.UserProfile user = 3;
+}
+
+message RefreshTokenRequest {
+  string refresh_token = 1;
+}
+
+message RefreshTokenResponse {
+  common.v1.Status status = 1;
+  AuthToken token = 2;
+}
+
+message LogoutResponse {
+  common.v1.Status status = 1;
+}

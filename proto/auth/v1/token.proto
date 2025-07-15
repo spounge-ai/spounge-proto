@@ -1,0 +1,30 @@
+// File: proto/auth/v1/token.proto
+// Defines the canonical AuthToken message for authentication responses.
+syntax = "proto3";
+
+package auth.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/spoungeai/spounge-protos/gen/go/auth/v1;authv1";
+
+// The type of the authentication token.
+enum TokenType {
+  TOKEN_TYPE_UNSPECIFIED = 0;
+  // Standard bearer token.
+  TOKEN_TYPE_BEARER = 1;
+}
+
+// AuthToken represents the tokens issued upon successful authentication.
+message AuthToken {
+  // The access token for API requests.
+  string access_token = 1;
+  // The refresh token to obtain a new access token.
+  string refresh_token = 2;
+  // The expiration time of the access token.
+  google.protobuf.Timestamp expires_at = 3;
+  // The type of the token, typically "Bearer".
+  TokenType token_type = 4;
+  // The unique identifier for the session.
+  string session_id = 5;
+}

@@ -1,0 +1,64 @@
+// File: proto/workflow/v1/execution_service.proto
+// Defines the service for controlling the runtime lifecycle of workflow executions.
+syntax = "proto3";
+
+package workflow.v1;
+
+import "common/v1/common.proto";
+import "google/protobuf/struct.proto";
+import "workflow/v1/execution.proto";
+
+option go_package = "github.com/spoungeai/spounge-protos/gen/go/workflow/v1;workflowv1";
+
+// ExecutionService manages the runtime of workflows.
+// User identity is inferred from the auth token for all requests.
+service ExecutionService {
+  rpc StartExecution(StartExecutionRequest) returns (StartExecutionResponse) {}
+  rpc GetExecution(GetExecutionRequest) returns (GetExecutionResponse) {}
+  rpc ListExecutions(ListExecutionsRequest) returns (ListExecutionsResponse) {}
+  rpc CancelExecution(CancelExecutionRequest) returns (CancelExecutionResponse) {}
+  // Streams real-time updates for a running workflow.
+  rpc StreamExecution(StreamExecutionRequest) returns (stream WorkflowExecutionUpdate) {}
+}
+
+message StartExecutionRequest {
+  string workflow_id = 1;
+  // An optional version to run. If not set, the latest version is used.
+  optional int32 workflow_version = 2;
+  // The initial data to seed the workflow's context.
+  google.protobuf.Struct initial_context = 3;
+}
+
+message StartExecutionResponse {
+  WorkflowExecution execution = 1;
+}
+
+message GetExecutionRequest {
+  string execution_id = 1;
+}
+
+message GetExecutionResponse {
+  WorkflowExecution execution = 1;
+}
+
+message ListExecutionsRequest {
+  string workflow_id = 1;
+  common.v1.PaginationParams pagination = 2;
+}
+
+message ListExecutionsResponse {
+  repeated WorkflowExecution executions = 1;
+  common.v1.PaginationResult pagination = 2;
+}
+
+message CancelExecutionRequest {
+  string execution_id = 1;
+}
+
+message CancelExecutionResponse {
+  common.v1.Status status = 1;
+}
+
+message StreamExecutionRequest {
+  string execution_id = 1;
+}
