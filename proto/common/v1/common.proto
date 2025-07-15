@@ -1,65 +1,58 @@
+// File: proto/common/v1/common.proto
+// Contains generic, reusable messages for status, pagination, and other common types.
 syntax = "proto3";
 
 package common.v1;
 
 import "google/protobuf/struct.proto";
-import "google/protobuf/timestamp.proto";
-import "google/protobuf/any.proto";
 
-option go_package = "github.com/spounge-ai/spounge-proto/gen/go/common/v1;commonv1";
+option go_package = "github.com/spoungeai/spounge-protos/gen/go/common/v1;commonv1";
 
-// Generic status message for RPC responses and error reporting
+// Status is a standard message for returning operation status.
+// It's modeled after google.rpc.Status.
 message Status {
+  // The status code, which should be an enum value of google.rpc.Code.
   int32 code = 1;
+  // A developer-facing error message.
   string message = 2;
+  // A list of messages that carry the error details.
   google.protobuf.Struct details = 3;
 }
 
-// Represents a file with name, mime type, and raw content
+// File represents a file with its content and metadata.
 message File {
   string file_name = 1;
   string mime_type = 2;
   bytes content = 3;
 }
 
-// Generic key-value metadata map, useful for tagging or custom attributes
-message Metadata {
-  map<string, string> fields = 1;
-}
-
-// Detailed structured error information
-message ErrorDetail {
-  string type = 1;             // e.g. "ValidationError", "AuthError"
-  string message = 2;
-  google.protobuf.Struct info = 3;  
-}
-
-// Timestamp wrapper for events or audit logs
-message TimestampedEvent {
-  google.protobuf.Timestamp created_at = 1;
-}
-
-// Pagination info for list endpoints
-message Pagination {
+// PaginationParams defines parameters for paginated requests.
+message PaginationParams {
+  // The page number, 1-based.
   int32 page = 1;
+  // The number of items to return per page.
   int32 page_size = 2;
+}
+
+// PaginationResult provides metadata for paginated responses.
+message PaginationResult {
+  // The current page number, 1-based.
+  int32 page = 1;
+  // The number of items returned per page.
+  int32 page_size = 2;
+  // The total number of items available.
   int32 total_items = 3;
+  // The total number of pages available.
+  int32 total_pages = 4;
 }
 
-// Generic API response wrapper with status and optional payload
-message ResponseWrapper {
-  Status status = 1;
-  google.protobuf.Any payload = 2;
-}
-
-// Common ID wrapper for referencing entities like workflows, executions, etc.
+// EntityId is a generic wrapper for a resource ID.
 message EntityId {
   string id = 1;
 }
 
-// Result of workflow execution or similar async process
-message ExecutionResult {
-  string execution_id = 1;
-  Status status = 2;
-  google.protobuf.Struct output = 3;
+// Metadata provides a generic key-value store for additional context.
+message Metadata {
+  // A map of string keys to string values for arbitrary metadata.
+  map<string, string> fields = 1;
 }

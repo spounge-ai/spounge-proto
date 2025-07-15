@@ -1,0 +1,82 @@
+// File: proto/workflow/v1/workflow_service.proto
+// Defines the service for the management (CRUD) of WorkflowConfig definitions.
+syntax = "proto3";
+
+package workflow.v1;
+
+import "common/v1/common.proto";
+import "google/protobuf/field_mask.proto";
+import "workflow/v1/workflow.proto";
+
+option go_package = "github.com/spoungeai/spounge-protos/gen/go/workflow/v1;workflowv1";
+
+// WorkflowService provides RPCs for managing workflow definitions.
+// User identity is inferred from the auth token for all requests.
+service WorkflowService {
+  rpc CreateWorkflow(CreateWorkflowRequest) returns (CreateWorkflowResponse) {}
+  rpc GetWorkflow(GetWorkflowRequest) returns (GetWorkflowResponse) {}
+  rpc UpdateWorkflow(UpdateWorkflowRequest) returns (UpdateWorkflowResponse) {}
+  rpc DeleteWorkflow(DeleteWorkflowRequest) returns (DeleteWorkflowResponse) {}
+  rpc ListWorkflows(ListWorkflowsRequest) returns (ListWorkflowsResponse) {}
+  rpc ListWorkflowVersions(ListWorkflowVersionsRequest) returns (ListWorkflowVersionsResponse) {}
+}
+
+message CreateWorkflowRequest {
+  string name = 1;
+  optional string description = 2;
+  repeated WorkflowStep steps = 3;
+}
+
+message CreateWorkflowResponse {
+  WorkflowConfig workflow = 1;
+}
+
+message GetWorkflowRequest {
+  string workflow_id = 1;
+  // The version to retrieve. If not set, the latest version is returned.
+  optional int32 version = 2;
+}
+
+message GetWorkflowResponse {
+  WorkflowConfig workflow = 1;
+}
+
+message UpdateWorkflowRequest {
+  string workflow_id = 1;
+  // A field mask to specify which fields of the workflow to update.
+  google.protobuf.FieldMask update_mask = 2;
+  // The updated workflow definition. Only 'name', 'description', and 'steps' can be updated.
+  string name = 3;
+  optional string description = 4;
+  repeated WorkflowStep steps = 5;
+}
+
+message UpdateWorkflowResponse {
+  // Returns the new version of the updated workflow.
+  WorkflowConfig workflow = 1;
+}
+
+message DeleteWorkflowRequest {
+  string workflow_id = 1;
+}
+
+message DeleteWorkflowResponse {
+  common.v1.Status status = 1;
+}
+
+message ListWorkflowsRequest {
+  common.v1.PaginationParams pagination = 1;
+}
+
+message ListWorkflowsResponse {
+  repeated WorkflowConfig workflows = 1;
+  common.v1.PaginationResult pagination = 2;
+}
+
+message ListWorkflowVersionsRequest {
+  string workflow_id = 1;
+}
+
+message ListWorkflowVersionsResponse {
+  repeated WorkflowConfig versions = 1;
+}
