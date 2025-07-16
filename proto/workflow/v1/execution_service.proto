@@ -8,7 +8,7 @@ import "common/v1/common.proto";
 import "google/protobuf/struct.proto";
 import "workflow/v1/execution.proto";
 
-option go_package = "github.com/spoungeai/spounge-protos/gen/go/workflow/v1;workflowv1";
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/workflow/v1;workflowv1";
 
 // ExecutionService manages the runtime of workflows.
 // User identity is inferred from the auth token for all requests.

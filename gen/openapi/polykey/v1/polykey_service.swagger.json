@@ -1,0 +1,123 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "polykey/v1/polykey_service.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "PolykeyService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {},
+  "definitions": {
+    "commonv1Status": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The status code, which should be an enum value of google.rpc.Code."
+        },
+        "message": {
+          "type": "string",
+          "description": "A developer-facing error message."
+        },
+        "details": {
+          "type": "object",
+          "description": "A list of messages that carry the error details."
+        }
+      },
+      "description": "Status is a standard message for returning operation status.\nIt's modeled after google.rpc.Status."
+    },
+    "googlerpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "protobufNullValue": {
+      "type": "string",
+      "enum": [
+        "NULL_VALUE"
+      ],
+      "default": "NULL_VALUE",
+      "description": "`NullValue` is a singleton enumeration to represent the null value for the\n`Value` type union.\n\nThe JSON representation for `NullValue` is JSON `null`.\n\n - NULL_VALUE: Null value."
+    },
+    "v1ExecuteToolResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/commonv1Status"
+        },
+        "stringOutput": {
+          "type": "string"
+        },
+        "structOutput": {
+          "type": "object"
+        },
+        "fileOutput": {
+          "$ref": "#/definitions/v1File"
+        }
+      },
+      "description": "ExecuteToolResponse contains the output from the tool execution."
+    },
+    "v1File": {
+      "type": "object",
+      "properties": {
+        "fileName": {
+          "type": "string"
+        },
+        "mimeType": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string",
+          "format": "byte"
+        }
+      },
+      "description": "File represents a file with its content and metadata."
+    },
+    "v1Metadata": {
+      "type": "object",
+      "properties": {
+        "fields": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "A map of string keys to string values for arbitrary metadata."
+        }
+      },
+      "description": "Metadata provides a generic key-value store for additional context."
+    }
+  }
+}

@@ -7,7 +7,7 @@ package workflow.v1;
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/spoungeai/spounge-protos/gen/go/workflow/v1;workflowv1";
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/workflow/v1;workflowv1";
 
 // WorkflowConfig represents the definition of a workflow graph.
 message WorkflowConfig {

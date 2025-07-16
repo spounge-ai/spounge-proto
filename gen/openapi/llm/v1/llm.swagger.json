@@ -1,0 +1,293 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "llm/v1/llm.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "LLMProviderService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {},
+  "definitions": {
+    "commonv1Status": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The status code, which should be an enum value of google.rpc.Code."
+        },
+        "message": {
+          "type": "string",
+          "description": "A developer-facing error message."
+        },
+        "details": {
+          "type": "object",
+          "description": "A list of messages that carry the error details."
+        }
+      },
+      "description": "Status is a standard message for returning operation status.\nIt's modeled after google.rpc.Status."
+    },
+    "googlerpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "protobufNullValue": {
+      "type": "string",
+      "enum": [
+        "NULL_VALUE"
+      ],
+      "default": "NULL_VALUE",
+      "description": "`NullValue` is a singleton enumeration to represent the null value for the\n`Value` type union.\n\nThe JSON representation for `NullValue` is JSON `null`.\n\n - NULL_VALUE: Null value."
+    },
+    "v1Embedding": {
+      "type": "object",
+      "properties": {
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "float"
+          }
+        },
+        "dimension": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "v1GenerateEmbeddingResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/commonv1Status"
+        },
+        "embeddings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Embedding"
+          }
+        },
+        "usage": {
+          "$ref": "#/definitions/v1TokenUsage"
+        }
+      }
+    },
+    "v1GenerateTextResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/commonv1Status"
+        },
+        "responseMessage": {
+          "$ref": "#/definitions/v1Message"
+        },
+        "toolCalls": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ToolCall"
+          }
+        },
+        "usage": {
+          "$ref": "#/definitions/v1TokenUsage"
+        },
+        "finishReason": {
+          "type": "string",
+          "description": "Reason the generation finished, e.g., \"stop\", \"length\", \"tool_calls\"."
+        }
+      },
+      "description": "Response from a text generation request."
+    },
+    "v1GenerateTextStreamResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/commonv1Status"
+        },
+        "delta": {
+          "type": "string",
+          "description": "The incremental text delta."
+        },
+        "usage": {
+          "$ref": "#/definitions/v1TokenUsage",
+          "description": "Only set in the final message."
+        },
+        "finishReason": {
+          "type": "string",
+          "description": "Only set in the final message."
+        },
+        "isFinal": {
+          "type": "boolean"
+        }
+      },
+      "description": "Streaming text generation response chunk."
+    },
+    "v1GenerationParams": {
+      "type": "object",
+      "properties": {
+        "temperature": {
+          "type": "number",
+          "format": "float"
+        },
+        "topP": {
+          "type": "number",
+          "format": "float"
+        },
+        "maxTokens": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "stopSequences": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "stream": {
+          "type": "boolean"
+        }
+      },
+      "description": "Common generation parameters."
+    },
+    "v1Message": {
+      "type": "object",
+      "properties": {
+        "role": {
+          "$ref": "#/definitions/v1MessageRole"
+        },
+        "content": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string",
+          "title": "For tool roles"
+        }
+      },
+      "description": "A single message in a conversation."
+    },
+    "v1MessageRole": {
+      "type": "string",
+      "enum": [
+        "MESSAGE_ROLE_UNSPECIFIED",
+        "MESSAGE_ROLE_SYSTEM",
+        "MESSAGE_ROLE_USER",
+        "MESSAGE_ROLE_ASSISTANT",
+        "MESSAGE_ROLE_TOOL"
+      ],
+      "default": "MESSAGE_ROLE_UNSPECIFIED",
+      "description": "Role of the message author in a conversation."
+    },
+    "v1Metadata": {
+      "type": "object",
+      "properties": {
+        "fields": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "A map of string keys to string values for arbitrary metadata."
+        }
+      },
+      "description": "Metadata provides a generic key-value store for additional context."
+    },
+    "v1Provider": {
+      "type": "string",
+      "enum": [
+        "PROVIDER_UNSPECIFIED",
+        "PROVIDER_OPENAI",
+        "PROVIDER_ANTHROPIC",
+        "PROVIDER_GOOGLE",
+        "PROVIDER_AZURE_OPENAI",
+        "PROVIDER_COHERE",
+        "PROVIDER_OLLAMA"
+      ],
+      "default": "PROVIDER_UNSPECIFIED",
+      "description": "Supported LLM providers."
+    },
+    "v1TokenUsage": {
+      "type": "object",
+      "properties": {
+        "promptTokens": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "completionTokens": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalTokens": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "description": "Token usage statistics for a generation request."
+    },
+    "v1Tool": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "parameters": {
+          "type": "object",
+          "description": "JSON schema for the tool's parameters."
+        }
+      },
+      "description": "Definition of a tool the model can call (function calling)."
+    },
+    "v1ToolCall": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "ID for the tool call"
+        },
+        "name": {
+          "type": "string"
+        },
+        "arguments": {
+          "type": "string",
+          "description": "The arguments for the tool, as a JSON object string."
+        }
+      },
+      "description": "A tool call generated by the model."
+    }
+  }
+}

@@ -7,7 +7,7 @@ package polykey.v1;
 import "common/v1/common.proto";
 import "google/protobuf/struct.proto";
 
-option go_package = "github.com/spoungeai/spounge-protos/gen/go/polykey/v1;polykeyv1";
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/polykey/v1;polykeyv1";
 
 // PolykeyService is a hardened, minimal-privilege service for securely executing tools.
 service PolykeyService {

@@ -9,13 +9,14 @@ import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 import "iam/v1/api_key.proto";
 import "iam/v1/managed_secret.proto";
+import "user/v1/user.proto";
 import "user/v1/user_service.proto";
 import "workflow/v1/execution.proto";
 import "workflow/v1/execution_service.proto";
 import "workflow/v1/workflow.proto";
 import "workflow/v1/workflow_service.proto";
 
-option go_package = "github.com/spoungeai/spounge-protos/gen/go/api/v1;apiv1";
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/api/v1;apiv1";
 
 // APIGatewayService is the single entry point for all client-facing traffic.
 // It authenticates requests and routes them to the appropriate internal service.
