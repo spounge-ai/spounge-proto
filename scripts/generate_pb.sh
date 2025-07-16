@@ -26,24 +26,23 @@ print_success "Buf dependencies updated"
 
 # Create directories if they don't exist
 echo -e "\n${YELLOW}${GEAR} Creating output directories...${NC}"
-mkdir -p "$ROOT_DIR/gen/go"
-mkdir -p "$ROOT_DIR/gen/ts"
-mkdir -p "$ROOT_DIR/gen/openapi"
+mkdir -p "$ROOT_DIR/gen/go" "$ROOT_DIR/gen/ts" "$ROOT_DIR/gen/openapi"
 print_success "Output directories created"
 
 # Clean generated dirs selectively based on mode
 echo -e "\n${YELLOW}${GEAR} Cleaning existing generated files...${NC}"
+CLEAN_DIRS=()
 if [ -z "$MODE" ]; then
-  # no param = clean both
-  rm -rf "$ROOT_DIR/gen/go"/*
-  rm -rf "$ROOT_DIR/gen/ts"/*
-  rm -rf "$ROOT_DIR/gen/openapi"/*
+  CLEAN_DIRS+=("$ROOT_DIR/gen/go" "$ROOT_DIR/gen/ts" "$ROOT_DIR/gen/openapi")
 elif [ "$MODE" == "go" ]; then
-  rm -rf "$ROOT_DIR/gen/go"/*
-  rm -rf "$ROOT_DIR/gen/openapi"/*
+  CLEAN_DIRS+=("$ROOT_DIR/gen/go" "$ROOT_DIR/gen/openapi")
 elif [ "$MODE" == "ts" ]; then
-  rm -rf "$ROOT_DIR/gen/ts"/*
+  CLEAN_DIRS+=("$ROOT_DIR/gen/ts")
 fi
+
+for dir in "${CLEAN_DIRS[@]}"; do
+  rm -rf "$dir"/*
+done
 print_success "Generated directories cleaned"
 
 # Generate code using buf generate
@@ -103,14 +102,14 @@ EOF
     cat > "$GO_MOD_FILE" << 'EOF'
 module github.com/spounge-ai/spounge-proto/gen/go
 
-go 1.24.1
+go 1.24
 
 require (
-  google.golang.org/protobuf v1.34.2
-  google.golang.org/grpc v1.65.0
-  connectrpc.com/connect v1.16.2
-  github.com/grpc-ecosystem/grpc-gateway/v2 v2.22.0
-  google.golang.org/genproto/googleapis/api v0.0.0-20240814211410-ddb44dafa142
+  google.golang.org/protobuf v1.36.6
+  google.golang.org/grpc v1.73.0
+  connectrpc.com/connect v1.18.1
+  github.com/grpc-ecosystem/grpc-gateway/v2 v2.27.1
+  google.golang.org/genproto/googleapis/api v0.0.0-20250715232539-7130f93afb79
 )
 EOF
     print_info "Created go.mod in gen/go"
@@ -120,7 +119,7 @@ EOF
 
  
 
-  # Run go mod tidy to update dependencies to latest compatible versions
+# Run go mod tidy to update dependencies to latest compatible versions
   cd "$ROOT_DIR/gen/go" && go mod tidy
   print_success "Go modules tidied in gen/go"
 fi
@@ -160,10 +159,9 @@ EOF
   rm -f buf.gen.ts.yaml
   print_success "TypeScript generation complete"
 
-  # Fix TypeScript import paths to remove .js extensions
+# Fix TypeScript import paths to remove .js extensions
   echo -e "\n${YELLOW}${GEAR} Fixing TypeScript import paths...${NC}"
-  find "$ROOT_DIR/gen/ts" -name "*.ts" -type f -exec sed -i 's|from "\(.*\)\.js"|from "\1"|g' {} \;
-  find "$ROOT_DIR/gen/ts" -name "*.ts" -type f -exec sed -i "s|from '\(.*\)\.js'|from '\1'|g" {} \;
+  find "$ROOT_DIR/gen/ts" -name "*.ts" -type f -exec sed -i -E 's|from "(.*)\.js"|from "\1"|g; s|from \x27(.*)\.js\x27|from \x27\1\x27|g' {} \;
   print_success "TypeScript import paths fixed"
 
   # Run the TypeScript imports script to create proper index files

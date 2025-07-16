@@ -1,5 +1,3 @@
-// File: proto/workflow/v1/workflow.proto
-// Defines the static structure of a workflow, including its configuration and steps.
 syntax = "proto3";
 
 package workflow.v1;
@@ -9,34 +7,23 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/spounge-ai/spounge-protos/gen/go/workflow/v1;workflowv1";
 
-// WorkflowConfig represents the definition of a workflow graph.
 message WorkflowConfig {
   string id = 1;
   string user_id = 2;
   string name = 3;
   optional string description = 4;
-  // The version of this workflow definition.
   int32 version = 5;
-  // The list of steps (nodes) in the workflow graph.
   repeated WorkflowStep steps = 6;
   google.protobuf.Timestamp created_at = 7;
   google.protobuf.Timestamp updated_at = 8;
 }
 
-// WorkflowStep represents a single node in the workflow graph.
 message WorkflowStep {
-  // A unique identifier for the step within the workflow.
   string id = 1;
-  // A user-friendly name for the step.
   string name = 2;
-  // An optional description for what this step does.
   optional string description = 3;
-  // The name of the tool to execute (e.g., "llm.v1.GenerateText", "slack.v1.SendMessage").
   string tool_name = 4;
-  // The parameters to pass to the tool, can be static values or expressions.
   google.protobuf.Struct parameters = 5;
-  // A list of step IDs that must be completed before this step can run.
   repeated string depends_on = 6;
-  // An optional reference to a managed secret required by this tool.
   optional string secret_id = 7;
 }
