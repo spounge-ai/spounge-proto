@@ -10,8 +10,6 @@ import "workflow/v1/workflow.proto";
 
 option go_package = "github.com/spounge-ai/spounge-protos/gen/go/workflow/v1;workflowv1";
 
-// WorkflowService provides RPCs for managing workflow definitions.
-// User identity is inferred from the auth token for all requests.
 service WorkflowService {
   rpc CreateWorkflow(CreateWorkflowRequest) returns (CreateWorkflowResponse) {}
   rpc GetWorkflow(GetWorkflowRequest) returns (GetWorkflowResponse) {}
@@ -33,7 +31,6 @@ message CreateWorkflowResponse {
 
 message GetWorkflowRequest {
   string workflow_id = 1;
-  // The version to retrieve. If not set, the latest version is returned.
   optional int32 version = 2;
 }
 
@@ -43,7 +40,6 @@ message GetWorkflowResponse {
 
 message UpdateWorkflowRequest {
   string workflow_id = 1;
-  // A field mask to specify which fields of the workflow to update.
   google.protobuf.FieldMask update_mask = 2;
   // The updated workflow definition. Only 'name', 'description', and 'steps' can be updated.
   string name = 3;
@@ -52,7 +48,6 @@ message UpdateWorkflowRequest {
 }
 
 message UpdateWorkflowResponse {
-  // Returns the new version of the updated workflow.
   WorkflowConfig workflow = 1;
 }
 

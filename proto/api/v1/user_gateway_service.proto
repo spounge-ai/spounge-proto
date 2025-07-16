@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package api.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "user/v1/user_service.proto"; // Only keeping user_service.proto
+
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/api/v1;apiv1";
+
+service UserGatewayService {
+  rpc GetUserProfile(UserGatewayServiceGetUserProfileRequest) returns (UserGatewayServiceGetUserProfileResponse) {
+    option (google.api.http) = {get: "/v1/user/profile"};
+  }
+  rpc UpdateUserProfile(UserGatewayServiceUpdateUserProfileRequest) returns (UserGatewayServiceUpdateUserProfileResponse) {
+    option (google.api.http) = {
+      patch: "/v1/user/profile"
+      body: "*"
+    };
+  }
+}
+
+message UserGatewayServiceGetUserProfileRequest {
+  google.protobuf.Empty empty = 1;
+}
+
+message UserGatewayServiceGetUserProfileResponse {
+  user.v1.GetUserProfileResponse get_user_profile_response = 1;
+}
+
+message UserGatewayServiceUpdateUserProfileRequest {
+  user.v1.UpdateUserProfileRequest update_user_profile_request = 1;
+}
+
+message UserGatewayServiceUpdateUserProfileResponse {
+  user.v1.UpdateUserProfileResponse update_user_profile_response = 1;
+}

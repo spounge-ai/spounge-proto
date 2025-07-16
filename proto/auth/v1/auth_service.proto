@@ -11,7 +11,6 @@ import "user/v1/user.proto";
 
 option go_package = "github.com/spounge-ai/spounge-protos/gen/go/auth/v1;authv1";
 
-// AuthService handles user authentication and session management.
 service AuthService {
   rpc Login(LoginRequest) returns (LoginResponse) {}
   rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse) {}

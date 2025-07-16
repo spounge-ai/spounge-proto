@@ -18,6 +18,8 @@ export { StartExecutionResponse } from './execution_service_pb';
 export { StartExecutionResponseSchema } from './execution_service_pb';
 export { StreamExecutionRequest } from './execution_service_pb';
 export { StreamExecutionRequestSchema } from './execution_service_pb';
+export { StreamExecutionResponse } from './execution_service_pb';
+export { StreamExecutionResponseSchema } from './execution_service_pb';
 export { file_workflow_v1_execution_service } from './execution_service_pb';
 export { WorkflowConfig } from './workflow_pb';
 export { WorkflowConfigSchema } from './workflow_pb';

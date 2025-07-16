@@ -166,6 +166,15 @@
         }
       }
     },
+    "v1StreamExecutionResponse": {
+      "type": "object",
+      "properties": {
+        "update": {
+          "$ref": "#/definitions/v1WorkflowExecutionUpdate"
+        }
+      },
+      "description": "Response for streaming workflow execution updates."
+    },
     "v1WorkflowExecution": {
       "type": "object",
       "properties": {
