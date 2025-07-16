@@ -522,7 +522,7 @@ const file_google_api_resource_proto_rawDesc = "" +
 	"\x12resource_reference\x12\x1d.google.protobuf.FieldOptions\x18\x9f\b \x01(\v2\x1d.google.api.ResourceReferenceR\x11resourceReference:n\n" +
 	"\x13resource_definition\x12\x1c.google.protobuf.FileOptions\x18\x9d\b \x03(\v2\x1e.google.api.ResourceDescriptorR\x12resourceDefinition:\\\n" +
 	"\bresource\x12\x1f.google.protobuf.MessageOptions\x18\x9d\b \x01(\v2\x1e.google.api.ResourceDescriptorR\bresourceB\x9f\x01\n" +
-	"\x0ecom.google.apiB\rResourceProtoP\x01Z5spounge-proto-gen/google/api\xa2\x02\x03GAX\xaa\x02\n" +
+	"\x0ecom.google.apiB\rResourceProtoP\x01Z5github.com/spounge-ai/spounge-proto/gen/go/google/api\xa2\x02\x03GAX\xaa\x02\n" +
 	"Google.Api\xca\x02\n" +
 	"Google\\Api\xe2\x02\x16Google\\Api\\GPBMetadata\xea\x02\vGoogle::Apib\x06proto3"
 

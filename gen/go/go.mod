@@ -1,4 +1,4 @@
-module spounge-proto-gen
+module github.com/spounge-ai/spounge-proto/gen/go
 
 go 1.24.1
 

@@ -10,7 +10,7 @@
 package workflowv1
 
 import (
-	v1 "spounge-proto-gen/common/v1"
+	v1 "github.com/spounge-ai/spounge-proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
@@ -679,7 +679,7 @@ const file_workflow_v1_workflow_service_proto_rawDesc = "" +
 	"\x0eDeleteWorkflow\x12\".workflow.v1.DeleteWorkflowRequest\x1a#.workflow.v1.DeleteWorkflowResponse\"\x00\x12X\n" +
 	"\rListWorkflows\x12!.workflow.v1.ListWorkflowsRequest\x1a\".workflow.v1.ListWorkflowsResponse\"\x00\x12m\n" +
 	"\x14ListWorkflowVersions\x12(.workflow.v1.ListWorkflowVersionsRequest\x1a).workflow.v1.ListWorkflowVersionsResponse\"\x00B\xb7\x01\n" +
-	"\x0fcom.workflow.v1B\x14WorkflowServiceProtoP\x01ZAspounge-proto-gen/workflow/v1;workflowv1\xa2\x02\x03WXX\xaa\x02\vWorkflow.V1\xca\x02\vWorkflow\\V1\xe2\x02\x17Workflow\\V1\\GPBMetadata\xea\x02\fWorkflow::V1b\x06proto3"
+	"\x0fcom.workflow.v1B\x14WorkflowServiceProtoP\x01ZAgithub.com/spounge-ai/spounge-proto/gen/go/workflow/v1;workflowv1\xa2\x02\x03WXX\xaa\x02\vWorkflow.V1\xca\x02\vWorkflow\\V1\xe2\x02\x17Workflow\\V1\\GPBMetadata\xea\x02\fWorkflow::V1b\x06proto3"
 
 var (
 	file_workflow_v1_workflow_service_proto_rawDescOnce sync.Once

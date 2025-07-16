@@ -21,7 +21,7 @@
 package exprv1alpha1
 
 import (
-	rpc "spounge-proto-gen/google/rpc"
+	rpc "github.com/spounge-ai/spounge-proto/gen/go/google/rpc"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -410,7 +410,7 @@ const file_google_api_expr_v1alpha1_eval_proto_rawDesc = "" +
 	"\n" +
 	"UnknownSet\x12\x14\n" +
 	"\x05exprs\x18\x01 \x03(\x03R\x05exprsB\x81\x02\n" +
-	"\x1ccom.google.api.expr.v1alpha1B\tEvalProtoP\x01ZPspounge-proto-gen/google/api/expr/v1alpha1;exprv1alpha1\xf8\x01\x01\xa2\x02\x03GAE\xaa\x02\x18Google.Api.Expr.V1alpha1\xca\x02\x18Google\\Api\\Expr\\V1alpha1\xe2\x02$Google\\Api\\Expr\\V1alpha1\\GPBMetadata\xea\x02\x1bGoogle::Api::Expr::V1alpha1b\x06proto3"
+	"\x1ccom.google.api.expr.v1alpha1B\tEvalProtoP\x01ZPgithub.com/spounge-ai/spounge-proto/gen/go/google/api/expr/v1alpha1;exprv1alpha1\xf8\x01\x01\xa2\x02\x03GAE\xaa\x02\x18Google.Api.Expr.V1alpha1\xca\x02\x18Google\\Api\\Expr\\V1alpha1\xe2\x02$Google\\Api\\Expr\\V1alpha1\\GPBMetadata\xea\x02\x1bGoogle::Api::Expr::V1alpha1b\x06proto3"
 
 var (
 	file_google_api_expr_v1alpha1_eval_proto_rawDescOnce sync.Once

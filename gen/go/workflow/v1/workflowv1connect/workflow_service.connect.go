@@ -11,7 +11,7 @@ import (
 	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	v1 "spounge-proto-gen/workflow/v1"
+	v1 "github.com/spounge-ai/spounge-proto/gen/go/workflow/v1"
 	http "net/http"
 	strings "strings"
 )

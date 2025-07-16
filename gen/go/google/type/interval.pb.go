@@ -111,7 +111,7 @@ const file_google_type_interval_proto_rawDesc = "" +
 	"\n" +
 	"start_time\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\tstartTime\x125\n" +
 	"\bend_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\aendTimeB\xa8\x01\n" +
-	"\x0fcom.google.typeB\rIntervalProtoP\x01Z6spounge-proto-gen/google/type\xf8\x01\x01\xa2\x02\x03GTX\xaa\x02\vGoogle.Type\xca\x02\vGoogle\\Type\xe2\x02\x17Google\\Type\\GPBMetadata\xea\x02\fGoogle::Typeb\x06proto3"
+	"\x0fcom.google.typeB\rIntervalProtoP\x01Z6github.com/spounge-ai/spounge-proto/gen/go/google/type\xf8\x01\x01\xa2\x02\x03GTX\xaa\x02\vGoogle.Type\xca\x02\vGoogle\\Type\xe2\x02\x17Google\\Type\\GPBMetadata\xea\x02\fGoogle::Typeb\x06proto3"
 
 var (
 	file_google_type_interval_proto_rawDescOnce sync.Once

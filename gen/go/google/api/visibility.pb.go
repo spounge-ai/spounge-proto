@@ -296,7 +296,7 @@ const file_google_api_visibility_proto_rawDesc = "" +
 	"\x12message_visibility\x12\x1f.google.protobuf.MessageOptions\x18\xafʼ\" \x01(\v2\x1a.google.api.VisibilityRuleR\x11messageVisibility:j\n" +
 	"\x11method_visibility\x12\x1e.google.protobuf.MethodOptions\x18\xafʼ\" \x01(\v2\x1a.google.api.VisibilityRuleR\x10methodVisibility:e\n" +
 	"\x0eapi_visibility\x12\x1f.google.protobuf.ServiceOptions\x18\xafʼ\" \x01(\v2\x1a.google.api.VisibilityRuleR\rapiVisibilityB\xa1\x01\n" +
-	"\x0ecom.google.apiB\x0fVisibilityProtoP\x01Z5spounge-proto-gen/google/api\xa2\x02\x03GAX\xaa\x02\n" +
+	"\x0ecom.google.apiB\x0fVisibilityProtoP\x01Z5github.com/spounge-ai/spounge-proto/gen/go/google/api\xa2\x02\x03GAX\xaa\x02\n" +
 	"Google.Api\xca\x02\n" +
 	"Google\\Api\xe2\x02\x16Google\\Api\\GPBMetadata\xea\x02\vGoogle::Apib\x06proto3"
 

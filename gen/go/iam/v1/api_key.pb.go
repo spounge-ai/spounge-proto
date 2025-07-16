@@ -203,7 +203,7 @@ const file_iam_v1_api_key_proto_rawDesc = "" +
 	"\n" +
 	"secret_key\x18\x02 \x01(\tR\tsecretKeyB\x8b\x01\n" +
 	"\n" +
-	"com.iam.v1B\vApiKeyProtoP\x01Z7spounge-proto-gen/iam/v1;iamv1\xa2\x02\x03IXX\xaa\x02\x06Iam.V1\xca\x02\x06Iam\\V1\xe2\x02\x12Iam\\V1\\GPBMetadata\xea\x02\aIam::V1b\x06proto3"
+	"com.iam.v1B\vApiKeyProtoP\x01Z7github.com/spounge-ai/spounge-proto/gen/go/iam/v1;iamv1\xa2\x02\x03IXX\xaa\x02\x06Iam.V1\xca\x02\x06Iam\\V1\xe2\x02\x12Iam\\V1\\GPBMetadata\xea\x02\aIam::V1b\x06proto3"
 
 var (
 	file_iam_v1_api_key_proto_rawDescOnce sync.Once

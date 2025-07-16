@@ -10,8 +10,8 @@
 package userv1
 
 import (
-	v11 "spounge-proto-gen/common/v1"
-	v1 "spounge-proto-gen/iam/v1"
+	v11 "github.com/spounge-ai/spounge-proto/gen/go/common/v1"
+	v1 "github.com/spounge-ai/spounge-proto/gen/go/iam/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
@@ -531,7 +531,7 @@ const file_user_v1_user_service_proto_rawDesc = "" +
 	"\x12ListManagedSecrets\x12\x16.google.protobuf.Empty\x1a#.user.v1.ListManagedSecretsResponse\"\x00\x12Y\n" +
 	"\x10GetManagedSecret\x12 .user.v1.GetManagedSecretRequest\x1a!.user.v1.GetManagedSecretResponse\"\x00\x12b\n" +
 	"\x13DeleteManagedSecret\x12#.user.v1.DeleteManagedSecretRequest\x1a$.user.v1.DeleteManagedSecretResponse\"\x00B\x97\x01\n" +
-	"\vcom.user.v1B\x10UserServiceProtoP\x01Z9spounge-proto-gen/user/v1;userv1\xa2\x02\x03UXX\xaa\x02\aUser.V1\xca\x02\aUser\\V1\xe2\x02\x13User\\V1\\GPBMetadata\xea\x02\bUser::V1b\x06proto3"
+	"\vcom.user.v1B\x10UserServiceProtoP\x01Z9github.com/spounge-ai/spounge-proto/gen/go/user/v1;userv1\xa2\x02\x03UXX\xaa\x02\aUser.V1\xca\x02\aUser\\V1\xe2\x02\x13User\\V1\\GPBMetadata\xea\x02\bUser::V1b\x06proto3"
 
 var (
 	file_user_v1_user_service_proto_rawDescOnce sync.Once

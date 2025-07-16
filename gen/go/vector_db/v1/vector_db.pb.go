@@ -10,7 +10,7 @@
 package vector_dbv1
 
 import (
-	v1 "spounge-proto-gen/common/v1"
+	v1 "github.com/spounge-ai/spounge-proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	structpb "google.golang.org/protobuf/types/known/structpb"
@@ -410,7 +410,7 @@ const file_vector_db_v1_vector_db_proto_rawDesc = "" +
 	"\x0fVectorDBService\x12E\n" +
 	"\x06Upsert\x12\x1b.vector_db.v1.UpsertRequest\x1a\x1c.vector_db.v1.UpsertResponse\"\x00\x12B\n" +
 	"\x05Query\x12\x1a.vector_db.v1.QueryRequest\x1a\x1b.vector_db.v1.QueryResponse\"\x00B\xb3\x01\n" +
-	"\x10com.vector_db.v1B\rVectorDbProtoP\x01ZCspounge-proto-gen/vector_db/v1;vector_dbv1\xa2\x02\x03VXX\xaa\x02\vVectorDb.V1\xca\x02\vVectorDb\\V1\xe2\x02\x17VectorDb\\V1\\GPBMetadata\xea\x02\fVectorDb::V1b\x06proto3"
+	"\x10com.vector_db.v1B\rVectorDbProtoP\x01ZCgithub.com/spounge-ai/spounge-proto/gen/go/vector_db/v1;vector_dbv1\xa2\x02\x03VXX\xaa\x02\vVectorDb.V1\xca\x02\vVectorDb\\V1\xe2\x02\x17VectorDb\\V1\\GPBMetadata\xea\x02\fVectorDb::V1b\x06proto3"
 
 var (
 	file_vector_db_v1_vector_db_proto_rawDescOnce sync.Once

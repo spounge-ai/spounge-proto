@@ -150,7 +150,7 @@ const file_google_type_month_proto_rawDesc = "" +
 	"\bNOVEMBER\x10\v\x12\f\n" +
 	"\bDECEMBER\x10\fB\xa2\x01\n" +
 	"\x0fcom.google.typeB\n" +
-	"MonthProtoP\x01Z6spounge-proto-gen/google/type\xa2\x02\x03GTX\xaa\x02\vGoogle.Type\xca\x02\vGoogle\\Type\xe2\x02\x17Google\\Type\\GPBMetadata\xea\x02\fGoogle::Typeb\x06proto3"
+	"MonthProtoP\x01Z6github.com/spounge-ai/spounge-proto/gen/go/google/type\xa2\x02\x03GTX\xaa\x02\vGoogle.Type\xca\x02\vGoogle\\Type\xe2\x02\x17Google\\Type\\GPBMetadata\xea\x02\fGoogle::Typeb\x06proto3"
 
 var (
 	file_google_type_month_proto_rawDescOnce sync.Once

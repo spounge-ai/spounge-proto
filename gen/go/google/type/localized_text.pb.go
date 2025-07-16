@@ -101,7 +101,7 @@ const file_google_type_localized_text_proto_rawDesc = "" +
 	"\rLocalizedText\x12\x12\n" +
 	"\x04text\x18\x01 \x01(\tR\x04text\x12#\n" +
 	"\rlanguage_code\x18\x02 \x01(\tR\flanguageCodeB\xad\x01\n" +
-	"\x0fcom.google.typeB\x12LocalizedTextProtoP\x01Z6spounge-proto-gen/google/type\xf8\x01\x01\xa2\x02\x03GTX\xaa\x02\vGoogle.Type\xca\x02\vGoogle\\Type\xe2\x02\x17Google\\Type\\GPBMetadata\xea\x02\fGoogle::Typeb\x06proto3"
+	"\x0fcom.google.typeB\x12LocalizedTextProtoP\x01Z6github.com/spounge-ai/spounge-proto/gen/go/google/type\xf8\x01\x01\xa2\x02\x03GTX\xaa\x02\vGoogle.Type\xca\x02\vGoogle\\Type\xe2\x02\x17Google\\Type\\GPBMetadata\xea\x02\fGoogle::Typeb\x06proto3"
 
 var (
 	file_google_type_localized_text_proto_rawDescOnce sync.Once

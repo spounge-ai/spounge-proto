@@ -154,7 +154,7 @@ const file_google_api_httpbody_proto_rawDesc = "" +
 	"\n" +
 	"extensions\x18\x03 \x03(\v2\x14.google.protobuf.AnyR\n" +
 	"extensionsB\x9f\x01\n" +
-	"\x0ecom.google.apiB\rHttpbodyProtoP\x01Z5spounge-proto-gen/google/api\xa2\x02\x03GAX\xaa\x02\n" +
+	"\x0ecom.google.apiB\rHttpbodyProtoP\x01Z5github.com/spounge-ai/spounge-proto/gen/go/google/api\xa2\x02\x03GAX\xaa\x02\n" +
 	"Google.Api\xca\x02\n" +
 	"Google\\Api\xe2\x02\x16Google\\Api\\GPBMetadata\xea\x02\vGoogle::Apib\x06proto3"
 

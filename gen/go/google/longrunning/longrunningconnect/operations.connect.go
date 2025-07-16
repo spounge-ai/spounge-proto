@@ -22,7 +22,7 @@ import (
 	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	longrunning "spounge-proto-gen/google/longrunning"
+	longrunning "github.com/spounge-ai/spounge-proto/gen/go/google/longrunning"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	http "net/http"
 	strings "strings"

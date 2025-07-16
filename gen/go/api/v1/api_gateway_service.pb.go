@@ -10,11 +10,11 @@
 package apiv1
 
 import (
-	v13 "spounge-proto-gen/auth/v1"
-	_ "spounge-proto-gen/google/api"
-	v12 "spounge-proto-gen/iam/v1"
-	v1 "spounge-proto-gen/user/v1"
-	v11 "spounge-proto-gen/workflow/v1"
+	v13 "github.com/spounge-ai/spounge-proto/gen/go/auth/v1"
+	_ "github.com/spounge-ai/spounge-proto/gen/go/google/api"
+	v12 "github.com/spounge-ai/spounge-proto/gen/go/iam/v1"
+	v1 "github.com/spounge-ai/spounge-proto/gen/go/user/v1"
+	v11 "github.com/spounge-ai/spounge-proto/gen/go/workflow/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
@@ -167,7 +167,7 @@ const file_api_v1_api_gateway_service_proto_rawDesc = "" +
 	"\fGetExecution\x12 .workflow.v1.GetExecutionRequest\x1a!.workflow.v1.GetExecutionResponse\"%\x82\xd3\xe4\x93\x02\x1f\x12\x1d/v1/executions/{execution_id}\x12`\n" +
 	"\fGetDashboard\x12\x1b.api.v1.GetDashboardRequest\x1a\x1c.api.v1.GetDashboardResponse\"\x15\x82\xd3\xe4\x93\x02\x0f\x12\r/v1/dashboardB\x96\x01\n" +
 	"\n" +
-	"com.api.v1B\x16ApiGatewayServiceProtoP\x01Z7spounge-proto-gen/api/v1;apiv1\xa2\x02\x03AXX\xaa\x02\x06Api.V1\xca\x02\x06Api\\V1\xe2\x02\x12Api\\V1\\GPBMetadata\xea\x02\aApi::V1b\x06proto3"
+	"com.api.v1B\x16ApiGatewayServiceProtoP\x01Z7github.com/spounge-ai/spounge-proto/gen/go/api/v1;apiv1\xa2\x02\x03AXX\xaa\x02\x06Api.V1\xca\x02\x06Api\\V1\xe2\x02\x12Api\\V1\\GPBMetadata\xea\x02\aApi::V1b\x06proto3"
 
 var (
 	file_api_v1_api_gateway_service_proto_rawDescOnce sync.Once

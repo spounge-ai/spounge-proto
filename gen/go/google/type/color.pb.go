@@ -253,7 +253,7 @@ const file_google_type_color_proto_rawDesc = "" +
 	"\x04blue\x18\x03 \x01(\x02R\x04blue\x121\n" +
 	"\x05alpha\x18\x04 \x01(\v2\x1b.google.protobuf.FloatValueR\x05alphaB\xa5\x01\n" +
 	"\x0fcom.google.typeB\n" +
-	"ColorProtoP\x01Z6spounge-proto-gen/google/type\xf8\x01\x01\xa2\x02\x03GTX\xaa\x02\vGoogle.Type\xca\x02\vGoogle\\Type\xe2\x02\x17Google\\Type\\GPBMetadata\xea\x02\fGoogle::Typeb\x06proto3"
+	"ColorProtoP\x01Z6github.com/spounge-ai/spounge-proto/gen/go/google/type\xf8\x01\x01\xa2\x02\x03GTX\xaa\x02\vGoogle.Type\xca\x02\vGoogle\\Type\xe2\x02\x17Google\\Type\\GPBMetadata\xea\x02\fGoogle::Typeb\x06proto3"
 
 var (
 	file_google_type_color_proto_rawDescOnce sync.Once

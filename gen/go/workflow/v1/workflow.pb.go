@@ -260,7 +260,7 @@ const file_workflow_v1_workflow_proto_rawDesc = "" +
 	"\f_descriptionB\f\n" +
 	"\n" +
 	"_secret_idB\xb0\x01\n" +
-	"\x0fcom.workflow.v1B\rWorkflowProtoP\x01ZAspounge-proto-gen/workflow/v1;workflowv1\xa2\x02\x03WXX\xaa\x02\vWorkflow.V1\xca\x02\vWorkflow\\V1\xe2\x02\x17Workflow\\V1\\GPBMetadata\xea\x02\fWorkflow::V1b\x06proto3"
+	"\x0fcom.workflow.v1B\rWorkflowProtoP\x01ZAgithub.com/spounge-ai/spounge-proto/gen/go/workflow/v1;workflowv1\xa2\x02\x03WXX\xaa\x02\vWorkflow.V1\xca\x02\vWorkflow\\V1\xe2\x02\x17Workflow\\V1\\GPBMetadata\xea\x02\fWorkflow::V1b\x06proto3"
 
 var (
 	file_workflow_v1_workflow_proto_rawDescOnce sync.Once

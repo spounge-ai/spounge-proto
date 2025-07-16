@@ -10,7 +10,7 @@
 package polykeyv1
 
 import (
-	v1 "spounge-proto-gen/common/v1"
+	v1 "github.com/spounge-ai/spounge-proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	structpb "google.golang.org/protobuf/types/known/structpb"
@@ -232,7 +232,7 @@ const file_polykey_v1_polykey_service_proto_rawDesc = "" +
 	"\x06output2`\n" +
 	"\x0ePolykeyService\x12N\n" +
 	"\vExecuteTool\x12\x1e.polykey.v1.ExecuteToolRequest\x1a\x1f.polykey.v1.ExecuteToolResponseB\xaf\x01\n" +
-	"\x0ecom.polykey.v1B\x13PolykeyServiceProtoP\x01Z?spounge-proto-gen/polykey/v1;polykeyv1\xa2\x02\x03PXX\xaa\x02\n" +
+	"\x0ecom.polykey.v1B\x13PolykeyServiceProtoP\x01Z?github.com/spounge-ai/spounge-proto/gen/go/polykey/v1;polykeyv1\xa2\x02\x03PXX\xaa\x02\n" +
 	"Polykey.V1\xca\x02\n" +
 	"Polykey\\V1\xe2\x02\x16Polykey\\V1\\GPBMetadata\xea\x02\vPolykey::V1b\x06proto3"
 

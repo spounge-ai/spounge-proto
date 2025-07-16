@@ -10,7 +10,7 @@
 package llmv1
 
 import (
-	v1 "spounge-proto-gen/common/v1"
+	v1 "github.com/spounge-ai/spounge-proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	structpb "google.golang.org/protobuf/types/known/structpb"
@@ -984,7 +984,7 @@ const file_llm_v1_llm_proto_rawDesc = "" +
 	"\x12GenerateTextStream\x12\x1b.llm.v1.GenerateTextRequest\x1a\".llm.v1.GenerateTextStreamResponse\"\x000\x01\x12Z\n" +
 	"\x11GenerateEmbedding\x12 .llm.v1.GenerateEmbeddingRequest\x1a!.llm.v1.GenerateEmbeddingResponse\"\x00B\x88\x01\n" +
 	"\n" +
-	"com.llm.v1B\bLlmProtoP\x01Z7spounge-proto-gen/llm/v1;llmv1\xa2\x02\x03LXX\xaa\x02\x06Llm.V1\xca\x02\x06Llm\\V1\xe2\x02\x12Llm\\V1\\GPBMetadata\xea\x02\aLlm::V1b\x06proto3"
+	"com.llm.v1B\bLlmProtoP\x01Z7github.com/spounge-ai/spounge-proto/gen/go/llm/v1;llmv1\xa2\x02\x03LXX\xaa\x02\x06Llm.V1\xca\x02\x06Llm\\V1\xe2\x02\x12Llm\\V1\\GPBMetadata\xea\x02\aLlm::V1b\x06proto3"
 
 var (
 	file_llm_v1_llm_proto_rawDescOnce sync.Once
