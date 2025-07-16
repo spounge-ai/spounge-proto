@@ -25,7 +25,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// UserProfile contains public information about a user.
 type UserProfile struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	Id              string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -126,7 +125,6 @@ func (x *UserProfile) GetUpdatedAt() *timestamppb.Timestamp {
 	return nil
 }
 
-// AccountSettings contains user-specific settings.
 type AccountSettings struct {
 	state  protoimpl.MessageState `protogen:"open.v1"`
 	UserId string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`

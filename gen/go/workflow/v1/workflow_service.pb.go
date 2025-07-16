@@ -131,10 +131,9 @@ func (x *CreateWorkflowResponse) GetWorkflow() *WorkflowConfig {
 }
 
 type GetWorkflowRequest struct {
-	state      protoimpl.MessageState `protogen:"open.v1"`
-	WorkflowId string                 `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
-	// The version to retrieve. If not set, the latest version is returned.
-	Version       *int32 `protobuf:"varint,2,opt,name=version,proto3,oneof" json:"version,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	WorkflowId    string                 `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
+	Version       *int32                 `protobuf:"varint,2,opt,name=version,proto3,oneof" json:"version,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -230,7 +229,6 @@ func (x *GetWorkflowResponse) GetWorkflow() *WorkflowConfig {
 type UpdateWorkflowRequest struct {
 	state      protoimpl.MessageState `protogen:"open.v1"`
 	WorkflowId string                 `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
-	// A field mask to specify which fields of the workflow to update.
 	UpdateMask *fieldmaskpb.FieldMask `protobuf:"bytes,2,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
 	// The updated workflow definition. Only 'name', 'description', and 'steps' can be updated.
 	Name          string          `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
@@ -306,9 +304,8 @@ func (x *UpdateWorkflowRequest) GetSteps() []*WorkflowStep {
 }
 
 type UpdateWorkflowResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Returns the new version of the updated workflow.
-	Workflow      *WorkflowConfig `protobuf:"bytes,1,opt,name=workflow,proto3" json:"workflow,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Workflow      *WorkflowConfig        `protobuf:"bytes,1,opt,name=workflow,proto3" json:"workflow,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }

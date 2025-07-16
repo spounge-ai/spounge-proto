@@ -18,8 +18,6 @@ export const file_user_v1_user: GenFile = /*@__PURE__*/
   fileDesc("ChJ1c2VyL3YxL3VzZXIucHJvdG8SB3VzZXIudjEingIKC1VzZXJQcm9maWxlEgoKAmlkGAEgASgJEg0KBWVtYWlsGAIgASgJEhAKCHVzZXJuYW1lGAMgASgJEhcKCmZpcnN0X25hbWUYBCABKAlIAIgBARIWCglsYXN0X25hbWUYBSABKAlIAYgBARIeChFwcm9maWxlX2ltYWdlX3VybBgGIAEoCUgCiAEBEi4KCmNyZWF0ZWRfYXQYByABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEi4KCnVwZGF0ZWRfYXQYCCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wQg0KC19maXJzdF9uYW1lQgwKCl9sYXN0X25hbWVCFAoSX3Byb2ZpbGVfaW1hZ2VfdXJsIkYKD0FjY291bnRTZXR0aW5ncxIPCgd1c2VyX2lkGAEgASgJEhAKCHRpbWV6b25lGAIgASgJEhAKCGxhbmd1YWdlGAMgASgJQpEBCgtjb20udXNlci52MUIJVXNlclByb3RvUAFaOmdpdGh1Yi5jb20vc3BvdW5nZS1haS9zcG91bmdlLXByb3Rvcy9nZW4vZ28vdXNlci92MTt1c2VydjGiAgNVWFiqAgdVc2VyLlYxygIHVXNlclxWMeICE1VzZXJcVjFcR1BCTWV0YWRhdGHqAghVc2VyOjpWMWIGcHJvdG8z", [file_google_protobuf_timestamp]);
 
 /**
- * UserProfile contains public information about a user.
- *
  * @generated from message user.v1.UserProfile
  */
 export type UserProfile = Message<"user.v1.UserProfile"> & {
@@ -72,8 +70,6 @@ export const UserProfileSchema: GenMessage<UserProfile> = /*@__PURE__*/
   messageDesc(file_user_v1_user, 0);
 
 /**
- * AccountSettings contains user-specific settings.
- *
  * @generated from message user.v1.AccountSettings
  */
 export type AccountSettings = Message<"user.v1.AccountSettings"> & {

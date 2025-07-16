@@ -33,9 +33,6 @@ const (
 // WorkflowServiceClient is the client API for WorkflowService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-//
-// WorkflowService provides RPCs for managing workflow definitions.
-// User identity is inferred from the auth token for all requests.
 type WorkflowServiceClient interface {
 	CreateWorkflow(ctx context.Context, in *CreateWorkflowRequest, opts ...grpc.CallOption) (*CreateWorkflowResponse, error)
 	GetWorkflow(ctx context.Context, in *GetWorkflowRequest, opts ...grpc.CallOption) (*GetWorkflowResponse, error)
@@ -116,9 +113,6 @@ func (c *workflowServiceClient) ListWorkflowVersions(ctx context.Context, in *Li
 // WorkflowServiceServer is the server API for WorkflowService service.
 // All implementations must embed UnimplementedWorkflowServiceServer
 // for forward compatibility.
-//
-// WorkflowService provides RPCs for managing workflow definitions.
-// User identity is inferred from the auth token for all requests.
 type WorkflowServiceServer interface {
 	CreateWorkflow(context.Context, *CreateWorkflowRequest) (*CreateWorkflowResponse, error)
 	GetWorkflow(context.Context, *GetWorkflowRequest) (*GetWorkflowResponse, error)
