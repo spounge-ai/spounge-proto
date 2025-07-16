@@ -1,0 +1,28 @@
+// File: proto/user/v2/user.proto
+// Contains the core data structures for a user, including profile and settings.
+syntax = "proto3";
+
+package user.v2;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/user/v2;userv2";
+
+message UserProfile {
+  string id = 1;
+  string email = 2;
+  string username = 3;
+  optional string first_name = 4;
+  optional string last_name = 5;
+  optional string profile_image_url = 6;
+  google.protobuf.Timestamp created_at = 7;
+  google.protobuf.Timestamp updated_at = 8;
+}
+
+message AccountSettings {
+  string user_id = 1;
+  // Timezone in IANA format (e.g., "America/New_York").
+  string timezone = 2;
+  // Language in ISO 639-1 format (e.g., "en").
+  string language = 3;
+}

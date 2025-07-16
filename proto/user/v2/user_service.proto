@@ -1,0 +1,66 @@
+// File: proto/user/v2/user_service.proto
+// Defines the service for managing user profiles and their managed secrets.
+syntax = "proto3";
+
+package user.v2;
+
+import "common/v2/common.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "iam/v2/managed_secret.proto";
+import "user/v2/user.proto";
+
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/user/v2;userv2";
+
+service UserService {
+  rpc GetUserProfile(google.protobuf.Empty) returns (GetUserProfileResponse) {}
+  rpc UpdateUserProfile(UpdateUserProfileRequest) returns (UpdateUserProfileResponse) {}
+
+  rpc AddManagedSecret(AddManagedSecretRequest) returns (AddManagedSecretResponse) {}
+  rpc ListManagedSecrets(google.protobuf.Empty) returns (ListManagedSecretsResponse) {}
+  rpc GetManagedSecret(GetManagedSecretRequest) returns (GetManagedSecretResponse) {}
+  rpc DeleteManagedSecret(DeleteManagedSecretRequest) returns (DeleteManagedSecretResponse) {}
+}
+
+message GetUserProfileResponse {
+  UserProfile profile = 1;
+}
+
+message UpdateUserProfileRequest {
+  google.protobuf.FieldMask update_mask = 1;
+  UserProfile profile = 2;
+}
+
+message UpdateUserProfileResponse {
+  UserProfile profile = 1;
+}
+
+message AddManagedSecretRequest {
+  string name = 1;
+  iam.v2.ManagedSecretType type = 2;
+  string plain_text_secret = 3;
+}
+
+message AddManagedSecretResponse {
+  iam.v2.ManagedSecret secret = 1;
+}
+
+message ListManagedSecretsResponse {
+  repeated iam.v2.ManagedSecret secrets = 1;
+}
+
+message GetManagedSecretRequest {
+  string secret_id = 1;
+}
+
+message GetManagedSecretResponse {
+  iam.v2.ManagedSecret secret = 1;
+}
+
+message DeleteManagedSecretRequest {
+  string secret_id = 1;
+}
+
+message DeleteManagedSecretResponse {
+  common.v2.Status status = 1;
+}

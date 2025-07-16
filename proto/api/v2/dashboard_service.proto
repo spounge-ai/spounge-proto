@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package api.v2;
+
+import "google/api/annotations.proto";
+import "iam/v2/api_key.proto";
+import "iam/v2/managed_secret.proto";
+import "user/v2/user.proto";
+import "workflow/v2/execution.proto";
+import "workflow/v2/workflow.proto";
+
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/api/v2;apiv2";
+
+service DashboardService {
+  rpc GetDashboard(GetDashboardRequest) returns (GetDashboardResponse) {
+    option (google.api.http) = {get: "/v2/dashboard"};
+  }
+}
+
+message GetDashboardRequest {}
+
+message GetDashboardResponse {
+  user.v2.UserProfile user_profile = 1;
+  repeated workflow.v2.WorkflowConfig recent_workflows = 2;
+  repeated workflow.v2.WorkflowExecution recent_executions = 3;
+  repeated iam.v2.APIKey api_keys = 4;
+  repeated iam.v2.ManagedSecret managed_secrets = 5;
+}
