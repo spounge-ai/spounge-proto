@@ -69,7 +69,7 @@ jobs:
       - name: Check for pending changesets
         id: changesets
         run: |
-          if [[ -n "$(find .changeset -name '*.md' -print -quit)" ]]; then
+          if [[ -n "$(find .changesets -name '*.md' -print -quit)" ]]; then
             echo "has_changesets=true" >> $GITHUB_OUTPUT
           else
             echo "has_changesets=false" >> $GITHUB_OUTPUT
