@@ -1,6 +1,6 @@
 {
   "name": "@spounge/proto-ts",
-  "version": "1.0.9",
+  "version": "2.0.0",
   "description": "TypeScript protobuf generated code for Spounge",
   "main": "./index.js",
   "types": "./index.d.ts",
