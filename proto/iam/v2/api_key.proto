@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package iam.v2;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/iam/v2;iamv2";
+
+message APIKey {
+  string id = 1;
+  string user_id = 2;
+  string name = 3;
+  string key_prefix = 4;
+  optional string description = 5;
+  google.protobuf.Timestamp created_at = 6;
+  optional google.protobuf.Timestamp last_used_at = 7;
+}
+
+message APIKeyWithSecret {
+  APIKey api_key = 1;
+  string secret_key = 2;
+}

@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package api.v2;
+
+import "auth/v2/auth_service.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/api/v2;apiv2";
+
+service AuthGatewayService {
+  rpc Login(AuthGatewayServiceLoginRequest) returns (AuthGatewayServiceLoginResponse) {
+    option (google.api.http) = {
+      post: "/v2/auth/login"
+      body: "*"
+    };
+  }
+  rpc RefreshToken(AuthGatewayServiceRefreshTokenRequest) returns (AuthGatewayServiceRefreshTokenResponse) {
+    option (google.api.http) = {
+      post: "/v2/auth/refresh"
+      body: "*"
+    };
+  }
+  rpc Logout(AuthGatewayServiceLogoutRequest) returns (AuthGatewayServiceLogoutResponse) {
+    option (google.api.http) = {
+      post: "/v2/auth/logout"
+      body: "*"
+    };
+  }
+}
+
+message AuthGatewayServiceLoginRequest {
+  auth.v2.LoginRequest login_request = 1;
+}
+
+message AuthGatewayServiceLoginResponse {
+  auth.v2.LoginResponse login_response = 1;
+}
+
+message AuthGatewayServiceRefreshTokenRequest {
+  auth.v2.RefreshTokenRequest refresh_token_request = 1;
+}
+
+message AuthGatewayServiceRefreshTokenResponse {
+  auth.v2.RefreshTokenResponse refresh_token_response = 1;
+}
+
+message AuthGatewayServiceLogoutRequest {
+  google.protobuf.Empty empty = 1;
+}
+
+message AuthGatewayServiceLogoutResponse {
+  auth.v2.LogoutResponse logout_response = 1;
+}

@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package api.v2;
+
+import "google/api/annotations.proto";
+import "workflow/v2/execution_service.proto"; 
+import "workflow/v2/workflow_service.proto"; 
+
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/api/v2;apiv2";
+
+service WorkflowGatewayService {
+  rpc CreateWorkflow(WorkflowGatewayServiceCreateWorkflowRequest) returns (WorkflowGatewayServiceCreateWorkflowResponse) {
+    option (google.api.http) = {
+      post: "/v2/workflows"
+      body: "*"
+    };
+  }
+  rpc GetWorkflow(WorkflowGatewayServiceGetWorkflowRequest) returns (WorkflowGatewayServiceGetWorkflowResponse) {
+    option (google.api.http) = {get: "/v2/workflows/{get_workflow_request.workflow_id}"};
+  }
+  rpc ListWorkflows(WorkflowGatewayServiceListWorkflowsRequest) returns (WorkflowGatewayServiceListWorkflowsResponse) {
+    option (google.api.http) = {get: "/v2/workflows"};
+  }
+
+  rpc StartExecution(WorkflowGatewayServiceStartExecutionRequest) returns (WorkflowGatewayServiceStartExecutionResponse) {
+    option (google.api.http) = {
+      post: "/v2/workflows/{start_execution_request.workflow_id}/execute"
+      body: "*"
+    };
+  }
+  rpc GetExecution(WorkflowGatewayServiceGetExecutionRequest) returns (WorkflowGatewayServiceGetExecutionResponse) {
+    option (google.api.http) = {get: "/v2/executions/{get_execution_request.execution_id}"};
+  }
+}
+
+message WorkflowGatewayServiceCreateWorkflowRequest {
+  workflow.v2.CreateWorkflowRequest create_workflow_request = 1;
+}
+
+message WorkflowGatewayServiceCreateWorkflowResponse {
+  workflow.v2.CreateWorkflowResponse create_workflow_response = 1;
+}
+
+message WorkflowGatewayServiceGetWorkflowRequest {
+  workflow.v2.GetWorkflowRequest get_workflow_request = 1;
+}
+
+message WorkflowGatewayServiceGetWorkflowResponse {
+  workflow.v2.GetWorkflowResponse get_workflow_response = 1;
+}
+
+message WorkflowGatewayServiceListWorkflowsRequest {
+  workflow.v2.ListWorkflowsRequest list_workflows_request = 1;
+}
+
+message WorkflowGatewayServiceListWorkflowsResponse {
+  workflow.v2.ListWorkflowsResponse list_workflows_response = 1;
+}
+
+message WorkflowGatewayServiceStartExecutionRequest {
+  workflow.v2.StartExecutionRequest start_execution_request = 1;
+}
+
+message WorkflowGatewayServiceStartExecutionResponse {
+  workflow.v2.StartExecutionResponse start_execution_response = 1;
+}
+
+message WorkflowGatewayServiceGetExecutionRequest {
+  workflow.v2.GetExecutionRequest get_execution_request = 1;
+}
+
+message WorkflowGatewayServiceGetExecutionResponse {
+  workflow.v2.GetExecutionResponse get_execution_response = 1;
+}

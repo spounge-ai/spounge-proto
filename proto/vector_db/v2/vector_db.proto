@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package vector_db.v2;
+
+import "common/v2/common.proto";
+import "google/protobuf/struct.proto";
+
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/vector_db/v2;vectordbv2";
+
+message Vector {
+  string id = 1;
+  repeated float values = 2;
+  google.protobuf.Struct metadata = 3;
+}
+
+message QueryResult {
+  string id = 1;
+  float score = 2;
+  google.protobuf.Struct metadata = 3;
+}
+
+message UpsertRequest {
+  string collection_name = 1;
+  repeated Vector vectors = 2;
+}
+
+message UpsertResponse {
+  common.v2.Status status = 1;
+  int32 upserted_count = 2;
+}
+
+message QueryRequest {
+  string collection_name = 1;
+  repeated float query_vector = 2;
+  int32 top_k = 3;
+  optional google.protobuf.Struct filter = 4;
+}
+
+message QueryResponse {
+  common.v2.Status status = 1;
+  repeated QueryResult results = 2;
+}
+
+service VectorDBService {
+  rpc Upsert(UpsertRequest) returns (UpsertResponse) {}
+  rpc Query(QueryRequest) returns (QueryResponse) {}
+}

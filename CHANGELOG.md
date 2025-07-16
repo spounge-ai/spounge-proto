@@ -1,5 +1,11 @@
 # @spounge/proto
 
+## 2.0.1
+
+### Patch Changes
+
+- [Go Module] - Versioning update for semantic parsers
+
 ## 2.0.0
 
 ### Major Changes
