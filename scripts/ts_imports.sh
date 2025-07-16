@@ -38,6 +38,13 @@ get_main_exports() {
     sort | uniq
 }
 
+# Check if a file actually exists before trying to export from it
+file_exists_for_export() {
+    local dir="$1"
+    local basename="$2"
+    [[ -f "$dir/$basename.ts" ]] || [[ -f "$dir/$basename/index.ts" ]]
+}
+
 # Function to create index file for a directory
 create_index() {
     local dir="$1"
@@ -114,10 +121,11 @@ create_index() {
         fi
     fi
 
-    # Export subdirectories that have TypeScript content
+    # Export subdirectories that have TypeScript content (with existence check)
     find "$dir" -mindepth 1 -maxdepth 1 -type d | while read -r subdir; do
-        if find "$subdir" -name "*.ts" | grep -q .; then
-            local basename=$(basename "$subdir")
+        local basename=$(basename "$subdir")
+        # Only export if directory has actual .ts files or valid index
+        if [[ -f "$subdir/index.ts" ]] || find "$subdir" -maxdepth 1 -name "*.ts" -not -name "index.ts" | grep -q .; then
             echo "export * from './$basename';" >> "$temp_index"
         fi
     done
@@ -129,7 +137,7 @@ create_index() {
     fi
 }
 
-# Create namespace-aware root index
+# Create namespace-aware root index with conflict resolution
 create_root_index() {
     local root_index="$TS_GEN_DIR/index.ts"
     local temp_root="$TEMP_DIR/root.index.ts"
@@ -151,11 +159,24 @@ export { protobufPackage } from './$utility_module';
 EOF
     fi
 
-    # Export all top-level directories
+    # Export directories with conflict resolution
     find "$TS_GEN_DIR" -mindepth 1 -maxdepth 1 -type d | sort | while read -r dir; do
         if find "$dir" -name "*.ts" | grep -q .; then
             local basename=$(basename "$dir")
-            echo "export * from './$basename';" >> "$temp_root"
+            
+            # Handle known conflicts by using qualified exports
+            if [[ "$basename" == "google" ]]; then
+                # Export google namespace but avoid Status conflicts
+                cat >> "$temp_root" << EOF
+// Export Google API types with namespace to avoid conflicts
+export * as Google from './google';
+EOF
+            elif [[ "$basename" == "common" ]]; then
+                # Export common types first (takes precedence)
+                echo "export * from './common';" >> "$temp_root"
+            else
+                echo "export * from './$basename';" >> "$temp_root"
+            fi
         fi
     done
 
@@ -175,6 +196,21 @@ fi
 
 print_header "Generating TypeScript index files..."
 
+# Clean up any problematic exports first
+print_section "Cleaning up problematic exports..."
+find "$TS_GEN_DIR" -name "index.ts" | while read -r file; do
+    # Remove exports for missing files
+    sed -i.bak \
+        -e "/export \* from '\.\/expr'/d" \
+        -e "/export \* from '\.\/geo'/d" \
+        "$file"
+    
+    # Check if we actually removed something
+    if ! cmp -s "$file" "$file.bak" 2>/dev/null; then
+        print_success "Cleaned problematic exports from: $file"
+    fi
+done
+
 # Process directories from deepest to shallowest
 find "$TS_GEN_DIR" -type d | sort -r | while read -r dir; do
     create_index "$dir"
@@ -190,7 +226,9 @@ find "$TS_GEN_DIR" -mindepth 1 -maxdepth 1 -type d | while read -r dir; do
         find "$dir" -mindepth 1 -maxdepth 1 -type d | while read -r subdir; do
             if find "$subdir" -name "*.ts" | grep -q .; then
                 sub_basename=$(basename "$subdir")
-                echo "export * from './$sub_basename';" >> "$index_file"
+                if file_exists_for_export "$subdir" "index" || find "$subdir" -name "*.ts" | grep -q .; then
+                    echo "export * from './$sub_basename';" >> "$index_file"
+                fi
             fi
         done
 

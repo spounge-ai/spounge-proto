@@ -1,8 +1,16 @@
-// Re-export utility types from single source to avoid conflicts
-export type { DeepPartial, Exact, MessageFns } from './polykey/v1/polykey';
-export { protobufPackage } from './polykey/v1/polykey';
+// Auto-generated index file
 
+// Export common types first (takes precedence)
 export * from './common';
-export * from './google';
+
+// Export Google types under namespace to avoid conflicts
+export * as Google from './google';
+
+export * from './api';
+export * from './auth';
+export * from './iam';
+export * from './llm';
 export * from './polykey';
 export * from './user';
+export * from './vector_db';
+export * from './workflow';

@@ -1,12 +1,25 @@
 version: v2
 
+# Define modules in your workspace
 modules:
   - path: proto
 
+# Dependencies shared by all modules in the workspace
+deps:
+  - buf.build/googleapis/googleapis
+  # Remove the unused grpc-gateway dependency - it's used via plugins, not deps
+
+# Default lint configuration for all modules
 lint:
   use:
     - STANDARD
-
+  enum_zero_value_suffix: _UNSPECIFIED
+  service_suffix: Service
+  rpc_allow_google_protobuf_empty_requests: true
+  rpc_allow_google_protobuf_empty_responses: true
+  
+# Default breaking change detection
 breaking:
   use:
     - FILE
+  ignore_unstable_packages: true

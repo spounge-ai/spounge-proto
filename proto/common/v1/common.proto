@@ -6,7 +6,7 @@ package common.v1;
 
 import "google/protobuf/struct.proto";
 
-option go_package = "github.com/spoungeai/spounge-protos/gen/go/common/v1;commonv1";
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/common/v1;commonv1";
 
 // Status is a standard message for returning operation status.
 // It's modeled after google.rpc.Status.

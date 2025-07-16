@@ -9,7 +9,7 @@ import "common/v1/common.proto";
 import "google/protobuf/empty.proto";
 import "user/v1/user.proto";
 
-option go_package = "github.com/spoungeai/spounge-protos/gen/go/auth/v1;authv1";
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/auth/v1;authv1";
 
 // AuthService handles user authentication and session management.
 service AuthService {

@@ -10,7 +10,8 @@ DOCKER_IMAGE ?= spoungeai/protos-gen
 GEN_PB := $(SCRIPTS_DIR)/generate_pb.sh
 TS_IMPORTS := $(SCRIPTS_DIR)/ts_imports.sh
 BEAUTIFY := $(SCRIPTS_DIR)/spounge_prettier.sh
-PROTO_SCRIPTS := $(GEN_PB) $(TS_IMPORTS) $(BEAUTIFY)
+
+PROTO_SCRIPTS := $(GEN_PB) $(TS_IMPORTS) $(BEAUTIFY) 
 
 GEN_GO_TESTS := $(SCRIPTS_DIR)/generate_go_tests.sh
 GEN_TS_TESTS := $(SCRIPTS_DIR)/generate_ts_tests.sh
@@ -50,6 +51,7 @@ gen-go: chmod-scripts
 gen-ts: chmod-scripts
 	$(call echo_step,Generating TypeScript protobuf files)
 	@$(GEN_PB) ts
+
 
 ts-imports: chmod-scripts
 	$(call echo_step,Getting TypeScript imports)

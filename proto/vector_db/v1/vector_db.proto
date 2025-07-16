@@ -7,7 +7,7 @@ package vector_db.v1;
 import "common/v1/common.proto";
 import "google/protobuf/struct.proto";
 
-option go_package = "github.com/spoungeai/spounge-protos/gen/go/vector_db/v1;vectordbv1";
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/vector_db/v1;vectordbv1";
 
 // A single vector with its ID and metadata.
 message Vector {

@@ -1,1 +1,1 @@
-export * from './polykey';
+export * from './polykey_service_pb';

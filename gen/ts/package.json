@@ -1,6 +1,7 @@
 {
   "name": "@spounge/proto-ts",
   "version": "1.0.9",
+  "description": "TypeScript protobuf generated code for Spounge",
   "main": "./index.js",
   "types": "./index.d.ts",
   "sideEffects": false,
@@ -8,13 +9,41 @@
   "files": [
     "*.js",
     "*.d.ts",
+    "api",
+    "auth",
     "common",
     "google",
-    "polykey"
+    "iam",
+    "llm",
+    "polykey",
+    "user",
+    "vector_db",
+    "workflow",
+    "v1"
   ],
   "dependencies": {
+    "@bufbuild/protobuf": "^1.4.2",
+    "@connectrpc/connect": "^1.1.4",
+    "@connectrpc/connect-web": "^1.1.4",
     "protobufjs": "^7.2.5",
     "long": "^5.2.3",
     "rxjs": "^7.8.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0",
+    "@types/node": "^20.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spoungeai/spounge-proto.git"
+  },
+  "author": "Evan Huang",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
   }
 }
