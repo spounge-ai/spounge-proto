@@ -75,8 +75,6 @@ export type GetWorkflowRequest = Message<"workflow.v1.GetWorkflowRequest"> & {
   workflowId: string;
 
   /**
-   * The version to retrieve. If not set, the latest version is returned.
-   *
    * @generated from field: optional int32 version = 2;
    */
   version?: number;
@@ -116,8 +114,6 @@ export type UpdateWorkflowRequest = Message<"workflow.v1.UpdateWorkflowRequest">
   workflowId: string;
 
   /**
-   * A field mask to specify which fields of the workflow to update.
-   *
    * @generated from field: google.protobuf.FieldMask update_mask = 2;
    */
   updateMask?: FieldMask;
@@ -152,8 +148,6 @@ export const UpdateWorkflowRequestSchema: GenMessage<UpdateWorkflowRequest> = /*
  */
 export type UpdateWorkflowResponse = Message<"workflow.v1.UpdateWorkflowResponse"> & {
   /**
-   * Returns the new version of the updated workflow.
-   *
    * @generated from field: workflow.v1.WorkflowConfig workflow = 1;
    */
   workflow?: WorkflowConfig;
@@ -274,9 +268,6 @@ export const ListWorkflowVersionsResponseSchema: GenMessage<ListWorkflowVersions
   messageDesc(file_workflow_v1_workflow_service, 11);
 
 /**
- * WorkflowService provides RPCs for managing workflow definitions.
- * User identity is inferred from the auth token for all requests.
- *
  * @generated from service workflow.v1.WorkflowService
  */
 export const WorkflowService: GenService<{

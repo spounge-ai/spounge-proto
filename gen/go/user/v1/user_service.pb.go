@@ -73,11 +73,9 @@ func (x *GetUserProfileResponse) GetProfile() *UserProfile {
 }
 
 type UpdateUserProfileRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The fields to update.
-	UpdateMask *fieldmaskpb.FieldMask `protobuf:"bytes,1,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
-	// The user profile data to update. Only fields in update_mask will be considered.
-	Profile       *UserProfile `protobuf:"bytes,2,opt,name=profile,proto3" json:"profile,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,1,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
+	Profile       *UserProfile           `protobuf:"bytes,2,opt,name=profile,proto3" json:"profile,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -171,11 +169,10 @@ func (x *UpdateUserProfileResponse) GetProfile() *UserProfile {
 }
 
 type AddManagedSecretRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	Name  string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Type  v1.ManagedSecretType   `protobuf:"varint,2,opt,name=type,proto3,enum=iam.v1.ManagedSecretType" json:"type,omitempty"`
-	// The sensitive secret value, sent over a secure channel.
-	PlainTextSecret string `protobuf:"bytes,3,opt,name=plain_text_secret,json=plainTextSecret,proto3" json:"plain_text_secret,omitempty"`
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Name            string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Type            v1.ManagedSecretType   `protobuf:"varint,2,opt,name=type,proto3,enum=iam.v1.ManagedSecretType" json:"type,omitempty"`
+	PlainTextSecret string                 `protobuf:"bytes,3,opt,name=plain_text_secret,json=plainTextSecret,proto3" json:"plain_text_secret,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }

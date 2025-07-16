@@ -129,8 +129,6 @@ export const LogoutResponseSchema: GenMessage<LogoutResponse> = /*@__PURE__*/
   messageDesc(file_auth_v1_auth_service, 4);
 
 /**
- * AuthService handles user authentication and session management.
- *
  * @generated from service auth.v1.AuthService
  */
 export const AuthService: GenService<{

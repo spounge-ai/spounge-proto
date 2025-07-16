@@ -34,9 +34,6 @@ const (
 // UserServiceClient is the client API for UserService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-//
-// UserService manages user profiles and their associated secrets.
-// All RPCs infer the user identity from the authentication context.
 type UserServiceClient interface {
 	GetUserProfile(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetUserProfileResponse, error)
 	UpdateUserProfile(ctx context.Context, in *UpdateUserProfileRequest, opts ...grpc.CallOption) (*UpdateUserProfileResponse, error)
@@ -117,9 +114,6 @@ func (c *userServiceClient) DeleteManagedSecret(ctx context.Context, in *DeleteM
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility.
-//
-// UserService manages user profiles and their associated secrets.
-// All RPCs infer the user identity from the authentication context.
 type UserServiceServer interface {
 	GetUserProfile(context.Context, *emptypb.Empty) (*GetUserProfileResponse, error)
 	UpdateUserProfile(context.Context, *UpdateUserProfileRequest) (*UpdateUserProfileResponse, error)

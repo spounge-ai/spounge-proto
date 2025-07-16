@@ -45,15 +45,11 @@ export const GetUserProfileResponseSchema: GenMessage<GetUserProfileResponse> = 
  */
 export type UpdateUserProfileRequest = Message<"user.v1.UpdateUserProfileRequest"> & {
   /**
-   * The fields to update.
-   *
    * @generated from field: google.protobuf.FieldMask update_mask = 1;
    */
   updateMask?: FieldMask;
 
   /**
-   * The user profile data to update. Only fields in update_mask will be considered.
-   *
    * @generated from field: user.v1.UserProfile profile = 2;
    */
   profile?: UserProfile;
@@ -98,8 +94,6 @@ export type AddManagedSecretRequest = Message<"user.v1.AddManagedSecretRequest">
   type: ManagedSecretType;
 
   /**
-   * The sensitive secret value, sent over a secure channel.
-   *
    * @generated from field: string plain_text_secret = 3;
    */
   plainTextSecret: string;
@@ -215,9 +209,6 @@ export const DeleteManagedSecretResponseSchema: GenMessage<DeleteManagedSecretRe
   messageDesc(file_user_v1_user_service, 9);
 
 /**
- * UserService manages user profiles and their associated secrets.
- * All RPCs infer the user identity from the authentication context.
- *
  * @generated from service user.v1.UserService
  */
 export const UserService: GenService<{

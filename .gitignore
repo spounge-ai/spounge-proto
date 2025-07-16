@@ -29,6 +29,6 @@ gen/ts/**/*.js
 gen/ts/**/*.d.ts
 gen/ts/**/*.js.map
 gen/ts/**/*.d.ts.map
-
+/gen/openapi/
 
 buf.lock
