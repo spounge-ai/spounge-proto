@@ -11,7 +11,7 @@ import (
 	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	v1 "spounge-proto-gen/auth/v1"
+	v1 "github.com/spounge-ai/spounge-proto/gen/go/auth/v1"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	http "net/http"
 	strings "strings"

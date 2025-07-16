@@ -22,7 +22,7 @@
 package _type
 
 import (
-	_type "spounge-proto-gen/google/type"
+	_type "github.com/spounge-ai/spounge-proto/gen/go/google/type"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -134,7 +134,7 @@ const file_google_geo_type_viewport_proto_rawDesc = "" +
 	"\bViewport\x12%\n" +
 	"\x03low\x18\x01 \x01(\v2\x13.google.type.LatLngR\x03low\x12'\n" +
 	"\x04high\x18\x02 \x01(\v2\x13.google.type.LatLngR\x04highB\xbe\x01\n" +
-	"\x13com.google.geo.typeB\rViewportProtoP\x01Z:spounge-proto-gen/google/geo/type\xa2\x02\x03GGT\xaa\x02\x0fGoogle.Geo.Type\xca\x02\x0fGoogle\\Geo\\Type\xe2\x02\x1bGoogle\\Geo\\Type\\GPBMetadata\xea\x02\x11Google::Geo::Typeb\x06proto3"
+	"\x13com.google.geo.typeB\rViewportProtoP\x01Z:github.com/spounge-ai/spounge-proto/gen/go/google/geo/type\xa2\x02\x03GGT\xaa\x02\x0fGoogle.Geo.Type\xca\x02\x0fGoogle\\Geo\\Type\xe2\x02\x1bGoogle\\Geo\\Type\\GPBMetadata\xea\x02\x11Google::Geo::Typeb\x06proto3"
 
 var (
 	file_google_geo_type_viewport_proto_rawDescOnce sync.Once

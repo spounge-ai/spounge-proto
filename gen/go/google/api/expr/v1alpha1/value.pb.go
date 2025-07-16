@@ -549,7 +549,7 @@ const file_google_api_expr_v1alpha1_value_proto_rawDesc = "" +
 	"\x03key\x18\x01 \x01(\v2\x1f.google.api.expr.v1alpha1.ValueR\x03key\x125\n" +
 	"\x05value\x18\x02 \x01(\v2\x1f.google.api.expr.v1alpha1.ValueR\x05valueB\x82\x02\n" +
 	"\x1ccom.google.api.expr.v1alpha1B\n" +
-	"ValueProtoP\x01ZPspounge-proto-gen/google/api/expr/v1alpha1;exprv1alpha1\xf8\x01\x01\xa2\x02\x03GAE\xaa\x02\x18Google.Api.Expr.V1alpha1\xca\x02\x18Google\\Api\\Expr\\V1alpha1\xe2\x02$Google\\Api\\Expr\\V1alpha1\\GPBMetadata\xea\x02\x1bGoogle::Api::Expr::V1alpha1b\x06proto3"
+	"ValueProtoP\x01ZPgithub.com/spounge-ai/spounge-proto/gen/go/google/api/expr/v1alpha1;exprv1alpha1\xf8\x01\x01\xa2\x02\x03GAE\xaa\x02\x18Google.Api.Expr.V1alpha1\xca\x02\x18Google\\Api\\Expr\\V1alpha1\xe2\x02$Google\\Api\\Expr\\V1alpha1\\GPBMetadata\xea\x02\x1bGoogle::Api::Expr::V1alpha1b\x06proto3"
 
 var (
 	file_google_api_expr_v1alpha1_value_proto_rawDescOnce sync.Once

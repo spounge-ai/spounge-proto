@@ -10,7 +10,7 @@
 package workflowv1
 
 import (
-	v1 "spounge-proto-gen/common/v1"
+	v1 "github.com/spounge-ai/spounge-proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	structpb "google.golang.org/protobuf/types/known/structpb"
@@ -330,7 +330,7 @@ const file_workflow_v1_execution_proto_rawDesc = "" +
 	"\x1aEXECUTION_STATUS_COMPLETED\x10\x03\x12\x1b\n" +
 	"\x17EXECUTION_STATUS_FAILED\x10\x04\x12\x1e\n" +
 	"\x1aEXECUTION_STATUS_CANCELLED\x10\x05B\xb1\x01\n" +
-	"\x0fcom.workflow.v1B\x0eExecutionProtoP\x01ZAspounge-proto-gen/workflow/v1;workflowv1\xa2\x02\x03WXX\xaa\x02\vWorkflow.V1\xca\x02\vWorkflow\\V1\xe2\x02\x17Workflow\\V1\\GPBMetadata\xea\x02\fWorkflow::V1b\x06proto3"
+	"\x0fcom.workflow.v1B\x0eExecutionProtoP\x01ZAgithub.com/spounge-ai/spounge-proto/gen/go/workflow/v1;workflowv1\xa2\x02\x03WXX\xaa\x02\vWorkflow.V1\xca\x02\vWorkflow\\V1\xe2\x02\x17Workflow\\V1\\GPBMetadata\xea\x02\fWorkflow::V1b\x06proto3"
 
 var (
 	file_workflow_v1_execution_proto_rawDescOnce sync.Once

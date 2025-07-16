@@ -202,7 +202,7 @@ const file_iam_v1_managed_secret_proto_rawDesc = "" +
 	"\x1dMANAGED_SECRET_TYPE_GOOGLE_AI\x10\x05\x12\x1e\n" +
 	"\x1aMANAGED_SECRET_TYPE_CUSTOM\x10\x06B\x92\x01\n" +
 	"\n" +
-	"com.iam.v1B\x12ManagedSecretProtoP\x01Z7spounge-proto-gen/iam/v1;iamv1\xa2\x02\x03IXX\xaa\x02\x06Iam.V1\xca\x02\x06Iam\\V1\xe2\x02\x12Iam\\V1\\GPBMetadata\xea\x02\aIam::V1b\x06proto3"
+	"com.iam.v1B\x12ManagedSecretProtoP\x01Z7github.com/spounge-ai/spounge-proto/gen/go/iam/v1;iamv1\xa2\x02\x03IXX\xaa\x02\x06Iam.V1\xca\x02\x06Iam\\V1\xe2\x02\x12Iam\\V1\\GPBMetadata\xea\x02\aIam::V1b\x06proto3"
 
 var (
 	file_iam_v1_managed_secret_proto_rawDescOnce sync.Once

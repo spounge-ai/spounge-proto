@@ -124,7 +124,7 @@ const file_google_type_date_proto_rawDesc = "" +
 	"\x04year\x18\x01 \x01(\x05R\x04year\x12\x14\n" +
 	"\x05month\x18\x02 \x01(\x05R\x05month\x12\x10\n" +
 	"\x03day\x18\x03 \x01(\x05R\x03dayB\xa4\x01\n" +
-	"\x0fcom.google.typeB\tDateProtoP\x01Z6spounge-proto-gen/google/type\xf8\x01\x01\xa2\x02\x03GTX\xaa\x02\vGoogle.Type\xca\x02\vGoogle\\Type\xe2\x02\x17Google\\Type\\GPBMetadata\xea\x02\fGoogle::Typeb\x06proto3"
+	"\x0fcom.google.typeB\tDateProtoP\x01Z6github.com/spounge-ai/spounge-proto/gen/go/google/type\xf8\x01\x01\xa2\x02\x03GTX\xaa\x02\vGoogle.Type\xca\x02\vGoogle\\Type\xe2\x02\x17Google\\Type\\GPBMetadata\xea\x02\fGoogle::Typeb\x06proto3"
 
 var (
 	file_google_type_date_proto_rawDescOnce sync.Once

@@ -173,7 +173,7 @@ const file_auth_v1_token_proto_rawDesc = "" +
 	"\x16TOKEN_TYPE_UNSPECIFIED\x10\x00\x12\x15\n" +
 	"\x11TOKEN_TYPE_BEARER\x10\x01B\x91\x01\n" +
 	"\vcom.auth.v1B\n" +
-	"TokenProtoP\x01Z9spounge-proto-gen/auth/v1;authv1\xa2\x02\x03AXX\xaa\x02\aAuth.V1\xca\x02\aAuth\\V1\xe2\x02\x13Auth\\V1\\GPBMetadata\xea\x02\bAuth::V1b\x06proto3"
+	"TokenProtoP\x01Z9github.com/spounge-ai/spounge-proto/gen/go/auth/v1;authv1\xa2\x02\x03AXX\xaa\x02\aAuth.V1\xca\x02\aAuth\\V1\xe2\x02\x13Auth\\V1\\GPBMetadata\xea\x02\bAuth::V1b\x06proto3"
 
 var (
 	file_auth_v1_token_proto_rawDescOnce sync.Once

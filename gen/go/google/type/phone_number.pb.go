@@ -268,7 +268,7 @@ const file_google_type_phone_number_proto_rawDesc = "" +
 	"regionCode\x12\x16\n" +
 	"\x06number\x18\x02 \x01(\tR\x06numberB\x06\n" +
 	"\x04kindB\xab\x01\n" +
-	"\x0fcom.google.typeB\x10PhoneNumberProtoP\x01Z6spounge-proto-gen/google/type\xf8\x01\x01\xa2\x02\x03GTX\xaa\x02\vGoogle.Type\xca\x02\vGoogle\\Type\xe2\x02\x17Google\\Type\\GPBMetadata\xea\x02\fGoogle::Typeb\x06proto3"
+	"\x0fcom.google.typeB\x10PhoneNumberProtoP\x01Z6github.com/spounge-ai/spounge-proto/gen/go/google/type\xf8\x01\x01\xa2\x02\x03GTX\xaa\x02\vGoogle.Type\xca\x02\vGoogle\\Type\xe2\x02\x17Google\\Type\\GPBMetadata\xea\x02\fGoogle::Typeb\x06proto3"
 
 var (
 	file_google_type_phone_number_proto_rawDescOnce sync.Once

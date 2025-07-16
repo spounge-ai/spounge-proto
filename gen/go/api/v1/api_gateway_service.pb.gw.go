@@ -16,9 +16,9 @@ import (
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/utilities"
-	"spounge-proto-gen/auth/v1"
-	"spounge-proto-gen/user/v1"
-	"spounge-proto-gen/workflow/v1"
+	"github.com/spounge-ai/spounge-proto/gen/go/auth/v1"
+	"github.com/spounge-ai/spounge-proto/gen/go/user/v1"
+	"github.com/spounge-ai/spounge-proto/gen/go/workflow/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/grpclog"

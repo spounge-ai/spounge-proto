@@ -101,7 +101,7 @@ EOF
   GO_MOD_FILE="$ROOT_DIR/gen/go/go.mod"
   if [ ! -f "$GO_MOD_FILE" ]; then
     cat > "$GO_MOD_FILE" << 'EOF'
-module spounge-proto-gen
+module github.com/spounge-ai/spounge-proto/gen/go
 
 go 1.24.1
 
@@ -118,11 +118,7 @@ EOF
     print_info "go.mod already exists in gen/go"
   fi
 
-  # Replace module paths in generated files to use local module
-  echo -e "\n${YELLOW}${GEAR} Fixing import paths in generated Go files...${NC}"
-  find "$ROOT_DIR/gen/go" -name "*.go" -type f -exec sed -i 's|github.com/spounge-ai/spounge-proto/gen/go/|spounge-proto-gen/|g' {} \;
-  find "$ROOT_DIR/gen/go" -name "*.go" -type f -exec sed -i 's|github.com/spounge-ai/spounge-protos/gen/go/|spounge-proto-gen/|g' {} \;
-  print_success "Import paths fixed"
+ 
 
   # Run go mod tidy to update dependencies to latest compatible versions
   cd "$ROOT_DIR/gen/go" && go mod tidy

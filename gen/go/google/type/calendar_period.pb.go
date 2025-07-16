@@ -128,7 +128,7 @@ const file_google_type_calendar_period_proto_rawDesc = "" +
 	"\aQUARTER\x10\x05\x12\b\n" +
 	"\x04HALF\x10\x06\x12\b\n" +
 	"\x04YEAR\x10\aB\xab\x01\n" +
-	"\x0fcom.google.typeB\x13CalendarPeriodProtoP\x01Z6spounge-proto-gen/google/type\xa2\x02\x03GTX\xaa\x02\vGoogle.Type\xca\x02\vGoogle\\Type\xe2\x02\x17Google\\Type\\GPBMetadata\xea\x02\fGoogle::Typeb\x06proto3"
+	"\x0fcom.google.typeB\x13CalendarPeriodProtoP\x01Z6github.com/spounge-ai/spounge-proto/gen/go/google/type\xa2\x02\x03GTX\xaa\x02\vGoogle.Type\xca\x02\vGoogle\\Type\xe2\x02\x17Google\\Type\\GPBMetadata\xea\x02\fGoogle::Typeb\x06proto3"
 
 var (
 	file_google_type_calendar_period_proto_rawDescOnce sync.Once

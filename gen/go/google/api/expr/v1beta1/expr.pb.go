@@ -1085,7 +1085,7 @@ const file_google_api_expr_v1beta1_expr_proto_rawDesc = "" +
 	"\vbytes_value\x18\a \x01(\fH\x00R\n" +
 	"bytesValueB\x0f\n" +
 	"\rconstant_kindB\xfa\x01\n" +
-	"\x1bcom.google.api.expr.v1beta1B\tExprProtoP\x01ZNspounge-proto-gen/google/api/expr/v1beta1;exprv1beta1\xf8\x01\x01\xa2\x02\x03GAE\xaa\x02\x17Google.Api.Expr.V1beta1\xca\x02\x17Google\\Api\\Expr\\V1beta1\xe2\x02#Google\\Api\\Expr\\V1beta1\\GPBMetadata\xea\x02\x1aGoogle::Api::Expr::V1beta1b\x06proto3"
+	"\x1bcom.google.api.expr.v1beta1B\tExprProtoP\x01ZNgithub.com/spounge-ai/spounge-proto/gen/go/google/api/expr/v1beta1;exprv1beta1\xf8\x01\x01\xa2\x02\x03GAE\xaa\x02\x17Google.Api.Expr.V1beta1\xca\x02\x17Google\\Api\\Expr\\V1beta1\xe2\x02#Google\\Api\\Expr\\V1beta1\\GPBMetadata\xea\x02\x1aGoogle::Api::Expr::V1beta1b\x06proto3"
 
 var (
 	file_google_api_expr_v1beta1_expr_proto_rawDescOnce sync.Once

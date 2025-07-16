@@ -22,7 +22,7 @@ import (
 	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	bytestream "spounge-proto-gen/google/bytestream"
+	bytestream "github.com/spounge-ai/spounge-proto/gen/go/google/bytestream"
 	http "net/http"
 	strings "strings"
 )

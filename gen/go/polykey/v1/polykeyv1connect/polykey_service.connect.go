@@ -11,7 +11,7 @@ import (
 	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	v1 "spounge-proto-gen/polykey/v1"
+	v1 "github.com/spounge-ai/spounge-proto/gen/go/polykey/v1"
 	http "net/http"
 	strings "strings"
 )

@@ -13,8 +13,8 @@ BEAUTIFY := $(SCRIPTS_DIR)/spounge_prettier.sh
 
 PROTO_SCRIPTS := $(GEN_PB) $(TS_IMPORTS) $(BEAUTIFY) 
 
-GEN_GO_TESTS := $(SCRIPTS_DIR)/generate_go_tests.sh
-GEN_TS_TESTS := $(SCRIPTS_DIR)/generate_ts_tests.sh
+GEN_GO_TESTS := $(SCRIPTS_DIR)/test/generate_go_tests.sh
+GEN_TS_TESTS := $(SCRIPTS_DIR)/test/generate_ts_tests.sh
 TEST_SCRIPTS := $(GEN_GO_TESTS) $(GEN_TS_TESTS)
 
 # --- Helper functions ---
@@ -84,6 +84,8 @@ clean:
 	$(call echo_step,Cleaning generated files)
 	$(call clean_directory,gen/go/*)
 	$(call clean_directory,gen/ts/*)
+	$(call clean_directory,gen/openapi/*)
+
 
 clean-tests:
 	$(call echo_step,Cleaning test files)

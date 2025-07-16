@@ -1,11 +1,8 @@
-# Use official Go Alpine image
 FROM golang:1.24-alpine
 
-# Set environment variables
 ENV PROTOC_VERSION=31.1
 ENV PATH="/go/bin:/usr/local/bin:$PATH"
 
-# Install dependencies
 RUN apk add --no-cache \
     bash \
     curl \
@@ -15,32 +12,37 @@ RUN apk add --no-cache \
     npm \
     git
 
-# Install protoc
-RUN curl -sSL -o /tmp/protoc.zip https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-linux-x86_64.zip \
-    && unzip /tmp/protoc.zip -d /usr/local \
-    && rm -rf /tmp/protoc.zip
+RUN ARCH=$(uname -m) && \
+  case "$ARCH" in \
+    x86_64) BUF_ARCH=buf-Linux-x86_64 ;; \
+    aarch64 | arm64) BUF_ARCH=buf-Linux-aarch64 ;; \
+    *) echo "Unsupported arch: $ARCH" && exit 1 ;; \
+  esac && \
+  curl -sSL "https://github.com/bufbuild/buf/releases/latest/download/${BUF_ARCH}" \
+    -o /usr/local/bin/buf && \
+  chmod +x /usr/local/bin/buf
 
-# Install Go plugins
-RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@latest \
-    && go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+RUN curl -sSL -o /tmp/protoc.zip "https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-linux-x86_64.zip" && \
+    unzip -q /tmp/protoc.zip -d /usr/local && \
+    chmod +x /usr/local/bin/protoc && \
+    rm -rf /tmp/protoc.zip
 
-# Install ts-proto globally and clean npm cache
-RUN npm install -g ts-proto \
-    && npm cache clean --force
+RUN --mount=type=cache,target=/go/pkg/mod \
+    go install google.golang.org/protobuf/cmd/protoc-gen-go@latest && \
+    go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 
-# Set working directory
+RUN npm install -g ts-proto && \
+    npm cache clean --force
+
 WORKDIR /app
 
-# Cache Go dependencies
-COPY gen/go/go.mod gen/go/go.sum ./ 
+COPY gen/go/go.mod gen/go/go.sum ./gen/go/
+WORKDIR /app/gen/go
 RUN go mod download
 
-# Cache npm dependencies
+WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev
 
-# Copy remaining project files
 COPY . .
-
-# Default command
 CMD ["bash"]

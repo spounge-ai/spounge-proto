@@ -10,8 +10,8 @@
 package authv1
 
 import (
-	v1 "spounge-proto-gen/common/v1"
-	v11 "spounge-proto-gen/user/v1"
+	v1 "github.com/spounge-ai/spounge-proto/gen/go/common/v1"
+	v11 "github.com/spounge-ai/spounge-proto/gen/go/user/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
@@ -302,7 +302,7 @@ const file_auth_v1_auth_service_proto_rawDesc = "" +
 	"\x05Login\x12\x15.auth.v1.LoginRequest\x1a\x16.auth.v1.LoginResponse\"\x00\x12M\n" +
 	"\fRefreshToken\x12\x1c.auth.v1.RefreshTokenRequest\x1a\x1d.auth.v1.RefreshTokenResponse\"\x00\x12;\n" +
 	"\x06Logout\x12\x16.google.protobuf.Empty\x1a\x17.auth.v1.LogoutResponse\"\x00B\x97\x01\n" +
-	"\vcom.auth.v1B\x10AuthServiceProtoP\x01Z9spounge-proto-gen/auth/v1;authv1\xa2\x02\x03AXX\xaa\x02\aAuth.V1\xca\x02\aAuth\\V1\xe2\x02\x13Auth\\V1\\GPBMetadata\xea\x02\bAuth::V1b\x06proto3"
+	"\vcom.auth.v1B\x10AuthServiceProtoP\x01Z9github.com/spounge-ai/spounge-proto/gen/go/auth/v1;authv1\xa2\x02\x03AXX\xaa\x02\aAuth.V1\xca\x02\aAuth\\V1\xe2\x02\x13Auth\\V1\\GPBMetadata\xea\x02\bAuth::V1b\x06proto3"
 
 var (
 	file_auth_v1_auth_service_proto_rawDescOnce sync.Once

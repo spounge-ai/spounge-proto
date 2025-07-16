@@ -986,7 +986,7 @@ const file_google_rpc_context_attribute_context_proto_rawDesc = "" +
 	"\x10AnnotationsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\xdb\x01\n" +
-	"\x16com.google.rpc.contextB\x15AttributeContextProtoP\x01Z=spounge-proto-gen/google/rpc/context\xf8\x01\x01\xa2\x02\x03GRC\xaa\x02\x12Google.Rpc.Context\xca\x02\x12Google\\Rpc\\Context\xe2\x02\x1eGoogle\\Rpc\\Context\\GPBMetadata\xea\x02\x14Google::Rpc::Contextb\x06proto3"
+	"\x16com.google.rpc.contextB\x15AttributeContextProtoP\x01Z=github.com/spounge-ai/spounge-proto/gen/go/google/rpc/context\xf8\x01\x01\xa2\x02\x03GRC\xaa\x02\x12Google.Rpc.Context\xca\x02\x12Google\\Rpc\\Context\xe2\x02\x1eGoogle\\Rpc\\Context\\GPBMetadata\xea\x02\x14Google::Rpc::Contextb\x06proto3"
 
 var (
 	file_google_rpc_context_attribute_context_proto_rawDescOnce sync.Once
