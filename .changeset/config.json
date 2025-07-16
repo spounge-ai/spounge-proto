@@ -1,6 +1,6 @@
 {
   "$schema": "https://unpkg.com/@changesets/config/schema.json",
-  "changelog": ["@changesets/changelog-github", { "repo": "spoungeai/spounge-proto" }],
+  "changelog": ["@changesets/changelog-github", { "repo": "spounge-ai/spounge-proto" }],
   "commit": false,
   "access": "public",
   "baseBranch": "main",
