@@ -59,6 +59,7 @@ function generateTsPackage(rootPkg) {
     devDependencies: {
       typescript: rootPkg.devDependencies?.typescript || '^5.0.0',
       '@types/node': rootPkg.devDependencies?.['@types/node'] || '^20.0.0',
+      '@bufbuild/protoc-gen-es': rootPkg.devDependencies?.['@bufbuild/protoc-gen-es'] || '^2.6.0',
     },
     scripts: {
       build: 'tsc',
