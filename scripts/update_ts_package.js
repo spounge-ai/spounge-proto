@@ -40,17 +40,12 @@ function generateTsPackage(rootPkg) {
     files: [
       '*.js', 
       '*.d.ts', 
-      ...generatedDirs,
-      // Common proto directories
-      'common',
-      'google',  // Important: include google directory for API annotations
-      'api',
-      'v1'
+      ...generatedDirs, // Dynamically includes all top-level generated directories
     ].filter((item, index, arr) => arr.indexOf(item) === index), // Remove duplicates
     dependencies: {
-      '@bufbuild/protobuf': rootPkg.dependencies?.['@bufbuild/protobuf'] || '^1.4.2',
-      '@connectrpc/connect': rootPkg.dependencies?.['@connectrpc/connect'] || '^1.1.4',
-      '@connectrpc/connect-web': rootPkg.dependencies?.['@connectrpc/connect-web'] || '^1.1.4',
+      '@bufbuild/protobuf': rootPkg.dependencies?.['@bufbuild/protobuf'] || '^2.6.0',
+      '@connectrpc/connect': rootPkg.dependencies?.['@connectrpc/connect'] || '^2.0.2',
+      '@connectrpc/connect-web': rootPkg.dependencies?.['@connectrpc/connect-web'] || '^2.0.2',
       // Keep legacy dependencies for compatibility
       protobufjs: rootPkg.dependencies?.protobufjs || '^7.2.5',
       long: rootPkg.dependencies?.long || '^5.2.3',
@@ -59,7 +54,7 @@ function generateTsPackage(rootPkg) {
     devDependencies: {
       typescript: rootPkg.devDependencies?.typescript || '^5.0.0',
       '@types/node': rootPkg.devDependencies?.['@types/node'] || '^20.0.0',
-      '@bufbuild/protoc-gen-es': rootPkg.devDependencies?.['@bufbuild/protoc-gen-es'] || '^2.6.0',
+      '@bufbuild/protoc-gen-es': rootPkg.devDependencies?.['@bufbuild/protoc-gen-es'] || '2.6.0',
     },
     scripts: {
       build: 'tsc',

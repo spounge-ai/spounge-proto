@@ -131,6 +131,6 @@ jobs:
           else
             gh release create "v$PACKAGE_VERSION" \
               --title "@spounge/proto-ts@$PACKAGE_VERSION" \
-              --notes "Release $PACKAGE_VERSION"
+              --notes "Release $PACKAGE_VERSION" \
               --latest
           fi

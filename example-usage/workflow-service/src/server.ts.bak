@@ -1,0 +1,229 @@
+// server.ts (http 1.1)
+import express from 'express';
+import { expressConnectMiddleware } from '@connectrpc/connect-express';
+import { ConnectError, Code } from '@connectrpc/connect';
+import { create } from '@bufbuild/protobuf';
+import { FieldMaskSchema, TimestampSchema, StructSchema } from '@bufbuild/protobuf/wkt';
+
+// Import service definition and message schemas
+import {
+  WorkflowService,
+  CreateWorkflowRequest,
+  CreateWorkflowRequestSchema,
+  CreateWorkflowResponse,
+  CreateWorkflowResponseSchema,
+  GetWorkflowRequest,
+  GetWorkflowRequestSchema,
+  GetWorkflowResponse,
+  GetWorkflowResponseSchema,
+  UpdateWorkflowRequest,
+  UpdateWorkflowRequestSchema,
+  UpdateWorkflowResponse,
+  UpdateWorkflowResponseSchema,
+  DeleteWorkflowRequest,
+  DeleteWorkflowRequestSchema,
+  DeleteWorkflowResponse,
+  DeleteWorkflowResponseSchema,
+  ListWorkflowsRequest,
+  ListWorkflowsRequestSchema,
+  ListWorkflowsResponse,
+  ListWorkflowsResponseSchema,
+  ListWorkflowVersionsRequest,
+  ListWorkflowVersionsRequestSchema,
+  ListWorkflowVersionsResponse,
+  ListWorkflowVersionsResponseSchema,
+  WorkflowConfigSchema,
+  WorkflowStepSchema
+} from '@spounge/proto-ts/workflow/v2';
+
+import {
+  StatusSchema,
+  PaginationResultSchema
+} from '@spounge/proto-ts/common/v2';
+
+/**
+ * Implements the WorkflowService with protobuf v2 schemas
+ */
+const workflowServiceImplementation = {
+  async createWorkflow(req: CreateWorkflowRequest): Promise<CreateWorkflowResponse> {
+    console.log("CreateWorkflow request received:", req);
+
+    if (!req.name) {
+      throw new ConnectError("Workflow name is required.", Code.InvalidArgument);
+    }
+
+    const steps = req.steps && req.steps.length > 0
+      ? req.steps
+      : [create(WorkflowStepSchema, { 
+          id: "step1", 
+          name: "Mock Step", 
+          toolName: "mockTool", 
+          parameters: {} 
+        })];
+
+    const mockWorkflow = create(WorkflowConfigSchema, {
+      id: "mock-wf-123",
+      userId: "user-123",
+      name: req.name,
+      description: req.description || "A simple mock workflow.",
+      version: 1,
+      steps: steps,
+      createdAt: create(TimestampSchema, { seconds: BigInt(Math.floor(Date.now() / 1000)) }),
+      updatedAt: create(TimestampSchema, { seconds: BigInt(Math.floor(Date.now() / 1000)) }),
+    });
+
+    console.log(`Mock created workflow: ${mockWorkflow.id}`);
+    return create(CreateWorkflowResponseSchema, { workflow: mockWorkflow });
+  },
+
+  async getWorkflow(req: GetWorkflowRequest): Promise<GetWorkflowResponse> {
+    console.log("GetWorkflow request received:", req);
+
+    if (!req.workflowId) {
+      throw new ConnectError("Workflow ID is required.", Code.InvalidArgument);
+    }
+
+    const mockWorkflow = create(WorkflowConfigSchema, {
+      id: req.workflowId,
+      userId: "user-123",
+      name: "Mock Workflow Name",
+      description: "This is a mock workflow for testing.",
+      version: req.version || 1,
+      steps: [create(WorkflowStepSchema, { 
+        id: "step1", 
+        name: "Mock Step", 
+        toolName: "mockTool", 
+        parameters: {} 
+      })],
+      createdAt: create(TimestampSchema, { seconds: BigInt(Math.floor(Date.now() / 1000)) }),
+      updatedAt: create(TimestampSchema, { seconds: BigInt(Math.floor(Date.now() / 1000)) }),
+    });
+
+    console.log(`Mock retrieved workflow: ${mockWorkflow.id}`);
+    return create(GetWorkflowResponseSchema, { workflow: mockWorkflow });
+  },
+
+  async updateWorkflow(req: UpdateWorkflowRequest): Promise<UpdateWorkflowResponse> {
+    console.log("UpdateWorkflow request received:", req);
+
+    if (!req.workflowId || !req.updateMask) {
+      throw new ConnectError("Workflow ID and update mask are required.", Code.InvalidArgument);
+    }
+
+    const mockUpdatedWorkflow = create(WorkflowConfigSchema, {
+      id: req.workflowId,
+      userId: "user-123",
+      name: req.name || "Updated Mock Workflow Name",
+      description: req.description || "Updated mock description.",
+      version: 2,
+      steps: req.steps || [create(WorkflowStepSchema, { 
+        id: "step1", 
+        name: "Updated Mock Step", 
+        toolName: "mockTool", 
+        parameters: {} 
+      })],
+      createdAt: create(TimestampSchema, { seconds: BigInt(Math.floor((Date.now() - 3600000) / 1000)) }),
+      updatedAt: create(TimestampSchema, { seconds: BigInt(Math.floor(Date.now() / 1000)) }),
+    });
+
+    console.log(`Mock updated workflow: ${mockUpdatedWorkflow.id}`);
+    return create(UpdateWorkflowResponseSchema, { workflow: mockUpdatedWorkflow });
+  },
+
+  async deleteWorkflow(req: DeleteWorkflowRequest): Promise<DeleteWorkflowResponse> {
+    console.log("DeleteWorkflow request received:", req);
+
+    if (!req.workflowId) {
+      throw new ConnectError("Workflow ID is required.", Code.InvalidArgument);
+    }
+
+    console.log(`Mock deleted workflow: ${req.workflowId}`);
+    return create(DeleteWorkflowResponseSchema, { 
+      status: create(StatusSchema, { code: 0, message: "OK" }) 
+    });
+  },
+
+  async listWorkflows(req: ListWorkflowsRequest): Promise<ListWorkflowsResponse> {
+    console.log("ListWorkflows request received:", req);
+
+    const mockWorkflowsList = [
+      create(WorkflowConfigSchema, { 
+        id: "mock-wf-A", 
+        userId: "user-123",
+        name: "Workflow A", 
+        version: 1, 
+        createdAt: create(TimestampSchema, { seconds: BigInt(Math.floor(Date.now() / 1000)) }),
+        updatedAt: create(TimestampSchema, { seconds: BigInt(Math.floor(Date.now() / 1000)) })
+      }),
+      create(WorkflowConfigSchema, { 
+        id: "mock-wf-B", 
+        userId: "user-123",
+        name: "Workflow B", 
+        version: 1, 
+        createdAt: create(TimestampSchema, { seconds: BigInt(Math.floor(Date.now() / 1000)) }),
+        updatedAt: create(TimestampSchema, { seconds: BigInt(Math.floor(Date.now() / 1000)) })
+      }),
+    ];
+
+    console.log(`Mock listed ${mockWorkflowsList.length} workflows.`);
+    return create(ListWorkflowsResponseSchema, {
+      workflows: mockWorkflowsList,
+      pagination: create(PaginationResultSchema, {
+        page: 1,
+        pageSize: 10,
+        totalItems: mockWorkflowsList.length,
+        totalPages: Math.ceil(mockWorkflowsList.length / 10)
+      }),
+    });
+  },
+
+  async listWorkflowVersions(req: ListWorkflowVersionsRequest): Promise<ListWorkflowVersionsResponse> {
+    console.log("ListWorkflowVersions request received:", req);
+
+    if (!req.workflowId) {
+      throw new ConnectError("Workflow ID is required.", Code.InvalidArgument);
+    }
+
+    const mockVersions = [
+      create(WorkflowConfigSchema, { 
+        id: req.workflowId, 
+        userId: "user-123",
+        name: "Workflow V1", 
+        version: 1, 
+        createdAt: create(TimestampSchema, { seconds: BigInt(Math.floor(Date.now() / 1000)) }),
+        updatedAt: create(TimestampSchema, { seconds: BigInt(Math.floor(Date.now() / 1000)) })
+      }),
+      create(WorkflowConfigSchema, { 
+        id: req.workflowId, 
+        userId: "user-123",
+        name: "Workflow V2", 
+        version: 2, 
+        createdAt: create(TimestampSchema, { seconds: BigInt(Math.floor(Date.now() / 1000)) }),
+        updatedAt: create(TimestampSchema, { seconds: BigInt(Math.floor(Date.now() / 1000)) })
+      }),
+    ];
+
+    console.log(`Mock listed ${mockVersions.length} versions for workflow: ${req.workflowId}`);
+    return create(ListWorkflowVersionsResponseSchema, { versions: mockVersions });
+  },
+};
+
+const app = express();
+app.use(expressConnectMiddleware({
+  routes: (router) => {
+    router.service(WorkflowService, workflowServiceImplementation);
+  }
+}));
+
+const PORT = process.env.PORT || 8080;
+
+app.listen(PORT, () => {
+  console.log(`Connect-ES WorkflowService server listening on http://localhost:${PORT}`);
+  console.log(`Try calling:`);
+  console.log(`  - POST http://localhost:${PORT}/workflow.v2.WorkflowService/CreateWorkflow`);
+  console.log(`  - POST http://localhost:${PORT}/workflow.v2.WorkflowService/GetWorkflow`);
+  console.log(`  - POST http://localhost:${PORT}/workflow.v2.WorkflowService/UpdateWorkflow`);
+  console.log(`  - POST http://localhost:${PORT}/workflow.v2.WorkflowService/DeleteWorkflow`);
+  console.log(`  - POST http://localhost:${PORT}/workflow.v2.WorkflowService/ListWorkflows`);
+  console.log(`  - POST http://localhost:${PORT}/workflow.v2.WorkflowService/ListWorkflowVersions`);
+});
