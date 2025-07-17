@@ -1,6 +1,6 @@
 {
   "name": "@spounge/proto-ts",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "TypeScript protobuf generated code for Spounge",
   "main": "./index.js",
   "types": "./index.d.ts",
@@ -18,8 +18,7 @@
     "polykey",
     "user",
     "vector_db",
-    "workflow",
-    "v1"
+    "workflow"
   ],
   "dependencies": {
     "@bufbuild/protobuf": "^2.6.0",
