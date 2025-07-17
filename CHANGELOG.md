@@ -1,5 +1,11 @@
 # @spounge/proto
 
+## 2.0.2
+
+### Patch Changes
+
+- [#23](https://github.com/spounge-ai/spounge-proto/pull/23) [`00f0f1d`](https://github.com/spounge-ai/spounge-proto/commit/00f0f1d454c90f6d53564f52d848f734cdbc8ace) Thanks [@Evantopian](https://github.com/Evantopian)! - [Hotfix] - Dependency Check
+
 ## 2.0.1
 
 ### Patch Changes
