@@ -43,11 +43,11 @@ function generateTsPackage(rootPkg) {
       ...generatedDirs, // Dynamically includes all top-level generated directories
     ].filter((item, index, arr) => arr.indexOf(item) === index), // Remove duplicates
     dependencies: {
-      // Use exact versions for core protobuf libraries to prevent conflicts
-      '@bufbuild/protobuf': rootPkg.devDependencies?.['@bufbuild/protoc-gen-es'] || '2.6.0',
-      '@connectrpc/connect': rootPkg.dependencies?.['@connectrpc/connect'] || '^1.1.4',
-      '@connectrpc/connect-web': rootPkg.dependencies?.['@connectrpc/connect-web'] || '^1.1.4',
-      protobufjs: rootPkg.dependencies?.protobufjs || '7.2.5',
+      '@bufbuild/protobuf': rootPkg.dependencies?.['@bufbuild/protobuf'] || '^2.6.0',
+      '@connectrpc/connect': rootPkg.dependencies?.['@connectrpc/connect'] || '^2.0.2',
+      '@connectrpc/connect-web': rootPkg.dependencies?.['@connectrpc/connect-web'] || '^2.0.2',
+      // Keep legacy dependencies for compatibility
+      protobufjs: rootPkg.dependencies?.protobufjs || '^7.2.5',
       long: rootPkg.dependencies?.long || '^5.2.3',
       rxjs: rootPkg.dependencies?.rxjs || '^7.8.2',
     },

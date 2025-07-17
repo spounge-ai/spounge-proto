@@ -1,6 +1,6 @@
 {
   "name": "@spounge/proto-ts",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "TypeScript protobuf generated code for Spounge",
   "main": "./index.js",
   "types": "./index.d.ts",
@@ -22,8 +22,8 @@
   ],
   "dependencies": {
     "@bufbuild/protobuf": "^2.6.0",
-    "@connectrpc/connect": "^1.1.4",
-    "@connectrpc/connect-web": "^1.1.4",
+    "@connectrpc/connect": "^2.0.2",
+    "@connectrpc/connect-web": "^2.0.2",
     "protobufjs": "^7.2.5",
     "long": "^5.2.3",
     "rxjs": "^7.8.2"
