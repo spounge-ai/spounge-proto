@@ -1,5 +1,11 @@
 # @spounge/proto
 
+## 2.0.2
+
+### Patch Changes
+
+- [Hotfix] - BufES to ConnectRPC
+
 ## 2.0.1
 
 ### Patch Changes
