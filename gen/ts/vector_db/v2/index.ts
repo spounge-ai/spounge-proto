@@ -1,1 +1,1 @@
-export * from './vector_db_pb';
+export * from './vector_db_connect';

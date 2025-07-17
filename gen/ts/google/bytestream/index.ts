@@ -1,1 +1,1 @@
-export * from './bytestream_pb';
+export * from './bytestream_connect';

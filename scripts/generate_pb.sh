@@ -139,7 +139,7 @@ clean: true
 managed:
   enabled: true
 plugins:
-  - remote: buf.build/bufbuild/es
+  - remote: buf.build/connectrpc/es
     out: gen/ts
     opt:
       - target=ts
