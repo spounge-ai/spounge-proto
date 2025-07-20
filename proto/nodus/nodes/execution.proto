@@ -12,6 +12,7 @@ import "nodus/v2/common/errors.proto";
 import "nodus/v2/nodes/direct.proto";
 import "nodus/v2/nodes/reasoning.proto";
 import "nodus/v2/nodes/autonomous.proto";
+import "nodus/v2/nodes/webhook.proto";
 
 message ExecuteNodeRequest {
   string execution_id = 1;
@@ -24,6 +25,7 @@ message ExecuteNodeRequest {
     DirectNodeConfig direct_config = 10;
     ReasoningNodeConfig reasoning_config = 11;
     AutonomousNodeConfig autonomous_config = 12;
+    WebhookNodeConfig webhook_config = 13;
   }
 
   nodus.v2.common.ExecutionContext execution_context = 20;

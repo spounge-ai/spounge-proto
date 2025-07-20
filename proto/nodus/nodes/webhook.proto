@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package nodus.v2.nodes;
+
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v2;nodes";
+
+import "google/protobuf/duration.proto";
+
+message WebhookNodeConfig {
+  string listen_id = 1;
+  google.protobuf.Duration timeout = 2;
+  string verification_config_name = 3;
+}
