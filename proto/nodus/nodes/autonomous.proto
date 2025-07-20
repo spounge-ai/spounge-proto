@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package nodus.v2.nodes;
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v2;nodes";
+
+import "google/protobuf/duration.proto";
+import "nodus/v2/common/types.proto";
+import "nodus/v2/integrations/llm.proto";
+import "nodus/v2/mcp/tool.proto";
+
+message AutonomousNodeConfig {
+  nodus.v2.integrations.LLMConfiguration llm_config = 1;
+  AgentType agent_type = 3;
+  string objective = 4;
+  string system_context = 5;
+  repeated nodus.v2.common.ChatMessage initial_messages = 6;
+  nodus.v2.mcp.ToolScope tool_scope = 7;
+  ToolSelectionStrategy tool_strategy = 8;
+  int32 max_iterations = 9;
+  google.protobuf.Duration max_execution_time = 10;
+  float confidence_threshold = 11;
+  bool persist_state = 12;
+  string state_key = 13;
+  google.protobuf.Duration state_ttl = 14;
+  bool enable_streaming = 15;
+  int32 stream_interval_ms = 16;
+  AutonomousOptions options = 17;
+}
+
+enum AgentType {
+  AGENT_TYPE_UNSPECIFIED = 0;
+  AGENT_TYPE_REACT = 1;
+  AGENT_TYPE_CHAIN_OF_THOUGHT = 2;
+  AGENT_TYPE_TOOL_CALLING = 3;
+  AGENT_TYPE_PLANNING = 4;
+  AGENT_TYPE_REFLECTION = 5;
+}
+
+enum ToolSelectionStrategy {
+  TOOL_SELECTION_STRATEGY_UNSPECIFIED = 0;
+  TOOL_SELECTION_STRATEGY_AUTOMATIC = 1;
+  TOOL_SELECTION_STRATEGY_EXPLICIT = 2;
+  TOOL_SELECTION_STRATEGY_INTERACTIVE = 3;
+  TOOL_SELECTION_STRATEGY_LEARNED = 4;
+}
+
+message AutonomousOptions {
+  bool enable_self_reflection = 1;
+  int32 reflection_interval = 2;
+  bool enable_memory_consolidation = 3;
+  bool enable_goal_decomposition = 4;
+  float exploration_rate = 5;
+  map<string, string> custom_parameters = 6;
+}
