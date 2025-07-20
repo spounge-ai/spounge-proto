@@ -31,8 +31,6 @@ RUN --mount=type=cache,target=/go/pkg/mod \
     go install google.golang.org/protobuf/cmd/protoc-gen-go@latest && \
     go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 
-RUN npm install -g ts-proto && \
-    npm cache clean --force
 
 WORKDIR /app
 

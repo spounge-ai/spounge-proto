@@ -127,7 +127,7 @@ EOF
     fi
 fi
 
-# Show generated files with better organization
+# Show generated files with better organization - FIXED VERSION
 print_section "📊 GENERATED FILES SUMMARY"
 
 if [ "$MODE" == "py" ] || [ -z "$MODE" ]; then
@@ -146,7 +146,9 @@ if [ "$MODE" == "py" ] || [ -z "$MODE" ]; then
     
     if [ "$TOTAL_FILES" -gt 0 ]; then
         echo -e "\n${CYAN}Sample generated files:${NC}"
-        find "$ROOT_DIR/gen/py" -name "*.py" -type f ! -name "__init__.py" | head -8 | while read -r file; do
+        # FIXED: Store results in array to avoid SIGPIPE
+        mapfile -t SAMPLE_FILES < <(find "$ROOT_DIR/gen/py" -name "*.py" -type f ! -name "__init__.py" | head -8)
+        for file in "${SAMPLE_FILES[@]}"; do
             print_file "${file#$ROOT_DIR/}"
         done
         if [ "$TOTAL_FILES" -gt 8 ]; then

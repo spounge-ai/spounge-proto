@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package nodus.v1.common.v1;
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v1/common/v1;commonv1";
+
+import "google/protobuf/timestamp.proto";
+
+enum NodeType {
+  NODE_TYPE_UNSPECIFIED = 0;
+  NODE_TYPE_DIRECT = 1;
+  NODE_TYPE_REASONING = 2;
+  NODE_TYPE_AUTONOMOUS = 3;
+  NODE_TYPE_WEBHOOK = 4;
+}
+
+enum ExecutionStatus {
+  EXECUTION_STATUS_UNSPECIFIED = 0;
+  EXECUTION_STATUS_PENDING = 1;
+  EXECUTION_STATUS_RUNNING = 2;
+  EXECUTION_STATUS_COMPLETED = 3;
+  EXECUTION_STATUS_FAILED = 4;
+  EXECUTION_STATUS_TIMEOUT = 5;
+  EXECUTION_STATUS_CANCELLED = 6;
+}
+
+enum ResultFormat {
+  RESULT_FORMAT_UNSPECIFIED = 0;
+  RESULT_FORMAT_RAW = 1;
+  RESULT_FORMAT_JSON = 2;
+  RESULT_FORMAT_STRUCTURED = 3;
+}
+
+enum MessageRole {
+  MESSAGE_ROLE_UNSPECIFIED = 0;
+  MESSAGE_ROLE_SYSTEM = 1;
+  MESSAGE_ROLE_USER = 2;
+  MESSAGE_ROLE_ASSISTANT = 3;
+  MESSAGE_ROLE_TOOL = 4;
+}
+
+message ExecutionContext {
+  string execution_id = 1;
+  string workflow_id = 2;
+  string user_id = 3;
+  map<string, string> metadata = 4;
+  google.protobuf.Timestamp created_at = 5;
+}
+
+message ChatMessage {
+  MessageRole role = 1;
+  string content = 2;
+  google.protobuf.Timestamp timestamp = 3;
+  map<string, string> metadata = 4;
+}

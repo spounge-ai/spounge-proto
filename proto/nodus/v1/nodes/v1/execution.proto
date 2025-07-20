@@ -1,0 +1,112 @@
+syntax = "proto3";
+
+package nodus.v1.nodes.v1;
+
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v1/nodes/v1;nodesv1";
+
+import "google/protobuf/any.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "nodus/v1/common/v1/types.proto";
+import "nodus/v1/common/v1/resources.proto";
+import "nodus/v1/common/v1/errors.proto";
+import "nodus/v1/nodes/v1/direct.proto";
+import "nodus/v1/nodes/v1/reasoning.proto";
+import "nodus/v1/nodes/v1/autonomous.proto";
+import "nodus/v1/nodes/v1/webhook.proto";
+
+message ExecuteNodeRequest {
+  string execution_id = 1;
+  string node_id = 2;
+  nodus.v1.common.v1.NodeType node_type = 3;
+  google.protobuf.Duration timeout = 4;
+  int32 max_retries = 5;
+
+  oneof node_config {
+    DirectNodeConfig direct_config = 10;
+    ReasoningNodeConfig reasoning_config = 11;
+    AutonomousNodeConfig autonomous_config = 12;
+    WebhookNodeConfig webhook_config = 13;
+  }
+
+  nodus.v1.common.v1.ExecutionContext execution_context = 20;
+  google.protobuf.Timestamp requested_at = 21;
+}
+
+message ExecuteNodeResponse {
+  string execution_id = 1;
+  string node_id = 2;
+  nodus.v1.common.v1.ExecutionStatus status = 3;
+  google.protobuf.Any result_data = 4;
+  ExecutionMetadata metadata = 5;
+  nodus.v1.common.v1.ExecutionError error = 6;
+  google.protobuf.Duration execution_time = 7;
+  nodus.v1.common.v1.ResourceConsumption resource_usage = 8;
+  google.protobuf.Timestamp completed_at = 9;
+}
+
+message ExecutionMetadata {
+  repeated ExecutionStep execution_steps = 1;
+  int32 total_iterations = 2;
+  int32 tool_invocations = 3;
+  google.protobuf.Duration llm_processing_time = 4;
+  google.protobuf.Duration tool_execution_time = 5;
+  google.protobuf.Duration serialization_time = 6;
+  float confidence_score = 7;
+  string termination_reason = 8;
+  repeated string warnings = 9;
+  map<string, string> custom_metrics = 10;
+}
+
+message ExecutionStep {
+  int32 step_number = 1;
+  StepType step_type = 2;
+  string description = 3;
+  google.protobuf.Any step_input = 4;
+  google.protobuf.Any step_output = 5;
+  google.protobuf.Duration step_duration = 6;
+  nodus.v1.common.v1.ExecutionStatus step_status = 7;
+  nodus.v1.common.v1.ExecutionError step_error = 8;
+}
+
+
+message ExecuteNodeStreamRequest {
+  string execution_id = 1;
+  string node_id = 2;
+  nodus.v1.common.v1.NodeType node_type = 3;
+  google.protobuf.Duration timeout = 4;
+  int32 max_retries = 5;
+
+  oneof node_config {
+    DirectNodeConfig direct_config = 10;
+    ReasoningNodeConfig reasoning_config = 11;
+    AutonomousNodeConfig autonomous_config = 12;
+    WebhookNodeConfig webhook_config = 13;
+  }
+
+  nodus.v1.common.v1.ExecutionContext execution_context = 20;
+  google.protobuf.Timestamp requested_at = 21;
+}
+
+message ExecuteNodeStreamResponse {
+  string execution_id = 1;
+  string node_id = 2;
+  nodus.v1.common.v1.ExecutionStatus status = 3;
+  google.protobuf.Any result_data = 4;
+  ExecutionMetadata metadata = 5;
+  nodus.v1.common.v1.ExecutionError error = 6;
+  google.protobuf.Duration execution_time = 7;
+  nodus.v1.common.v1.ResourceConsumption resource_usage = 8;
+  google.protobuf.Timestamp completed_at = 9;
+}
+
+
+
+enum StepType {
+  STEP_TYPE_UNSPECIFIED = 0;
+  STEP_TYPE_REASONING = 1;
+  STEP_TYPE_TOOL_INVOCATION = 2;
+  STEP_TYPE_RESULT_PROCESSING = 3;
+  STEP_TYPE_STATE_UPDATE = 4;
+  STEP_TYPE_VALIDATION = 5;
+}

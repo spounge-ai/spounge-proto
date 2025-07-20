@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package nodus.v1.mcp.v1;
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v1/mcp/v1;mcpv1";
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "nodus/v1/common/v1/auth.proto";
+
+enum MCPServerType {
+  MCP_SERVER_TYPE_UNSPECIFIED = 0;
+  MCP_SERVER_TYPE_HTTP = 1;
+  MCP_SERVER_TYPE_WEBSOCKET = 2;
+  MCP_SERVER_TYPE_GRPC = 3;
+  MCP_SERVER_TYPE_STDIO = 4;
+  MCP_SERVER_TYPE_TCP = 5;
+}
+
+enum MCPServerStatus {
+  MCP_SERVER_STATUS_UNSPECIFIED = 0;
+  MCP_SERVER_STATUS_HEALTHY = 1;
+  MCP_SERVER_STATUS_UNHEALTHY = 2;
+  MCP_SERVER_STATUS_CONNECTING = 3;
+  MCP_SERVER_STATUS_DISCONNECTED = 4;
+  MCP_SERVER_STATUS_MAINTENANCE = 5;
+}
+
+message MCPServerInfo {
+  string server_id = 1;
+  string name = 2;
+  string endpoint = 3;
+  MCPServerType server_type = 4;
+  MCPServerStatus status = 5;
+  MCPServerCapabilities capabilities = 6;
+  MCPConnectionConfig connection_config = 7;
+  map<string, string> metadata = 8;
+  google.protobuf.Timestamp registered_at = 9;
+  google.protobuf.Timestamp last_ping = 10;
+}
+
+message MCPServerCapabilities {
+  string protocol_version = 1;
+  repeated string supported_features = 2;
+  int32 max_concurrent_requests = 3;
+  repeated string supported_tool_categories = 4;
+  bool supports_streaming = 5;
+  bool supports_file_operations = 6;
+}
+
+message MCPConnectionConfig {
+  google.protobuf.Duration connection_timeout = 1;
+  google.protobuf.Duration request_timeout = 2;
+  int32 max_retries = 3;
+  google.protobuf.Duration retry_backoff = 4;
+  bool enable_keep_alive = 5;
+  google.protobuf.Duration keep_alive_interval = 6;
+  map<string, string> headers = 7;
+  nodus.v1.common.v1.AuthenticationConfig auth_config = 8;
+}

@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package nodus.v1.integrations.v1;
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v1/integrations/v1;integrationsv1";
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/duration.proto";
+import "nodus/v1/common/v1/auth.proto";
+
+enum HTTPMethod {
+  HTTP_METHOD_UNSPECIFIED = 0;
+  HTTP_METHOD_GET = 1;
+  HTTP_METHOD_POST = 2;
+  HTTP_METHOD_PUT = 3;
+  HTTP_METHOD_DELETE = 4;
+  HTTP_METHOD_PATCH = 5;
+  HTTP_METHOD_HEAD = 6;
+  HTTP_METHOD_OPTIONS = 7;
+}
+
+message APIConfig {
+  string name = 1;
+  string base_url = 2;
+  nodus.v1.common.v1.AuthenticationConfig auth_config = 4;
+  map<string, string> default_headers = 5;
+  google.protobuf.Duration timeout = 6;
+  RetryConfiguration retry_config = 7;
+  RateLimitConfiguration rate_limit_config = 8;
+}
+
+message RetryConfiguration {
+  int32 max_attempts = 1;
+  google.protobuf.Duration initial_backoff = 2;
+  google.protobuf.Duration max_backoff = 3;
+  float backoff_multiplier = 4;
+  repeated int32 retryable_status_codes = 5;
+}
+
+message RateLimitConfiguration {
+  int32 requests_per_second = 1;
+  int32 requests_per_minute = 2;
+  int32 concurrent_requests = 3;
+}
+
+message HTTPRequest {
+  HTTPMethod method = 1;
+  string endpoint = 2;
+  map<string, string> headers = 3;
+  google.protobuf.Struct query_params = 4;
+  google.protobuf.Struct body = 5;
+  google.protobuf.Duration timeout = 6;
+}
+
+message HTTPResponse {
+  int32 status_code = 1;
+  map<string, string> headers = 2;
+  google.protobuf.Struct body = 3;
+  google.protobuf.Duration response_time = 4;
+}

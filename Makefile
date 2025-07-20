@@ -129,8 +129,13 @@ docker-gen-ts:
 	$(call echo_step,Installing TS package dependencies)
 	$(call docker_run,make gen-ts)
 
-docker-gen: docker-gen-go docker-gen-ts
-	$(call echo_step,✅ Generated Go + TS protobuf files inside Docker)
+docker-gen-py:
+	$(call echo_step,Generating Py protobuf files inside Docker)
+	$(call docker_run,make gen-py)
+
+
+docker-gen: docker-gen-go docker-gen-ts docker-gen-py
+	$(call echo_step,✅ Generated Go, TS, Py protobuf files inside Docker)
 
 docker-setup: docker-build docker-gen
 	$(call echo_step,🚀 Docker setup complete: image built and protobuf files generated)
