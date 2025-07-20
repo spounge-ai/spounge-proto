@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package nodus.v2.mcp;
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v2;mcp";
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/duration.proto";
+import "nodus/v2/mcp/server.proto";
+import "nodus/v2/mcp/tool.proto";
+import "nodus/v2/common/errors.proto";
+
+message RegisterMCPServerRequest {
+  string server_id = 1;
+  string endpoint = 2;
+  MCPServerType server_type = 3;
+  MCPConnectionConfig connection_config = 4;
+  map<string, string> metadata = 5;
+}
+
+message RegisterMCPServerResponse {
+  bool success = 1;
+  string server_id = 2;
+  MCPServerCapabilities capabilities = 3;
+  repeated MCPTool available_tools = 4;
+  nodus.v2.common.ExecutionError error = 5;
+}
+
+message ListMCPServersRequest {
+  repeated string server_ids = 1;
+  MCPServerStatus status_filter = 2;
+  bool include_tools = 3;
+}
+
+message ListMCPServersResponse {
+  repeated MCPServerInfo servers = 1;
+  int32 total_servers = 2;
+}
+
+message QueryMCPToolsRequest {
+  repeated string server_ids = 1;
+  ToolFilter filter = 2;
+  int32 limit = 3;
+  string continuation_token = 4;
+}
+
+message QueryMCPToolsResponse {
+  repeated MCPTool tools = 1;
+  string next_continuation_token = 2;
+  int32 total_matches = 3;
+}
+
+message ToolFilter {
+  repeated ToolCategory categories = 1;
+  repeated string tags = 2;
+  string name_pattern = 3;
+  bool supports_streaming = 4;
+}
+
+message MCPToolInvocation {
+  string tool_id = 1;
+  string server_id = 2;
+  google.protobuf.Struct parameters = 3;
+  ToolInvocationOptions options = 4;
+}
+
+message ToolInvocationOptions {
+  bool validate_parameters = 1;
+  bool require_confirmation = 2;
+  google.protobuf.Duration timeout = 3;
+  map<string, string> context = 4;
+}
+
+message MCPToolResult {
+  bool success = 1;
+  google.protobuf.Struct result_data = 2;
+  string error_message = 3;
+  map<string, string> metadata = 4;
+}
