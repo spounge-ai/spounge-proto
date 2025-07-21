@@ -8,6 +8,7 @@ on:
       - 'gen/py/**'
       - '.github/workflows/py-release.yml'
       - 'gen/py/pyproject.toml'
+      - 'Makefile'
 
 jobs:
   release:
