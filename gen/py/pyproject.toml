@@ -50,7 +50,11 @@ dev = [
 Homepage = "https://github.com/spoungeai/spounge-proto"
 Repository = "https://github.com/spoungeai/spounge-proto"
 
-# CRITICAL: This tells setuptools how to find your packages
+# CRITICAL: Define parent table BEFORE sub-tables
+[tool.setuptools]
+zip-safe = false
+
+# This tells setuptools how to find your packages
 [tool.setuptools.packages.find]
 # Look for packages in current directory (gen/py)
 where = ["."]
@@ -62,6 +66,3 @@ exclude = ["tests*", "build*", "dist*", "*.egg-info*"]
 # Include .proto files in the package
 [tool.setuptools.package-data]
 "*" = ["*.proto"]
-
-[tool.setuptools]
-zip-safe = false
