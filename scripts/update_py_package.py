@@ -1,36 +1,22 @@
 #!/usr/bin/env python3
-"""
-Script to prepare the gen/py directory for packaging as a Python module.
-Can be run from the project root directory or any subdirectory.
-"""
 
 import os
 import sys
 from pathlib import Path
 
 def create_init_files(base_path: Path):
-    """Recursively create __init__.py files in all subdirectories."""
     created_files = []
-    
-    # Walk through all directories
     for root, dirs, files in os.walk(base_path):
         root_path = Path(root)
         init_file = root_path / "__init__.py"
-        
-        # Only create __init__.py if the directory contains .py files (excluding existing __init__.py)
         py_files = [f for f in files if f.endswith('.py') and f != '__init__.py']
-        
         if py_files and not init_file.exists():
             init_file.touch()
             created_files.append(str(init_file))
             print(f"Created: {init_file}")
-    
     return created_files
 
 def create_packaging_files(gen_py_path: Path):
-    """Create pyproject.toml and other packaging files in the gen/py directory."""
-    
-    # Create pyproject.toml (ONLY packaging file needed for modern Python)
     pyproject_content = '''
 [build-system]
 requires = ["setuptools>=80.9.0", "wheel>=0.45.1"]
@@ -128,8 +114,6 @@ warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true
 '''
-
-    # Create README.md
     readme_content = '''# spounge-proto-py
 
 Generated protobuf Python packages for Spounge AI ecosystem microservices.
@@ -189,7 +173,7 @@ client = auth_gateway_service_pb2_grpc.AuthGatewayServiceStub(channel)
 The protobuf definitions are organized by domain and version:
 
 - `py.api.v*` - Public API Gateway interfaces
-- `py.auth.v*` - Authentication and authorization services  
+- `py.auth.v*` - Authentication and authorization services  
 - `py.common.v*` - Shared definitions and types
 - `py.workflow.v*` - LLM workflow orchestration
 - `py.dashboard.v*` - Analytics and reporting
@@ -222,7 +206,7 @@ pytest
 black .
 isort .
 
-# Type checking  
+# Type checking  
 mypy .
 ```
 
@@ -230,8 +214,6 @@ mypy .
 
 MIT License - see LICENSE file for details.
 '''
-
-    # Create MANIFEST.in (still needed for including non-Python files)
     manifest_content = '''include README.md
 include LICENSE
 include pyproject.toml
@@ -244,8 +226,6 @@ global-exclude *.so
 global-exclude .pytest_cache
 global-exclude .mypy_cache
 '''
-
-    # Create LICENSE file
     license_content = '''MIT License
 
 Copyright (c) 2025 Spounge AI Team
@@ -268,14 +248,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 '''
-
     files_to_create = [
         ('pyproject.toml', pyproject_content),
         ('README.md', readme_content),
         ('MANIFEST.in', manifest_content),
         ('LICENSE', license_content),
     ]
-
     created_files = []
     for filename, content in files_to_create:
         file_path = gen_py_path / filename
@@ -283,60 +261,42 @@ SOFTWARE.
             f.write(content)
         created_files.append(str(file_path))
         print(f"Created: {file_path}")
-    
     return created_files
 
 def main():
-    """Main function to prepare the package."""
-    # Get the current working directory (where the script is run from)
     current_dir = Path.cwd()
-    
-    # Try to find gen/py directory from current location
-    # First, try from current directory (if running from root)
     gen_py_path = current_dir / "gen" / "py"
-    
-    # If not found and we're in scripts/, try parent directory
     if not gen_py_path.exists() and current_dir.name == "scripts":
         gen_py_path = current_dir.parent / "gen" / "py"
-    
-    # If still not found, try looking for gen/py in parent directories
     if not gen_py_path.exists():
-        # Search up the directory tree for gen/py
         search_path = current_dir
-        for _ in range(5):  # Don't search too far up
+        for _ in range(5):
             test_path = search_path / "gen" / "py"
             if test_path.exists():
                 gen_py_path = test_path
                 break
             search_path = search_path.parent
-            if search_path == search_path.parent:  # Reached filesystem root
+            if search_path == search_path.parent:
                 break
-    
     if not gen_py_path.exists():
         print(f"Error: Could not find gen/py directory!")
         print(f"Searched from: {current_dir}")
         print("Make sure the gen/py/ directory exists in your project.")
         print("This script can be run from:")
-        print("  - Project root directory (recommended)")
-        print("  - scripts/ directory")
-        print("  - Any subdirectory of the project")
+        print(" - Project root directory (recommended)")
+        print(" - scripts/ directory")
+        print(" - Any subdirectory of the project")
         sys.exit(1)
-    
     print(f"Processing directory: {gen_py_path}")
-    
-    # Create __init__.py files
     print("\n1. Creating missing __init__.py files...")
     init_files = create_init_files(gen_py_path)
     if init_files:
         print(f"Created {len(init_files)} __init__.py files")
     else:
         print("No new __init__.py files needed")
-    
-    # Create packaging files
     print("\n2. Creating packaging configuration files...")
     packaging_files = create_packaging_files(gen_py_path)
     print(f"Created {len(packaging_files)} packaging files")
-    
     print(f"\n✅ Package preparation complete!")
     print(f"Directory {gen_py_path} is now ready for packaging.")
     print("\n" + "="*50)
@@ -345,7 +305,7 @@ def main():
     print(f"1. cd {gen_py_path}")
     print("2. python -m build")
     print("3. twine check dist/*")
-    print("4. twine upload dist/*  # Upload to PyPI")
+    print("4. twine upload dist/* # Upload to PyPI")
     print()
     print("For TestPyPI (recommended first):")
     print("4a. twine upload --repository testpypi dist/*")

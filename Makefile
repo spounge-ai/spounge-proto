@@ -43,6 +43,10 @@ CYAN                 := \033[0;36m
 RED                  := \033[0;31m
 RESET                := \033[0m
 
+HOST_UID := $(strip $(shell id -u))
+HOST_GID := $(strip $(shell id -g))
+
+
 # ==============================================================================
 # MACROS (Helper Functions)
 # ==============================================================================
@@ -52,7 +56,12 @@ define make_executable_macro
 endef
 
 define docker_run_macro
-	@docker run --rm -v "$(PWD)":/app -w /app $(DOCKER_IMAGE) $(1)
+	@docker run --rm \
+		-v "$(PWD)":/app \
+		-w /app \
+		--user $(HOST_UID):$(HOST_GID) \  
+		$(DOCKER_IMAGE) \
+		$(1)
 endef
 
 define echo_step_macro
