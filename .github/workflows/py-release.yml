@@ -65,11 +65,18 @@ jobs:
             docker build -t "$IMAGE" .
           fi
 
+          # Run container with same user ID as GitHub Actions runner
           docker run --rm \
+            --user $(id -u):$(id -g) \
             -v ${{ github.workspace }}:/app \
             -w /app \
             "$IMAGE" \
             sh -c "make gen-py && make update-py-package"
+
+      - name: Fix ownership of generated files
+        run: |
+          sudo chown -R $(whoami):$(whoami) gen/py/ || true
+          chmod -R u+w gen/py/ || true
 
       - name: Build Python package
         run: |
