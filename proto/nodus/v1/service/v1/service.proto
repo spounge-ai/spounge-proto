@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package nodus.v1.service.v1;
+
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v1/service/v1;servicev1";
+
+import "google/api/annotations.proto";
+import "nodus/v1/nodes/v1/execution.proto";
+import "nodus/v1/mcp/v1/connection.proto";
+
+service NodusService {
+  rpc ExecuteNode(nodus.v1.nodes.v1.ExecuteNodeRequest) returns (nodus.v1.nodes.v1.ExecuteNodeResponse) {
+    option (google.api.http) = {
+      post: "/v1/nodes:execute"
+      body: "*"
+    };
+  }
+
+  rpc ExecuteNodeStream(
+    nodus.v1.nodes.v1.ExecuteNodeStreamRequest
+  ) returns (
+    stream nodus.v1.nodes.v1.ExecuteNodeStreamResponse
+  ) {
+    option (google.api.http) = {
+      post: "/v1/nodes:executeStream"
+      body: "*"
+    };
+  }
+
+  rpc RegisterMCPServer(nodus.v1.mcp.v1.RegisterMCPServerRequest) returns (nodus.v1.mcp.v1.RegisterMCPServerResponse) {
+    option (google.api.http) = {
+      post: "/v1/mcp/servers:register"
+      body: "*"
+    };
+  }
+
+  rpc ListMCPServers(nodus.v1.mcp.v1.ListMCPServersRequest) returns (nodus.v1.mcp.v1.ListMCPServersResponse) {
+    option (google.api.http) = {
+      get: "/v1/mcp/servers"
+    };
+  }
+
+  rpc QueryMCPTools(nodus.v1.mcp.v1.QueryMCPToolsRequest) returns (nodus.v1.mcp.v1.QueryMCPToolsResponse) {
+    option (google.api.http) = {
+      get: "/v1/mcp/tools"
+    };
+  }
+
+  rpc CheckHealth(CheckHealthRequest) returns (CheckHealthResponse) {
+    option (google.api.http) = {
+      get: "/v1/health"
+    };
+  }
+}
+
+message CheckHealthRequest {
+  string service = 1;
+}
+
+message CheckHealthResponse {
+  enum ServingStatus {
+    SERVING_STATUS_UNKNOWN_UNSPECIFIED = 0;
+    SERVING_STATUS_SERVING = 1;
+    SERVING_STATUS_NOT_SERVING = 2;
+  }
+  ServingStatus status = 1;
+}

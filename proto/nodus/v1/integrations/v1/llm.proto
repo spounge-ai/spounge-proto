@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package nodus.v1.integrations.v1;
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v1/integrations/v1;integrationsv1";
+
+import "google/protobuf/struct.proto";
+
+enum LLMProvider {
+  LLM_PROVIDER_UNSPECIFIED = 0;
+  LLM_PROVIDER_OPENAI = 1;
+  LLM_PROVIDER_ANTHROPIC = 2;
+  LLM_PROVIDER_COHERE = 3;
+  LLM_PROVIDER_HUGGING_FACE = 4;
+  LLM_PROVIDER_GOOGLE = 5;
+  LLM_PROVIDER_MISTRAL = 6;
+  LLM_PROVIDER_LOCAL_OLLAMA = 7;
+  LLM_PROVIDER_AZURE_OPENAI = 8;
+  LLM_PROVIDER_AWS_BEDROCK = 9;
+}
+
+message LLMConfiguration {
+  LLMProvider provider = 1;
+  string model_name = 2;
+  string credential_id = 3;
+  string base_url = 4;
+  map<string, string> headers = 6;
+  RateLimitConfig rate_limits = 7;
+  map<string, google.protobuf.Value> provider_specific = 8;
+}
+
+message LLMParameters {
+  float temperature = 1;
+  int32 max_tokens = 2;
+  float top_p = 3;
+  float top_k = 4;
+  float frequency_penalty = 5;
+  float presence_penalty = 6;
+  repeated string stop_sequences = 7;
+  string system_prompt_template = 8;
+}
+
+message RateLimitConfig {
+  int32 requests_per_minute = 1;
+  int32 tokens_per_minute = 2;
+  int32 concurrent_requests = 3;
+}

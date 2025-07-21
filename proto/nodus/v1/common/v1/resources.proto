@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package nodus.v1.common.v1;
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v1/common/v1;commonv1";
+
+import "google/protobuf/duration.proto";
+
+message ResourceLimits {
+  int32 max_concurrent_executions = 1;
+  google.protobuf.Duration max_execution_time = 2;
+  int64 max_memory_bytes = 3;
+  int32 max_tool_calls = 4;
+  int64 max_output_size_bytes = 5;
+}
+
+message ResourceConsumption {
+  int64 memory_used_bytes = 1;
+  float cpu_utilization_percent = 2;
+  int32 network_requests = 3;
+  int64 network_bytes_transferred = 4;
+  google.protobuf.Duration total_duration = 5;
+}
+
+message ResourceRequirements {
+  int64 estimated_memory_bytes = 1;
+  google.protobuf.Duration estimated_duration = 2;
+  int32 estimated_network_calls = 3;
+  string resource_tier = 4;
+}

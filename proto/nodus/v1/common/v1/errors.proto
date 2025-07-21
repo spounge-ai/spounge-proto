@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package nodus.v1.common.v1;
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v1/common/v1;commonv1";
+
+import "google/protobuf/timestamp.proto";
+
+enum ErrorType {
+  ERROR_TYPE_UNSPECIFIED = 0;
+  ERROR_TYPE_VALIDATION = 1;
+  ERROR_TYPE_TIMEOUT = 2;
+  ERROR_TYPE_RESOURCE_EXHAUSTION = 3;
+  ERROR_TYPE_EXTERNAL_SERVICE = 4;
+  ERROR_TYPE_LLM_PROVIDER = 5;
+  ERROR_TYPE_MCP_SERVER = 6;
+  ERROR_TYPE_DATABASE = 7;
+  ERROR_TYPE_API_INTEGRATION = 8;
+  ERROR_TYPE_AUTHENTICATION = 9;
+  ERROR_TYPE_INTERNAL = 10;
+}
+
+message ExecutionError {
+  ErrorType error_type = 1;
+  string error_code = 2;
+  string error_message = 3;
+  string stack_trace = 4;
+  ErrorContext context = 5;
+  repeated ErrorDetail details = 6;
+  bool retryable = 7;
+  int32 retry_after_seconds = 8;
+}
+
+message ErrorContext {
+  string component = 1;
+  string operation = 2;
+  map<string, string> parameters = 3;
+  google.protobuf.Timestamp timestamp = 4;
+  string trace_id = 5;
+}
+
+message ErrorDetail {
+  string field = 1;
+  string constraint = 2;
+  string actual_value = 3;
+  string expected_value = 4;
+}

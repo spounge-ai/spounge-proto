@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package nodus.v1.common.v1;
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v1/common/v1;commonv1";
+
+enum AuthType {
+  AUTH_TYPE_UNSPECIFIED = 0;
+  AUTH_TYPE_NONE = 1;
+  AUTH_TYPE_API_KEY = 2;
+  AUTH_TYPE_BEARER_TOKEN = 3;
+  AUTH_TYPE_BASIC = 4;
+  AUTH_TYPE_OAUTH2 = 5;
+  AUTH_TYPE_CUSTOM = 6;
+}
+
+message AuthenticationConfig {
+  AuthType auth_type = 1;
+  oneof credentials {
+    string api_key_credential_id = 2;
+    string bearer_token_credential_id = 3;
+    BasicAuthConfig basic_auth = 4;
+    OAuth2Config oauth2 = 5;
+  }
+  map<string, string> custom_auth_params = 6;
+}
+
+message BasicAuthConfig {
+  string username = 1;
+  string password_credential_id = 2;
+}
+
+message OAuth2Config {
+  string token_url = 1;
+  string client_id_credential_id = 2;
+  string client_secret_credential_id = 3;
+  repeated string scopes = 4;
+}

@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package nodus.v1.nodes.v1;
+
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v1/nodes/v1;nodesv1";
+
+import "google/protobuf/duration.proto";
+import "nodus/v1/common/v1/types.proto";
+import "nodus/v1/integrations/v1/llm.proto";
+import "nodus/v1/mcp/v1/tool.proto";
+
+message ReasoningNodeConfig {
+  nodus.v1.integrations.v1.LLMConfiguration llm_config = 1;
+  nodus.v1.integrations.v1.LLMParameters model_parameters = 3;
+  string system_prompt = 4;
+  string user_prompt = 5;
+  repeated nodus.v1.common.v1.ChatMessage conversation_history = 6;
+  nodus.v1.mcp.v1.ToolScope tool_scope = 7;
+  repeated string allowed_tools = 8;
+  repeated string forbidden_tools = 9;
+  google.protobuf.Duration reasoning_timeout = 11;
+  bool require_tool_use = 12;
+  ReasoningOptions options = 13;
+}
+
+message ReasoningOptions {
+  bool enable_chain_of_thought = 1;
+  bool include_reasoning_trace = 2;
+  float temperature_override = 3;
+  bool validate_tool_outputs = 4;
+  string output_format_instruction = 5;
+  repeated string required_output_fields = 6;
+}
