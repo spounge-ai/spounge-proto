@@ -22,8 +22,9 @@ def create_packaging_files(gen_py_path: Path):
     
     # The key fix: configure setuptools to find packages correctly
     pyproject_content = '''[build-system]
-requires = ["setuptools>=65.0", spounge_proto_py.egg-info"wheel"]
+requires = ["setuptools>=80.9.0", "wheel>=0.45.1"]
 build-backend = "setuptools.build_meta"
+
 
 [project]
 name = "spounge-proto-py"
@@ -39,7 +40,7 @@ keywords = [
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
-    "Intended Audience :: Developers", 
+    "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
@@ -48,26 +49,35 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Networking",
+    "Topic :: Internet",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Typing :: Typed"
 ]
 requires-python = ">=3.9"
 dependencies = [
-    "protobuf>=4.21.0,<6.0.0",
-    "grpcio>=1.50.0,<2.0.0",
-    "grpcio-tools>=1.50.0,<2.0.0"
+    "protobuf>=6.31.1,<7.0.0",
+    "grpcio>=1.74.0rc1,<2.0.0",
+    "grpcio-tools>=1.73.1,<2.0.0"
 ]
 
 [project.optional-dependencies]
 dev = [
-    "build>=0.10.0",
-    "twine>=4.0.0",
-    "pytest>=7.0.0"
+    "build>=1.2.2",
+    "twine>=5.1.1",
+    "pytest>=8.4.1"
 ]
 
 [project.urls]
 Homepage = "https://github.com/spoungeai/spounge-proto"
 Repository = "https://github.com/spoungeai/spounge-proto"
 
-# CRITICAL: This tells setuptools how to find your packages
+# CRITICAL: Define parent table BEFORE sub-tables
+[tool.setuptools]
+zip-safe = false
+
+# This tells setuptools how to find your packages
 [tool.setuptools.packages.find]
 # Look for packages in current directory (gen/py)
 where = ["."]
@@ -79,9 +89,6 @@ exclude = ["tests*", "build*", "dist*", "*.egg-info*"]
 # Include .proto files in the package
 [tool.setuptools.package-data]
 "*" = ["*.proto"]
-
-[tool.setuptools]
-zip-safe = false
 '''
 
     readme_content = '''# spounge-proto-py
