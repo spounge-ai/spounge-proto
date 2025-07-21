@@ -5,6 +5,7 @@ import sys
 from pathlib import Path
 
 def create_init_files(base_path: Path):
+    """Create __init__.py files in directories containing Python files"""
     created_files = []
     for root, dirs, files in os.walk(base_path):
         root_path = Path(root)
@@ -17,37 +18,28 @@ def create_init_files(base_path: Path):
     return created_files
 
 def create_packaging_files(gen_py_path: Path):
-    pyproject_content = '''
-[build-system]
-requires = ["setuptools>=80.9.0", "wheel>=0.45.1"]
+    """Create packaging files directly in gen/py directory"""
+    
+    # The key fix: configure setuptools to find packages correctly
+    pyproject_content = '''[build-system]
+requires = ["setuptools>=65.0", spounge_proto_py.egg-info"wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "spounge-proto-py"
-version = "0.1.0"
+version = "0.2.0"
 description = "Generated protobuf Python packages for Spounge AI ecosystem microservices"
 readme = "README.md"
 license = {text = "MIT"}
 authors = [
     {name = "Spounge AI Team", email = "dev@spounge.com"}
 ]
-maintainers = [
-    {name = "Spounge AI Team", email = "dev@spounge.com"}
-]
 keywords = [
-    "protobuf",
-    "grpc",
-    "microservices",
-    "spounge",
-    "ai",
-    "llm",
-    "workflows",
-    "authentication",
-    "api-gateway"
+    "protobuf", "grpc", "microservices", "spounge", "ai"
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
-    "Intended Audience :: Developers",
+    "Intended Audience :: Developers", 
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
@@ -56,71 +48,45 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
-    "Topic :: Software Development :: Libraries :: Python Modules",
-    "Topic :: System :: Networking",
-    "Topic :: Internet",
-    "Topic :: Scientific/Engineering :: Artificial Intelligence",
-    "Typing :: Typed"
 ]
 requires-python = ">=3.9"
 dependencies = [
-    "protobuf>=6.31.1,<7.0.0",
-    "grpcio>=1.74.0rc1,<2.0.0",
-    "grpcio-tools>=1.73.1,<2.0.0"
+    "protobuf>=4.21.0,<6.0.0",
+    "grpcio>=1.50.0,<2.0.0",
+    "grpcio-tools>=1.50.0,<2.0.0"
 ]
 
 [project.optional-dependencies]
 dev = [
-    "build>=1.2.2",
-    "twine>=5.1.1",
-    "pytest>=8.4.1",
-    "pytest-cov>=6.2.1",
-    "black>=25.1.0",
-    "isort>=5.13.3",
-    "mypy>=1.14.0"
+    "build>=0.10.0",
+    "twine>=4.0.0",
+    "pytest>=7.0.0"
 ]
 
 [project.urls]
 Homepage = "https://github.com/spoungeai/spounge-proto"
 Repository = "https://github.com/spoungeai/spounge-proto"
-Documentation = "https://github.com/spoungeai/spounge-proto#readme"
-Changelog = "https://github.com/spoungeai/spounge-proto/blob/main/CHANGELOG.md"
-"Bug Reports" = "https://github.com/spoungeai/spounge-proto/issues"
 
-[tool.setuptools]
-zip-safe = false
-
+# CRITICAL: This tells setuptools how to find your packages
 [tool.setuptools.packages.find]
+# Look for packages in current directory (gen/py)
 where = ["."]
-include = ["py*"]
-exclude = ["tests*"]
+# Include everything that looks like a Python package
+include = ["*"]
+# Don't package these
+exclude = ["tests*", "build*", "dist*", "*.egg-info*"]
 
+# Include .proto files in the package
 [tool.setuptools.package-data]
 "*" = ["*.proto"]
 
-[tool.black]
-line-length = 88
-target-version = ["py39", "py310", "py311", "py312", "py313"]
-include = '\.pyi?$'
-
-[tool.isort]
-profile = "black"
-line_length = 88
-multi_line_output = 3
-
-[tool.mypy]
-python_version = "3.9"
-warn_return_any = true
-warn_unused_configs = true
-disallow_untyped_defs = true
+[tool.setuptools]
+zip-safe = false
 '''
+
     readme_content = '''# spounge-proto-py
 
 Generated protobuf Python packages for Spounge AI ecosystem microservices.
-
-## About
-
-This package contains auto-generated Python protobuf code from the canonical Spounge Protocol Buffer definitions. It powers data contracts and gRPC service interfaces throughout the Spounge AI ecosystem, designed primarily for large language model (LLM) workflows and microservices communication.
 
 ## Installation
 
@@ -128,104 +94,55 @@ This package contains auto-generated Python protobuf code from the canonical Spo
 pip install spounge-proto-py
 ```
 
-### Optional Dependencies
-
-For LangChain integration:
-```bash
-pip install spounge-proto-py[langchain]
-```
-
-For graph functionality:
-```bash
-pip install spounge-proto-py[graph]
-```
-
-For development:
-```bash
-pip install spounge-proto-py[dev]
-```
-
 ## Usage
 
-After installation, import the generated protobuf modules:
-
 ```python
-from py.api.v2 import auth_gateway_service_pb2
-from py.auth.v2 import auth_service_pb2
-from py.common.v1 import common_pb2
+# Import your generated protobuf modules
+from api.v2 import auth_gateway_service_pb2
+from auth.v2 import auth_service_pb2
+from common.v1 import common_pb2
 
-# Create authentication request
+# Create requests
 auth_request = auth_service_pb2.LoginRequest(
-    email="user@example.com",
-    password="secure_password"
+    email="user@example.com", 
+    password="password"
 )
 
-# Use with gRPC client
+# Use with gRPC
 import grpc
-from py.api.v2 import auth_gateway_service_pb2_grpc
+from api.v2 import auth_gateway_service_pb2_grpc
 
 channel = grpc.insecure_channel('localhost:8080')
 client = auth_gateway_service_pb2_grpc.AuthGatewayServiceStub(channel)
 ```
 
-## Architecture
+## Package Structure
 
-The protobuf definitions are organized by domain and version:
-
-- `py.api.v*` - Public API Gateway interfaces
-- `py.auth.v*` - Authentication and authorization services  
-- `py.common.v*` - Shared definitions and types
-- `py.workflow.v*` - LLM workflow orchestration
-- `py.dashboard.v*` - Analytics and reporting
-
-## Python Compatibility
-
-| Python Version | Support Status |
-|----------------|----------------|
-| 3.9 | ✅ Fully Supported |
-| 3.10 | ✅ Fully Supported |
-| 3.11 | ✅ Fully Supported |
-| 3.12 | ✅ Fully Supported |
-| 3.13 | ✅ Fully Supported |
-
-## Development
-
-This package contains auto-generated protobuf Python code. The source `.proto` files
-are maintained in the [spounge-proto repository](https://github.com/spoungeai/spounge-proto).
-
-### Local Development
-
-```bash
-# Install with development dependencies
-pip install -e .[dev]
-
-# Run tests
-pytest
-
-# Format code
-black .
-isort .
-
-# Type checking  
-mypy .
-```
+Your protobuf modules are organized by domain and version:
+- `api.v*` - API Gateway interfaces
+- `auth.v*` - Authentication services
+- `common.v*` - Shared definitions  
+- `workflow.v*` - Workflow orchestration
+- `dashboard.v*` - Analytics
 
 ## License
 
-MIT License - see LICENSE file for details.
+MIT License
 '''
+
     manifest_content = '''include README.md
 include LICENSE
 include pyproject.toml
-recursive-include py *.py
-recursive-include py *.proto
+recursive-include * *.py
+recursive-include * *.proto
 global-exclude __pycache__
 global-exclude *.py[co]
 global-exclude .DS_Store
-global-exclude *.so
-global-exclude .pytest_cache
-global-exclude .mypy_cache
+global-exclude *.egg-info
+global-exclude build
+global-exclude dist
 '''
+
     license_content = '''MIT License
 
 Copyright (c) 2025 Spounge AI Team
@@ -248,26 +165,32 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 '''
+
     files_to_create = [
         ('pyproject.toml', pyproject_content),
         ('README.md', readme_content),
         ('MANIFEST.in', manifest_content),
         ('LICENSE', license_content),
     ]
+    
     created_files = []
     for filename, content in files_to_create:
         file_path = gen_py_path / filename
         with open(file_path, 'w', encoding='utf-8') as f:
-            f.write(content)
+            f.write(content.strip())
         created_files.append(str(file_path))
         print(f"Created: {file_path}")
+    
     return created_files
 
 def main():
     current_dir = Path.cwd()
     gen_py_path = current_dir / "gen" / "py"
+    
+    # Try to find gen/py directory
     if not gen_py_path.exists() and current_dir.name == "scripts":
         gen_py_path = current_dir.parent / "gen" / "py"
+    
     if not gen_py_path.exists():
         search_path = current_dir
         for _ in range(5):
@@ -278,40 +201,44 @@ def main():
             search_path = search_path.parent
             if search_path == search_path.parent:
                 break
+    
     if not gen_py_path.exists():
         print(f"Error: Could not find gen/py directory!")
         print(f"Searched from: {current_dir}")
-        print("Make sure the gen/py/ directory exists in your project.")
-        print("This script can be run from:")
-        print(" - Project root directory (recommended)")
-        print(" - scripts/ directory")
-        print(" - Any subdirectory of the project")
         sys.exit(1)
+    
     print(f"Processing directory: {gen_py_path}")
+    print("="*50)
+    
     print("\n1. Creating missing __init__.py files...")
     init_files = create_init_files(gen_py_path)
     if init_files:
         print(f"Created {len(init_files)} __init__.py files")
     else:
         print("No new __init__.py files needed")
+    
     print("\n2. Creating packaging configuration files...")
     packaging_files = create_packaging_files(gen_py_path)
     print(f"Created {len(packaging_files)} packaging files")
+    
     print(f"\n✅ Package preparation complete!")
-    print(f"Directory {gen_py_path} is now ready for packaging.")
+    
     print("\n" + "="*50)
-    print("NEXT STEPS - PACKAGING & DEPLOYMENT:")
+    print("PACKAGING INSTRUCTIONS:")
     print("="*50)
     print(f"1. cd {gen_py_path}")
     print("2. python -m build")
-    print("3. twine check dist/*")
-    print("4. twine upload dist/* # Upload to PyPI")
     print()
-    print("For TestPyPI (recommended first):")
-    print("4a. twine upload --repository testpypi dist/*")
+    print("To check what will be packaged:")
+    print("3. tar -tzf dist/*.tar.gz  # Check source distribution contents")
+    print("4. twine check dist/*      # Validate packages")
     print()
-    print("Test installation:")
-    print("pip install --index-url https://test.pypi.org/simple/ spounge-proto-py")
+    print("To upload (test first!):")
+    print("5. twine upload --repository testpypi dist/*")
+    print("6. pip install --index-url https://test.pypi.org/simple/ spounge-proto-py")
+    print()
+    print("If test looks good:")
+    print("7. twine upload dist/*")
 
 if __name__ == "__main__":
     main()

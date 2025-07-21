@@ -1,34 +1,22 @@
-
 [build-system]
-requires = ["setuptools>=80.9.0", "wheel>=0.45.1"]
+requires = ["setuptools>=65.0", spounge_proto_py.egg-info"wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "spounge-proto-py"
-version = "0.1.0"
+version = "0.2.0"
 description = "Generated protobuf Python packages for Spounge AI ecosystem microservices"
 readme = "README.md"
 license = {text = "MIT"}
 authors = [
     {name = "Spounge AI Team", email = "dev@spounge.com"}
 ]
-maintainers = [
-    {name = "Spounge AI Team", email = "dev@spounge.com"}
-]
 keywords = [
-    "protobuf",
-    "grpc",
-    "microservices",
-    "spounge",
-    "ai",
-    "llm",
-    "workflows",
-    "authentication",
-    "api-gateway"
+    "protobuf", "grpc", "microservices", "spounge", "ai"
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
-    "Intended Audience :: Developers",
+    "Intended Audience :: Developers", 
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
@@ -37,60 +25,37 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
-    "Topic :: Software Development :: Libraries :: Python Modules",
-    "Topic :: System :: Networking",
-    "Topic :: Internet",
-    "Topic :: Scientific/Engineering :: Artificial Intelligence",
-    "Typing :: Typed"
 ]
 requires-python = ">=3.9"
 dependencies = [
-    "protobuf>=6.31.1,<7.0.0",
-    "grpcio>=1.74.0rc1,<2.0.0",
-    "grpcio-tools>=1.73.1,<2.0.0"
+    "protobuf>=4.21.0,<6.0.0",
+    "grpcio>=1.50.0,<2.0.0",
+    "grpcio-tools>=1.50.0,<2.0.0"
 ]
 
 [project.optional-dependencies]
 dev = [
-    "build>=1.2.2",
-    "twine>=5.1.1",
-    "pytest>=8.4.1",
-    "pytest-cov>=6.2.1",
-    "black>=25.1.0",
-    "isort>=5.13.3",
-    "mypy>=1.14.0"
+    "build>=0.10.0",
+    "twine>=4.0.0",
+    "pytest>=7.0.0"
 ]
 
 [project.urls]
 Homepage = "https://github.com/spoungeai/spounge-proto"
 Repository = "https://github.com/spoungeai/spounge-proto"
-Documentation = "https://github.com/spoungeai/spounge-proto#readme"
-Changelog = "https://github.com/spoungeai/spounge-proto/blob/main/CHANGELOG.md"
-"Bug Reports" = "https://github.com/spoungeai/spounge-proto/issues"
 
-[tool.setuptools]
-zip-safe = false
-
+# CRITICAL: This tells setuptools how to find your packages
 [tool.setuptools.packages.find]
+# Look for packages in current directory (gen/py)
 where = ["."]
-include = ["py*"]
-exclude = ["tests*"]
+# Include everything that looks like a Python package
+include = ["*"]
+# Don't package these
+exclude = ["tests*", "build*", "dist*", "*.egg-info*"]
 
+# Include .proto files in the package
 [tool.setuptools.package-data]
 "*" = ["*.proto"]
 
-[tool.black]
-line-length = 88
-target-version = ["py39", "py310", "py311", "py312", "py313"]
-include = '\.pyi?$'
-
-[tool.isort]
-profile = "black"
-line_length = 88
-multi_line_output = 3
-
-[tool.mypy]
-python_version = "3.9"
-warn_return_any = true
-warn_unused_configs = true
-disallow_untyped_defs = true
+[tool.setuptools]
+zip-safe = false
