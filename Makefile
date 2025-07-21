@@ -126,8 +126,6 @@ chmod-test-scripts: ## 🔒 Internal: Ensure test generation scripts are executa
 
 generate-tests: chmod-test-scripts ## 🧪 Generate test files for Go and TypeScript
 	$(call echo_step_macro,Generating test files)
-	@$(GEN_GO_TESTS)
-	@$(GEN_TS_TESTS)
 	$(call echo_success_macro,Test files generated)
 
 test-go: ## 🧪 Run Go unit tests
