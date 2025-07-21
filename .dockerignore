@@ -5,4 +5,7 @@ tmp/
 dist/
 .DS_Store
 .env
- 
+
+gen/
+!gen/go/go.mod
+!gen/go/go.sum

@@ -31,4 +31,7 @@ gen/ts/**/*.js.map
 gen/ts/**/*.d.ts.map
 /gen/openapi/
 
+/gen/py/dist
+/gen/py/spounge_proto_py.egg-info
+
 buf.lock
