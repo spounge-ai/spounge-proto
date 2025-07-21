@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "prebuild": "npm run clean",
-    "build": "make gen-ts && && npm run pkg-ts && npm run compile",
+    "build": "make gen-ts && npm run pkg-ts && npm run compile",
     "compile": "tsc",
     "clean": "rm -rf gen/ts/*",
     "dev": "npm run build -- --watch",
