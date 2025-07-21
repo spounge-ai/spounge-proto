@@ -69,6 +69,8 @@ jobs:
           # Run container with same user ID as GitHub Actions runner
           docker run --rm \
             --user $(id -u):$(id -g) \
+            -e BUF_CACHE_DIR=/app/.buf-cache \
+            -e HOME=/tmp \
             -v ${{ github.workspace }}:/app \
             -w /app \
             "$IMAGE" \
