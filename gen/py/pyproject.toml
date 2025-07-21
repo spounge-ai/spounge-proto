@@ -1,0 +1,105 @@
+[build-system]
+requires = ["setuptools>=75.1.0", "wheel>=0.44.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spounge-proto-py"
+version = "0.1.0"
+description = "Generated protobuf Python packages for Spounge AI ecosystem microservices"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Spounge AI Team", email = "dev@spounge.com"}
+]
+maintainers = [
+    {name = "Spounge AI Team", email = "dev@spounge.com"}
+]
+keywords = [
+    "protobuf", 
+    "grpc", 
+    "microservices", 
+    "spounge", 
+    "ai", 
+    "llm",
+    "workflows",
+    "authentication",
+    "api-gateway"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Networking",
+    "Topic :: Internet",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Typing :: Typed",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "protobuf>=5.28.3,<6.0.0",
+    "grpcio>=1.73.3,<2.0.0",
+    "grpcio-tools>=1.73.3,<2.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "build>=1.2.2",
+    "twine>=5.1.1",
+    "pytest>=8.3.4",
+    "pytest-cov>=6.0.0",
+    "black>=24.10.0",
+    "isort>=5.13.2",
+    "mypy>=1.13.0",
+]
+langchain = [
+    "langchain-core>=0.3.29",
+    "langchain>=0.3.12",
+    "langchain-community>=0.3.12",
+]
+graph = [
+    "networkx>=3.4.2",
+    "pydantic>=2.10.3",
+    "typing-extensions>=4.12.2",
+]
+
+[project.urls]
+Homepage = "https://github.com/spoungeai/spounge-proto"
+Repository = "https://github.com/spoungeai/spounge-proto"
+Documentation = "https://github.com/spoungeai/spounge-proto#readme"
+Changelog = "https://github.com/spoungeai/spounge-proto/blob/main/CHANGELOG.md"
+"Bug Reports" = "https://github.com/spoungeai/spounge-proto/issues"
+
+[tool.setuptools]
+zip-safe = false
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["py*"]
+exclude = ["tests*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.proto"]
+
+[tool.black]
+line-length = 88
+target-version = ["py39", "py310", "py311", "py312", "py313"]
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+line_length = 88
+multi_line_output = 3
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
