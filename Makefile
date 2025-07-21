@@ -28,9 +28,10 @@ DOCKER_IMAGE         ?= spoungeai/protos-gen
 GEN_PB               := $(SCRIPTS_DIR)/generate_pb.sh
 GEN_PY               := $(SCRIPTS_DIR)/generate_py.sh
 TS_IMPORTS           := $(SCRIPTS_DIR)/ts_imports.sh
+PY_IMPORTS           := $(SCRIPTS_DIR)/py_imports.py
 BEAUTIFY             := $(SCRIPTS_DIR)/spounge_prettier.sh
 UPDATE_PY_PACKAGE    := $(SCRIPTS_DIR)/update_py_package.py
-PROTO_SCRIPTS        := $(GEN_PB) $(TS_IMPORTS) $(BEAUTIFY) $(GEN_PY) $(UPDATE_PY_PACKAGE)
+PROTO_SCRIPTS        := $(GEN_PB) $(TS_IMPORTS) $(BEAUTIFY) $(GEN_PY) $(UPDATE_PY_PACKAGE) $(PY_IMPORTS)
 
 GEN_GO_TESTS         := $(SCRIPTS_DIR)/test/generate_go_tests.sh
 GEN_TS_TESTS         := $(SCRIPTS_DIR)/test/generate_ts_tests.sh
@@ -126,6 +127,7 @@ gen-py: chmod-scripts ## ⚙️ Generate Python protobuf files
 
 update-py-package: chmod-scripts ## 📦 Update Python package structure for generated protobufs
 	$(call echo_step_macro,Updating Python package structure)
+	@python3 $(PY_IMPORTS)
 	@python3 $(UPDATE_PY_PACKAGE)
 	$(call echo_success_macro,Python package structure updated)
 

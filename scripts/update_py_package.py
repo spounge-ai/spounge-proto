@@ -28,7 +28,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "spounge-proto-py"
-version = "0.2.0"
+version = "0.2.1"
 description = "Generated protobuf Python packages for Spounge AI ecosystem microservices"
 readme = "README.md"
 license = {text = "MIT"}
