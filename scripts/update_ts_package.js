@@ -2,116 +2,148 @@
 const fs = require('fs');
 const path = require('path');
 
+// Define paths for the root package.json, generated TypeScript directory, and the new package.json.
 const rootPkgPath = path.resolve(__dirname, '../package.json');
 const tsGenDir = path.resolve(__dirname, '../gen/ts');
 const tsPkgPath = path.join(tsGenDir, 'package.json');
 
+/**
+ * Loads the root package.json file.
+ * @returns {object} The parsed content of the root package.json.
+ */
 function loadRootPackage() {
   try {
     return JSON.parse(fs.readFileSync(rootPkgPath, 'utf-8'));
   } catch (err) {
     console.error('Error reading root package.json:', err);
-    process.exit(1);
+    process.exit(1); // Exit if the root package.json cannot be read.
   }
 }
 
+/**
+ * Gets a list of top-level directories within the generated TypeScript directory.
+ * @param {string} genDir - The path to the generated TypeScript directory.
+ * @returns {string[]} An array of directory names.
+ */
 function getGeneratedDirectories(genDir) {
   try {
+    // Read directory contents and filter for directories.
     return fs.readdirSync(genDir, { withFileTypes: true })
       .filter(dirent => dirent.isDirectory())
       .map(dirent => dirent.name);
   } catch (err) {
     console.warn('Could not read generated directories:', err.message);
-    return [];
+    return []; // Return an empty array if the directory cannot be read.
   }
 }
 
+/**
+ * Generates the content for the package.json file for the generated TypeScript code.
+ * This includes basic package metadata and dependencies.
+ * @param {object} rootPkg - The parsed content of the root package.json.
+ * @returns {object} The generated package.json content.
+ */
 function generateTsPackage(rootPkg) {
   const generatedDirs = getGeneratedDirectories(tsGenDir);
   
   return {
+    // Set the package name, appending '-ts' to the root package name or using a default.
     name: rootPkg.name ? rootPkg.name + '-ts' : '@spounge/proto-ts',
-    version: rootPkg.version || '1.0.0',
+    version: rootPkg.version || '1.0.0', // Inherit version or default.
     description: 'TypeScript protobuf generated code for Spounge',
-    main: './index.js',
-    types: './index.d.ts',
-    sideEffects: false,
-    private: false,
+    main: './index.js', // Main entry point for JavaScript.
+    types: './index.d.ts', // Main entry point for TypeScript declarations.
+    sideEffects: false, // Indicates that this package has no side effects (good for tree-shaking).
+    private: false, // Make the package public by default.
     files: [
       '*.js', 
       '*.d.ts', 
-      ...generatedDirs, // Dynamically includes all top-level generated directories
-    ].filter((item, index, arr) => arr.indexOf(item) === index), // Remove duplicates
+      ...generatedDirs, // Dynamically include all top-level generated directories.
+    ].filter((item, index, arr) => arr.indexOf(item) === index), // Remove any duplicate entries.
     dependencies: {
+      // Define protobuf and Connect-RPC related runtime dependencies.
+      // Prioritize versions from the root package.json if available, otherwise use defaults.
       '@bufbuild/protobuf': rootPkg.dependencies?.['@bufbuild/protobuf'] || '^2.6.0',
       '@connectrpc/connect': rootPkg.dependencies?.['@connectrpc/connect'] || '^2.0.2',
       '@connectrpc/connect-web': rootPkg.dependencies?.['@connectrpc/connect-web'] || '^2.0.2',
-      // Keep legacy dependencies for compatibility
+      // Keep legacy dependencies for compatibility if needed.
       protobufjs: rootPkg.dependencies?.protobufjs || '^7.2.5',
       long: rootPkg.dependencies?.long || '^5.2.3',
       rxjs: rootPkg.dependencies?.rxjs || '^7.8.2',
     },
     devDependencies: {
+      // Define development dependencies, primarily for TypeScript compilation and protobuf generation.
       typescript: rootPkg.devDependencies?.typescript || '^5.0.0',
       '@types/node': rootPkg.devDependencies?.['@types/node'] || '^20.0.0',
       '@bufbuild/protoc-gen-es': rootPkg.devDependencies?.['@bufbuild/protoc-gen-es'] || '2.6.0',
     },
     scripts: {
-      build: 'tsc',
-      test: 'echo "Error: no test specified" && exit 1'
+      build: 'tsc', // Standard build script using TypeScript compiler.
+      test: 'echo "Error: no test specified" && exit 1' // Placeholder test script.
     },
-    repository: rootPkg.repository,
-    author: rootPkg.author,
-    license: rootPkg.license || 'MIT',
+    repository: rootPkg.repository, // Inherit repository info.
+    author: rootPkg.author, // Inherit author info.
+    license: rootPkg.license || 'MIT', // Inherit license or default to MIT.
     publishConfig: {
-      access: 'public'
+      access: 'public' // Ensure the package can be published publicly.
     }
   };
 }
 
+/**
+ * Writes the generated package.json content to a file.
+ * @param {object} pkg - The package.json content to write.
+ * @param {string} filePath - The path where the package.json should be written.
+ */
 function writeTsPackage(pkg, filePath) {
   try {
-    // Ensure directory exists
+    // Ensure the target directory exists, creating it recursively if necessary.
     const dir = path.dirname(filePath);
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
     }
     
+    // Write the package.json content, formatted with 2-space indentation.
     fs.writeFileSync(filePath, JSON.stringify(pkg, null, 2) + '\n', 'utf-8');
     console.log('✅ Generated:', filePath);
   } catch (err) {
     console.error('Error writing package.json:', err);
-    process.exit(1);
+    process.exit(1); // Exit if writing fails.
   }
 }
 
+/**
+ * Generates the tsconfig.json file for the generated TypeScript code.
+ * This configures the TypeScript compiler settings.
+ */
 function generateTsConfig() {
   const tsConfigPath = path.join(tsGenDir, 'tsconfig.json');
   const tsConfig = {
     compilerOptions: {
-      target: 'ES2020',
-      module: 'commonjs',
-      lib: ['ES2020'],
-      declaration: true,
-      outDir: '.',
-      rootDir: '.',
-      strict: true,
-      esModuleInterop: true,
-      skipLibCheck: true,
-      forceConsistentCasingInFileNames: true,
-      moduleResolution: 'node',
-      allowSyntheticDefaultImports: true,
-      // Add resolution for Google API types
+      target: 'ES2020', // Target ECMAScript 2020.
+      module: 'commonjs', // Use CommonJS module system.
+      lib: ['ES2020'], // Include ES2020 library types.
+      declaration: true, // Generate declaration files (.d.ts).
+      outDir: '.', // Output files to the current directory.
+      rootDir: '.', // Root directory for source files.
+      strict: true, // Enable all strict type-checking options.
+      esModuleInterop: true, // Enable interoperability between CommonJS and ES modules.
+      skipLibCheck: true, // Skip type checking of declaration files.
+      forceConsistentCasingInFileNames: true, // Ensure consistent file casing.
+      moduleResolution: 'node', // Use Node.js module resolution strategy.
+      allowSyntheticDefaultImports: true, // Allow synthetic default imports.
+      // Add path resolution for Google API types if needed.
       baseUrl: '.',
       paths: {
         'google/*': ['google/*']
       }
     },
-    include: ['**/*.ts'],
-    exclude: ['node_modules', '**/*.test.ts']
+    include: ['**/*.ts'], // Include all .ts files.
+    exclude: ['node_modules', '**/*.test.ts'] // Exclude node_modules and test files.
   };
   
   try {
+    // Write the tsconfig.json content, formatted with 2-space indentation.
     fs.writeFileSync(tsConfigPath, JSON.stringify(tsConfig, null, 2) + '\n', 'utf-8');
     console.log('✅ Generated:', tsConfigPath);
   } catch (err) {
@@ -119,90 +151,14 @@ function generateTsConfig() {
   }
 }
 
-function fileExists(filePath) {
-  try {
-    return fs.existsSync(filePath);
-  } catch (err) {
-    return false;
-  }
-}
+// The `generateIndexFile` function has been removed from this script.
+// Its functionality is now solely handled by the `ts_imports_script` (bash script),
+// which provides more robust and conflict-aware index file generation.
 
-function generateIndexFile() {
-  const indexPath = path.join(tsGenDir, 'index.ts');
-  const generatedDirs = getGeneratedDirectories(tsGenDir);
-  
-  let indexContent = '// Auto-generated index file\n\n';
-  
-  // Handle conflicts by using namespace exports for Google
-  const hasCommon = generatedDirs.includes('common');
-  const hasGoogle = generatedDirs.includes('google');
-  
-  if (hasCommon && hasGoogle) {
-    indexContent += '// Export common types first (takes precedence)\n';
-    indexContent += `export * from './common';\n\n`;
-    
-    indexContent += '// Export Google types under namespace to avoid conflicts\n';
-    indexContent += `export * as Google from './google';\n\n`;
-    
-    // Export other directories normally
-    generatedDirs.forEach(dir => {
-      if (dir !== 'common' && dir !== 'google') {
-        indexContent += `export * from './${dir}';\n`;
-      }
-    });
-  } else {
-    // Generate exports for each directory normally
-    generatedDirs.forEach(dir => {
-      const dirPath = path.join(tsGenDir, dir);
-      try {
-        const files = fs.readdirSync(dirPath, { withFileTypes: true });
-        
-        // Check if directory has an index file or direct exports
-        const hasIndex = fileExists(path.join(dirPath, 'index.ts'));
-        
-        if (hasIndex) {
-          indexContent += `export * from './${dir}';\n`;
-        } else {
-          // Handle nested directories (like v1 subdirectories)
-          files.forEach(file => {
-            if (file.isDirectory()) {
-              const subDirPath = path.join(dirPath, file.name);
-              try {
-                const subFiles = fs.readdirSync(subDirPath)
-                  .filter(subFile => subFile.endsWith('.ts') && !subFile.endsWith('.d.ts'))
-                  .map(subFile => subFile.replace('.ts', ''));
-                
-                subFiles.forEach(subFile => {
-                  if (fileExists(path.join(subDirPath, subFile + '.ts'))) {
-                    indexContent += `export * from './${dir}/${file.name}/${subFile}';\n`;
-                  }
-                });
-              } catch (err) {
-                console.warn(`Could not read subdirectory ${dir}/${file.name}:`, err.message);
-              }
-            } else if (file.name.endsWith('.ts') && !file.name.endsWith('.d.ts')) {
-              const fileName = file.name.replace('.ts', '');
-              indexContent += `export * from './${dir}/${fileName}';\n`;
-            }
-          });
-        }
-      } catch (err) {
-        console.warn(`Could not read directory ${dir}:`, err.message);
-      }
-    });
-  }
-  
-  try {
-    fs.writeFileSync(indexPath, indexContent, 'utf-8');
-    console.log('✅ Generated:', indexPath);
-  } catch (err) {
-    console.error('Error writing index.ts:', err);
-  }
-}
+// Main execution flow of the script.
+const rootPkg = loadRootPackage(); // Load the root package.json.
+const tsPkg = generateTsPackage(rootPkg); // Generate the new package.json content.
+writeTsPackage(tsPkg, tsPkgPath); // Write the generated package.json file.
+generateTsConfig(); // Generate the tsconfig.json file.
 
-// Main execution
-const rootPkg = loadRootPackage();
-const tsPkg = generateTsPackage(rootPkg);
-writeTsPackage(tsPkg, tsPkgPath);
-generateTsConfig();
-generateIndexFile();
+// The call to generateIndexFile() has been removed.

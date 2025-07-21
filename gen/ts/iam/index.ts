@@ -1,1 +1,1 @@
-export * from './v2';
+export * as V2 from './v2';
