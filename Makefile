@@ -59,9 +59,18 @@ define docker_run_macro
 	@docker run --rm \
 		-v "$(PWD)":/app \
 		-w /app \
-		--user $(HOST_UID):$(HOST_GID) \  
+		--user $(HOST_UID):$(HOST_GID) \
 		$(DOCKER_IMAGE) \
 		$(1)
+endef
+
+define docker_run_with_fix_macro
+	@docker run --rm \
+		-v "$(PWD)":/app \
+		-w /app \
+		--user $(HOST_UID):$(HOST_GID) \
+		$(DOCKER_IMAGE) \
+		sh -c "$(1) && chown -R $(HOST_UID):$(HOST_GID) /app/gen/ 2>/dev/null || true"
 endef
 
 define echo_step_macro
@@ -201,22 +210,23 @@ docker-gen: docker-gen-go docker-gen-ts docker-gen-py ## 🐳 Generate all proto
 
 docker-gen-go: ## 🐳 Generate Go protobuf files inside Docker
 	$(call echo_step_macro,Generating Go protobuf files inside Docker)
-	$(call docker_run_macro,make gen-go)
+	$(call docker_run_with_fix_macro,make gen-go)
 
 docker-gen-ts: ## 🐳 Generate TypeScript protobuf files inside Docker
 	$(call echo_step_macro,Installing TS package dependencies and generating files inside Docker)
-	$(call docker_run_macro,npm i && make gen-ts)
+	$(call docker_run_with_fix_macro,npm i && make gen-ts)
 
 docker-gen-py: ## 🐳 Generate Python protobuf files inside Docker
 	$(call echo_step_macro,Generating Python protobuf files inside Docker)
-	$(call docker_run_macro,make gen-py)
+	$(call docker_run_with_fix_macro,make gen-py && make update-py-package)
 
 # ------------------------------------------------------------------------------
 # Utility Commands
 # ------------------------------------------------------------------------------
 fix-permissions: ## 🔒 Fix permissions for generated files and caches
 	$(call echo_step_macro,Fixing permissions for generated files and caches)
-	@sudo chown -R $(shell id -u):$(shell id -g) .
+	@sudo chown -R $(shell id -u):$(shell id -g) . || chown -R $(shell id -u):$(shell id -g) . || true
+	@chmod -R u+w gen/ || true
 	$(call echo_success_macro,Permissions fixed)
 
 # ------------------------------------------------------------------------------
