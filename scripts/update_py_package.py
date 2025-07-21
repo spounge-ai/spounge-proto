@@ -31,8 +31,9 @@ def create_packaging_files(gen_py_path: Path):
     """Create pyproject.toml and other packaging files in the gen/py directory."""
     
     # Create pyproject.toml (ONLY packaging file needed for modern Python)
-    pyproject_content = '''[build-system]
-requires = ["setuptools>=75.1.0", "wheel>=0.44.0"]
+    pyproject_content = '''
+[build-system]
+requires = ["setuptools>=80.9.0", "wheel>=0.45.1"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -48,11 +49,11 @@ maintainers = [
     {name = "Spounge AI Team", email = "dev@spounge.com"}
 ]
 keywords = [
-    "protobuf", 
-    "grpc", 
-    "microservices", 
-    "spounge", 
-    "ai", 
+    "protobuf",
+    "grpc",
+    "microservices",
+    "spounge",
+    "ai",
     "llm",
     "workflows",
     "authentication",
@@ -73,34 +74,24 @@ classifiers = [
     "Topic :: System :: Networking",
     "Topic :: Internet",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
-    "Typing :: Typed",
+    "Typing :: Typed"
 ]
 requires-python = ">=3.9"
 dependencies = [
-    "protobuf>=5.28.3,<6.0.0",
-    "grpcio>=1.73.3,<2.0.0",
-    "grpcio-tools>=1.73.3,<2.0.0",
+    "protobuf>=6.31.1,<7.0.0",
+    "grpcio>=1.74.0rc1,<2.0.0",
+    "grpcio-tools>=1.73.1,<2.0.0"
 ]
 
 [project.optional-dependencies]
 dev = [
     "build>=1.2.2",
     "twine>=5.1.1",
-    "pytest>=8.3.4",
-    "pytest-cov>=6.0.0",
-    "black>=24.10.0",
-    "isort>=5.13.2",
-    "mypy>=1.13.0",
-]
-langchain = [
-    "langchain-core>=0.3.29",
-    "langchain>=0.3.12",
-    "langchain-community>=0.3.12",
-]
-graph = [
-    "networkx>=3.4.2",
-    "pydantic>=2.10.3",
-    "typing-extensions>=4.12.2",
+    "pytest>=8.4.1",
+    "pytest-cov>=6.2.1",
+    "black>=25.1.0",
+    "isort>=5.13.3",
+    "mypy>=1.14.0"
 ]
 
 [project.urls]
