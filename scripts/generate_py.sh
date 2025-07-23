@@ -40,14 +40,14 @@ print_success "Buf dependencies updated"
 
 # Create directories if they don't exist
 echo -e "\n${YELLOW}${GEAR} Creating output directories...${NC}"
-mkdir -p "$ROOT_DIR/gen/py/spounge"
+mkdir -p "$ROOT_DIR/gen/py/spounge-proto-py"
 print_success "Output directories created"
 
 # Clean generated dirs selectively based on mode
 echo -e "\n${YELLOW}${GEAR} Cleaning existing generated files...${NC}"
 if [ "$MODE" == "py" ] || [ -z "$MODE" ]; then
-    find "$ROOT_DIR/gen/py/spounge" -name "*.py" -delete 2>/dev/null || true
-    find "$ROOT_DIR/gen/py/spounge" -name "__pycache__" -type d -exec rm -rf {} + 2>/dev/null || true
+    find "$ROOT_DIR/gen/py/spounge-proto-py" -name "*.py" -delete 2>/dev/null || true
+    find "$ROOT_DIR/gen/py/spounge-proto-py" -name "__pycache__" -type d -exec rm -rf {} + 2>/dev/null || true
 fi
 print_success "Generated directories cleaned"
 
@@ -66,10 +66,10 @@ managed:
 plugins:
   # Generate Python protobuf message classes
   - remote: buf.build/protocolbuffers/python:v31.1
-    out: gen/py/spounge
+    out: gen/py/spounge-proto-py
   # Generate Python gRPC service stubs
   - remote: buf.build/grpc/python:v1.73.1
-    out: gen/py/spounge
+    out: gen/py/spounge-proto-py
 inputs:
   - directory: proto
   - module: buf.build/googleapis/googleapis
@@ -93,7 +93,7 @@ EOF
     touch "$ROOT_DIR/gen/py/__init__.py"
     
     # Create __init__.py in the spounge directory and all subdirectories
-    find "$ROOT_DIR/gen/py/spounge" -type d -exec touch {}/__init__.py \;
+    find "$ROOT_DIR/gen/py/spounge-proto-py" -type d -exec touch {}/__init__.py \;
     
     print_success "Package structure created"
 
@@ -104,15 +104,15 @@ EOF
     # Try ruff first (fastest and most comprehensive)
     if command -v ruff &> /dev/null; then
         echo -e "${CYAN}Using ruff for formatting...${NC}"
-        ruff format "$ROOT_DIR/gen/py/spounge" --config line-length=88 --quiet 2>/dev/null || true
-        ruff check "$ROOT_DIR/gen/py/spounge" --fix --quiet 2>/dev/null || true
+        ruff format "$ROOT_DIR/gen/py/spounge-proto-py" --config line-length=88 --quiet 2>/dev/null || true
+        ruff check "$ROOT_DIR/gen/py/spounge-proto-py" --fix --quiet 2>/dev/null || true
         print_success "Python files formatted and linted with ruff"
     elif command -v black &> /dev/null; then
         echo -e "${CYAN}Using black for formatting...${NC}"
-        black "$ROOT_DIR/gen/py/spounge" --quiet 2>/dev/null || true
+        black "$ROOT_DIR/gen/py/spounge-proto-py" --quiet 2>/dev/null || true
         # Try isort for imports if available
         if command -v isort &> /dev/null; then
-            isort "$ROOT_DIR/gen/py/spounge" --quiet 2>/dev/null || true
+            isort "$ROOT_DIR/gen/py/spounge-proto-py" --quiet 2>/dev/null || true
             print_success "Python files formatted with black + isort"
         else
             print_success "Python files formatted with black"
@@ -125,7 +125,7 @@ EOF
     if command -v mypy &> /dev/null; then
         print_section "🔍 TYPE CHECKING (OPTIONAL)"
         echo -e "${YELLOW}${GEAR} Running mypy type checking...${NC}"
-        if mypy "$ROOT_DIR/gen/py/spounge" --ignore-missing-imports --quiet 2>/dev/null; then
+        if mypy "$ROOT_DIR/gen/py/spounge-proto-py" --ignore-missing-imports --quiet 2>/dev/null; then
             print_success "Type checking passed"
         else
             print_info "Type checking found some issues (non-critical)"
@@ -140,9 +140,9 @@ if [ "$MODE" == "py" ] || [ -z "$MODE" ]; then
     echo -e "\n${WHITE}${FOLDER} Python files generated:${NC}"
     
     # Count different types of files
-    PROTO_FILES=$(find "$ROOT_DIR/gen/py/spounge" -name "*_pb2.py" -type f | wc -l)
-    GRPC_FILES=$(find "$ROOT_DIR/gen/py/spounge" -name "*_pb2_grpc.py" -type f | wc -l)
-    TOTAL_FILES=$(find "$ROOT_DIR/gen/py/spounge" -name "*.py" -type f ! -name "__init__.py" | wc -l)
+    PROTO_FILES=$(find "$ROOT_DIR/gen/py/spounge-proto-py" -name "*_pb2.py" -type f | wc -l)
+    GRPC_FILES=$(find "$ROOT_DIR/gen/py/spounge-proto-py" -name "*_pb2_grpc.py" -type f | wc -l)
+    TOTAL_FILES=$(find "$ROOT_DIR/gen/py/spounge-proto-py" -name "*.py" -type f ! -name "__init__.py" | wc -l)
     INIT_FILES=$(find "$ROOT_DIR/gen/py" -name "__init__.py" -type f | wc -l)
     
     print_info "Protobuf message files (*_pb2.py): ${PROTO_FILES}"
@@ -153,7 +153,7 @@ if [ "$MODE" == "py" ] || [ -z "$MODE" ]; then
     if [ "$TOTAL_FILES" -gt 0 ]; then
         echo -e "\n${CYAN}Sample generated files:${NC}"
         # FIXED: Store results in array to avoid SIGPIPE
-        mapfile -t SAMPLE_FILES < <(find "$ROOT_DIR/gen/py/spounge" -name "*.py" -type f ! -name "__init__.py" | head -8)
+        mapfile -t SAMPLE_FILES < <(find "$ROOT_DIR/gen/py/spounge-proto-py" -name "*.py" -type f ! -name "__init__.py" | head -8)
         for file in "${SAMPLE_FILES[@]}"; do
             print_file "${file#$ROOT_DIR/}"
         done
@@ -179,7 +179,7 @@ fi
 
 echo -e "\n${CYAN}${ARROW} Generated files are located in:${NC}"
 if [ "$MODE" == "py" ] || [ -z "$MODE" ]; then
-    echo -e "${PURPLE}  ${FOLDER} $ROOT_DIR/gen/py/spounge/${NC}"
+    echo -e "${PURPLE}  ${FOLDER} $ROOT_DIR/gen/py/spounge-proto-py/${NC}"
 fi
 
 echo -e "\n${YELLOW}${GEAR} Next steps:${NC}"
