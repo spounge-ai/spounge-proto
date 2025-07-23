@@ -3,14 +3,19 @@ import os
 from pathlib import Path
 import re
 
+SKIP_DIRS = {"google"}  
+
 def is_valid_module(filename: str) -> bool:
     return filename.endswith(".py") and not filename.startswith("_") and filename != "__init__.py"
 
 def is_valid_package(directory: Path) -> bool:
     return (directory / "__init__.py").exists()
 
+def should_skip_dir(path: Path) -> bool:
+    return any(part in SKIP_DIRS for part in path.parts)
+
 def generate_init_file(dir_path: Path):
-    if not dir_path.is_dir():
+    if not dir_path.is_dir() or should_skip_dir(dir_path):
         return
 
     modules = sorted(f.stem for f in dir_path.iterdir() if f.is_file() and is_valid_module(f.name))
@@ -42,7 +47,7 @@ def rewrite_imports_add_prefix(root_dir: Path, packages_prefix: str, package_nam
     pattern = re.compile(r"^(from|import)\s+(" + "|".join(map(re.escape, package_names)) + r")(\.|[\s])")
 
     for py_file in root_dir.rglob("*.py"):
-        if py_file.name == "__init__.py":
+        if py_file.name == "__init__.py" or should_skip_dir(py_file):
             continue
 
         text = py_file.read_text(encoding="utf-8")
@@ -54,12 +59,7 @@ def rewrite_imports_add_prefix(root_dir: Path, packages_prefix: str, package_nam
             if m:
                 kind = m.group(1)
                 pkg = m.group(2)
-                if kind == "from":
-                    new_line = line.replace(f"{kind} {pkg}", f"{kind} {packages_prefix}.{pkg}")
-                elif kind == "import":
-                    new_line = line.replace(f"{kind} {pkg}", f"{kind} {packages_prefix}.{pkg}")
-                else:
-                    new_line = line
+                new_line = line.replace(f"{kind} {pkg}", f"{kind} {packages_prefix}.{pkg}")
                 if new_line != line:
                     changed = True
                 new_lines.append(new_line)
@@ -73,6 +73,9 @@ def rewrite_imports_add_prefix(root_dir: Path, packages_prefix: str, package_nam
 def walk_and_generate(root_dir: Path):
     for current_dir, dirs, files in os.walk(root_dir):
         current_path = Path(current_dir)
+        if should_skip_dir(current_path):
+            continue
+
         has_modules = any(is_valid_module(f) for f in files)
         has_packages = any(is_valid_package(current_path / d) for d in dirs)
         if has_modules or has_packages:
@@ -84,10 +87,9 @@ def main():
         print(f"Error: root package path {root_package_path} does not exist.")
         return
 
-    # Dynamically find top-level packages (subdirectories with __init__.py) under gen/py/spounge
     top_level_packages = [
         d.name for d in root_package_path.iterdir()
-        if d.is_dir() and is_valid_package(d)
+        if d.is_dir() and is_valid_package(d) and not should_skip_dir(d)
     ]
     if not top_level_packages:
         print(f"No sub-packages found under {root_package_path}")
@@ -96,9 +98,10 @@ def main():
     print(f"Discovered top-level proto packages: {top_level_packages}")
 
     walk_and_generate(root_package_path)
-    #rewrite_imports_add_prefix(root_package_path, "spounge", top_level_packages)
+    # Uncomment to rewrite imports if needed:
+    # rewrite_imports_add_prefix(root_package_path, "spounge", top_level_packages)
 
-    print("All __init__.py files generated and imports patched successfully.")
+    print("All __init__.py files generated (excluding skipped dirs).")
 
 if __name__ == "__main__":
     main()

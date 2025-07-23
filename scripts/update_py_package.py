@@ -28,7 +28,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "spounge-proto-py"
-version = "0.2.4"
+version = "0.2.5"
 description = "Generated protobuf Python packages for Spounge AI ecosystem microservices"
 readme = "README.md"
 license = {text = "MIT"}
@@ -192,16 +192,16 @@ SOFTWARE.
 
 def main():
     current_dir = Path.cwd()
-    gen_py_path = current_dir / "gen" / "py" / "spounge-proto-py"
+    gen_py_path = current_dir / "gen" / "py"
     
     # Try to find gen/py directory
     if not gen_py_path.exists() and current_dir.name == "scripts":
-        gen_py_path = current_dir.parent / "gen" / "py" / "spounge-proto-py"
+        gen_py_path = current_dir.parent / "gen" / "py"
     
     if not gen_py_path.exists():
         search_path = current_dir
         for _ in range(5):
-            test_path = search_path / "gen" / "py" / "spounge-proto-py"
+            test_path = search_path / "gen" / "py"
             if test_path.exists():
                 gen_py_path = test_path
                 break
