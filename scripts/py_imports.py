@@ -73,9 +73,6 @@ def rewrite_imports_add_prefix(root_dir: Path, packages_prefix: str, package_nam
 def walk_and_generate(root_dir: Path):
     for current_dir, dirs, files in os.walk(root_dir):
         current_path = Path(current_dir)
-        if should_skip_dir(current_path):
-            continue
-
         has_modules = any(is_valid_module(f) for f in files)
         has_packages = any(is_valid_package(current_path / d) for d in dirs)
         if has_modules or has_packages:
