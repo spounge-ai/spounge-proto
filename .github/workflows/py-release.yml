@@ -7,7 +7,7 @@ on:
       - 'proto/**'
       - 'gen/py/**'
       - '.github/workflows/py-release.yml'
-      - 'gen/py/spounge-proto-py/pyproject.toml'
+      - 'gen/py/pyproject.toml'
       - 'Makefile'
 
 jobs:
@@ -78,12 +78,12 @@ jobs:
 
       - name: Fix ownership of generated files
         run: |
-          sudo chown -R $(whoami):$(whoami) gen/py/spounge-proto-py || true
-          chmod -R u+w gen/py/spounge-proto-py || true
+          sudo chown -R $(whoami):$(whoami) gen/py || true
+          chmod -R u+w gen/py/ || true
 
       - name: Build Python package
         run: |
-          cd gen/py/spounge-proto-py
+          cd gen/py
           python -m build
 
       - name: Publish to PyPI and create release
@@ -92,7 +92,7 @@ jobs:
           TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cd gen/py/spounge-proto-py
+          cd gen/py
           
           # Get version from pyproject.toml
           PACKAGE_VERSION=$(python -c "
