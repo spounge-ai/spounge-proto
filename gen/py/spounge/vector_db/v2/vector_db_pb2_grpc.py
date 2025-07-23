@@ -3,7 +3,7 @@
 
 import grpc
 
-from vector_db.v2 import vector_db_pb2 as vector__db_dot_v2_dot_vector__db__pb2
+from spounge.vector_db.v2 import vector_db_pb2 as vector__db_dot_v2_dot_vector__db__pb2
 
 
 class VectorDBServiceStub(object):

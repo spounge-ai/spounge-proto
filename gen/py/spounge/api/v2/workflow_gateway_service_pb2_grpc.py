@@ -3,7 +3,7 @@
 
 import grpc
 
-from api.v2 import (
+from spounge.api.v2 import (
     workflow_gateway_service_pb2 as api_dot_v2_dot_workflow__gateway__service__pb2,
 )
 

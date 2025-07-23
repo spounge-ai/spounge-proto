@@ -3,7 +3,7 @@
 
 import grpc
 
-from api.v2 import (
+from spounge.api.v2 import (
     user_gateway_service_pb2 as api_dot_v2_dot_user__gateway__service__pb2,
 )
 

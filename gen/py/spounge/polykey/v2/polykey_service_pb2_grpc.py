@@ -3,7 +3,7 @@
 
 import grpc
 
-from polykey.v2 import polykey_service_pb2 as polykey_dot_v2_dot_polykey__service__pb2
+from spounge.polykey.v2 import polykey_service_pb2 as polykey_dot_v2_dot_polykey__service__pb2
 
 
 class PolykeyServiceStub(object):

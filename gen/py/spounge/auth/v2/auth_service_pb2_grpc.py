@@ -3,8 +3,8 @@
 
 import grpc
 
-from auth.v2 import auth_service_pb2 as auth_dot_v2_dot_auth__service__pb2
-from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
+from spounge.auth.v2 import auth_service_pb2 as auth_dot_v2_dot_auth__service__pb2
+from spounge.google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 
 
 class AuthServiceStub(object):

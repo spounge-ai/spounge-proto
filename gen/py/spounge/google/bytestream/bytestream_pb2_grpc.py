@@ -3,7 +3,7 @@
 
 import grpc
 
-from google.bytestream import (
+from spounge.google.bytestream import (
     bytestream_pb2 as google_dot_bytestream_dot_bytestream__pb2,
 )
 

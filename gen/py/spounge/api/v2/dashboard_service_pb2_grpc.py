@@ -3,7 +3,7 @@
 
 import grpc
 
-from api.v2 import dashboard_service_pb2 as api_dot_v2_dot_dashboard__service__pb2
+from spounge.api.v2 import dashboard_service_pb2 as api_dot_v2_dot_dashboard__service__pb2
 
 
 class DashboardServiceStub(object):

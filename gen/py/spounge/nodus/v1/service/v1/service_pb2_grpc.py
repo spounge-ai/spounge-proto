@@ -3,13 +3,13 @@
 
 import grpc
 
-from nodus.v1.mcp.v1 import (
+from spounge.nodus.v1.mcp.v1 import (
     connection_pb2 as nodus_dot_v1_dot_mcp_dot_v1_dot_connection__pb2,
 )
-from nodus.v1.nodes.v1 import (
+from spounge.nodus.v1.nodes.v1 import (
     execution_pb2 as nodus_dot_v1_dot_nodes_dot_v1_dot_execution__pb2,
 )
-from nodus.v1.service.v1 import (
+from spounge.nodus.v1.service.v1 import (
     service_pb2 as nodus_dot_v1_dot_service_dot_v1_dot_service__pb2,
 )
 

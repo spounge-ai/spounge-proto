@@ -3,7 +3,7 @@
 
 import grpc
 
-from llm.v2 import llm_pb2 as llm_dot_v2_dot_llm__pb2
+from spounge.llm.v2 import llm_pb2 as llm_dot_v2_dot_llm__pb2
 
 
 class LLMProviderServiceStub(object):

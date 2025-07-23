@@ -3,8 +3,8 @@
 
 import grpc
 
-from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
-from user.v2 import user_service_pb2 as user_dot_v2_dot_user__service__pb2
+from spounge.google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
+from spounge.user.v2 import user_service_pb2 as user_dot_v2_dot_user__service__pb2
 
 
 class UserServiceStub(object):
