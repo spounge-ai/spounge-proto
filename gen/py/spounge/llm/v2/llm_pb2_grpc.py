@@ -3,11 +3,10 @@
 
 import grpc
 
-from auth.v2 import auth_service_pb2 as auth_dot_v2_dot_auth__service__pb2
-from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
+from spounge.llm.v2 import llm_pb2 as llm_dot_v2_dot_llm__pb2
 
 
-class AuthServiceStub(object):
+class LLMProviderServiceStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -16,79 +15,81 @@ class AuthServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.Login = channel.unary_unary(
-            "/auth.v2.AuthService/Login",
-            request_serializer=auth_dot_v2_dot_auth__service__pb2.LoginRequest.SerializeToString,
-            response_deserializer=auth_dot_v2_dot_auth__service__pb2.LoginResponse.FromString,
+        self.GenerateText = channel.unary_unary(
+            "/llm.v2.LLMProviderService/GenerateText",
+            request_serializer=llm_dot_v2_dot_llm__pb2.GenerateTextRequest.SerializeToString,
+            response_deserializer=llm_dot_v2_dot_llm__pb2.GenerateTextResponse.FromString,
             _registered_method=True,
         )
-        self.RefreshToken = channel.unary_unary(
-            "/auth.v2.AuthService/RefreshToken",
-            request_serializer=auth_dot_v2_dot_auth__service__pb2.RefreshTokenRequest.SerializeToString,
-            response_deserializer=auth_dot_v2_dot_auth__service__pb2.RefreshTokenResponse.FromString,
+        self.GenerateTextStream = channel.unary_stream(
+            "/llm.v2.LLMProviderService/GenerateTextStream",
+            request_serializer=llm_dot_v2_dot_llm__pb2.GenerateTextStreamRequest.SerializeToString,
+            response_deserializer=llm_dot_v2_dot_llm__pb2.GenerateTextStreamResponse.FromString,
             _registered_method=True,
         )
-        self.Logout = channel.unary_unary(
-            "/auth.v2.AuthService/Logout",
-            request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
-            response_deserializer=auth_dot_v2_dot_auth__service__pb2.LogoutResponse.FromString,
+        self.GenerateEmbedding = channel.unary_unary(
+            "/llm.v2.LLMProviderService/GenerateEmbedding",
+            request_serializer=llm_dot_v2_dot_llm__pb2.GenerateEmbeddingRequest.SerializeToString,
+            response_deserializer=llm_dot_v2_dot_llm__pb2.GenerateEmbeddingResponse.FromString,
             _registered_method=True,
         )
 
 
-class AuthServiceServicer(object):
+class LLMProviderServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def Login(self, request, context):
+    def GenerateText(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
 
-    def RefreshToken(self, request, context):
+    def GenerateTextStream(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
 
-    def Logout(self, request, context):
-        """Logout invalidates the user's session based on the provided auth token."""
+    def GenerateEmbedding(self, request, context):
+        """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
 
 
-def add_AuthServiceServicer_to_server(servicer, server):
+def add_LLMProviderServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-        "Login": grpc.unary_unary_rpc_method_handler(
-            servicer.Login,
-            request_deserializer=auth_dot_v2_dot_auth__service__pb2.LoginRequest.FromString,
-            response_serializer=auth_dot_v2_dot_auth__service__pb2.LoginResponse.SerializeToString,
+        "GenerateText": grpc.unary_unary_rpc_method_handler(
+            servicer.GenerateText,
+            request_deserializer=llm_dot_v2_dot_llm__pb2.GenerateTextRequest.FromString,
+            response_serializer=llm_dot_v2_dot_llm__pb2.GenerateTextResponse.SerializeToString,
         ),
-        "RefreshToken": grpc.unary_unary_rpc_method_handler(
-            servicer.RefreshToken,
-            request_deserializer=auth_dot_v2_dot_auth__service__pb2.RefreshTokenRequest.FromString,
-            response_serializer=auth_dot_v2_dot_auth__service__pb2.RefreshTokenResponse.SerializeToString,
+        "GenerateTextStream": grpc.unary_stream_rpc_method_handler(
+            servicer.GenerateTextStream,
+            request_deserializer=llm_dot_v2_dot_llm__pb2.GenerateTextStreamRequest.FromString,
+            response_serializer=llm_dot_v2_dot_llm__pb2.GenerateTextStreamResponse.SerializeToString,
         ),
-        "Logout": grpc.unary_unary_rpc_method_handler(
-            servicer.Logout,
-            request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
-            response_serializer=auth_dot_v2_dot_auth__service__pb2.LogoutResponse.SerializeToString,
+        "GenerateEmbedding": grpc.unary_unary_rpc_method_handler(
+            servicer.GenerateEmbedding,
+            request_deserializer=llm_dot_v2_dot_llm__pb2.GenerateEmbeddingRequest.FromString,
+            response_serializer=llm_dot_v2_dot_llm__pb2.GenerateEmbeddingResponse.SerializeToString,
         ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-        "auth.v2.AuthService", rpc_method_handlers
+        "llm.v2.LLMProviderService", rpc_method_handlers
     )
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers("auth.v2.AuthService", rpc_method_handlers)
+    server.add_registered_method_handlers(
+        "llm.v2.LLMProviderService", rpc_method_handlers
+    )
 
 
 # This class is part of an EXPERIMENTAL API.
-class AuthService(object):
+class LLMProviderService(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def Login(
+    def GenerateText(
         request,
         target,
         options=(),
@@ -103,9 +104,9 @@ class AuthService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            "/auth.v2.AuthService/Login",
-            auth_dot_v2_dot_auth__service__pb2.LoginRequest.SerializeToString,
-            auth_dot_v2_dot_auth__service__pb2.LoginResponse.FromString,
+            "/llm.v2.LLMProviderService/GenerateText",
+            llm_dot_v2_dot_llm__pb2.GenerateTextRequest.SerializeToString,
+            llm_dot_v2_dot_llm__pb2.GenerateTextResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -118,7 +119,7 @@ class AuthService(object):
         )
 
     @staticmethod
-    def RefreshToken(
+    def GenerateTextStream(
         request,
         target,
         options=(),
@@ -130,12 +131,12 @@ class AuthService(object):
         timeout=None,
         metadata=None,
     ):
-        return grpc.experimental.unary_unary(
+        return grpc.experimental.unary_stream(
             request,
             target,
-            "/auth.v2.AuthService/RefreshToken",
-            auth_dot_v2_dot_auth__service__pb2.RefreshTokenRequest.SerializeToString,
-            auth_dot_v2_dot_auth__service__pb2.RefreshTokenResponse.FromString,
+            "/llm.v2.LLMProviderService/GenerateTextStream",
+            llm_dot_v2_dot_llm__pb2.GenerateTextStreamRequest.SerializeToString,
+            llm_dot_v2_dot_llm__pb2.GenerateTextStreamResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -148,7 +149,7 @@ class AuthService(object):
         )
 
     @staticmethod
-    def Logout(
+    def GenerateEmbedding(
         request,
         target,
         options=(),
@@ -163,9 +164,9 @@ class AuthService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            "/auth.v2.AuthService/Logout",
-            google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
-            auth_dot_v2_dot_auth__service__pb2.LogoutResponse.FromString,
+            "/llm.v2.LLMProviderService/GenerateEmbedding",
+            llm_dot_v2_dot_llm__pb2.GenerateEmbeddingRequest.SerializeToString,
+            llm_dot_v2_dot_llm__pb2.GenerateEmbeddingResponse.FromString,
             options,
             channel_credentials,
             insecure,

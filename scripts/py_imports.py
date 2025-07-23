@@ -82,7 +82,7 @@ def walk_and_generate(root_dir: Path):
             generate_init_file(current_path)
 
 def main():
-    root_package_path = Path.cwd() / "gen" / "py" / "spounge-proto-py"
+    root_package_path = Path.cwd() / "gen" / "py" / "spounge"
     if not root_package_path.exists():
         print(f"Error: root package path {root_package_path} does not exist.")
         return
@@ -99,7 +99,7 @@ def main():
 
     walk_and_generate(root_package_path)
     # Uncomment to rewrite imports if needed:
-    # rewrite_imports_add_prefix(root_package_path, "spounge", top_level_packages)
+    rewrite_imports_add_prefix(root_package_path, "spounge", top_level_packages)
 
     print("All __init__.py files generated (excluding skipped dirs).")
 

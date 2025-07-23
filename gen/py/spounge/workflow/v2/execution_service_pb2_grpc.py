@@ -3,7 +3,7 @@
 
 import grpc
 
-from workflow.v2 import (
+from spounge.workflow.v2 import (
     execution_service_pb2 as workflow_dot_v2_dot_execution__service__pb2,
 )
 
