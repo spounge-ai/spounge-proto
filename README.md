@@ -14,495 +14,276 @@ Protocol Buffer definitions repositoiry powering the [@Spounge](https://github.c
 [![Changelog](https://img.shields.io/badge/Changelog-Available-blue?style=flat)](./docs/CHANGELOG.md)
 
 </div>
-
-
-
-## About
-
-**Spounge-Proto** is the canonical repository for all Protocol Buffer (`.proto`) definitions powering data contracts and gRPC service interfaces throughout the Spounge AI ecosystem.
-
-Designed primarily for our large language model (LLM) workflows, this repository serves as a universal translator for Protobuf schemas, enabling seamless communication between microservices implemented in various languages and platforms.
-
-Automated code generation ensures consistent, type-safe clients for Go, TypeScript and Python, minimizing integration errors and speeding up development.
-
-
+<hr style="width: 100%; height: 4px; background-color: #888; border: none; margin: 2em auto 1em;" />
+ 
+ 
+Universal schema translator for LLM microservices. Automated code generation for Go, TypeScript, and Python clients.
 
 ## Table of Contents
 
-- [Overview](#1-overview)
-- [Key Features](#2-key-features)
-- [Getting Started](#3-getting-started)
-- [Install](#📦-install)
-- [Calling the API](#4-calling-the-api)
-- [Proto Design Conventions](#5-proto-design-conventions)
-- [Code Generation](#6-code-generation)
-- [Best Practices](#7-best-practices)
-- [Testing the API](#8-testing-the-api)
-- [CI/CD Integration](#9-cicd-integration)
-- [Contributing to the API](#10-contributing-to-the-api)
-- [License](#11-license)
-- [Contact](#12-contact)
-- [References & Tool Links](#13-references--tool-links)
+- [Quick Start](#quick-start)
+- [Installation](#installation)
+- [Project Structure](#project-structure)
+- [Usage Examples](#usage-examples)
+- [Code Generation](#code-generation)
+- [Design Conventions](#design-conventions)
+- [API Evolution Rules](#api-evolution-rules)
+- [Testing](#testing)
+- [Development Workflow](#development-workflow)
+- [CI/CD Pipeline](#cicd-pipeline)
+- [Prerequisites](#prerequisites)
+- [Contact & Support](#contact--support)
+- [References](#references)
 
-
-
-## 1. Overview
-
-This project utilizes Protocol Buffers (Protobuf) to define a strongly-typed, language-agnostic API layer for our microservices architecture. This API serves as the primary communication contract between our backend services and various clients (web, mobile, other services).
-
-**Purpose of the API:**  
-To provide a unified, versioned, and performant interface for interacting with core business domains such as authentication, user management, workflow orchestration, and dashboard analytics. It ensures data consistency and reliability across our distributed system.
-
-**Systems it Connects or Powers:**  
-This API layer forms the backbone for inter-service communication within our microservices, powers our web frontends (via gRPC-Web/Connect-Web), and provides a robust contract for any future third-party integrations.
-
-**General Architecture:**  
-The project operates within a monorepo structure, where `.proto` files are centrally managed. Services are implemented as independent microservices, communicating via gRPC. An API Gateway exposes a subset of these gRPC services over HTTP/REST for external consumption.
-
-
-
-## 2. Key Features
-
-- 🔑 **Single Source of Truth**: Centralized `.proto` files under `proto/` ensure all teams build from the same, authoritative schema.
-- 🛠️ **Automatic Client Generation**: Generate idiomatic Go, TypeScript, and Python client libraries with zero manual effort.
-- 🚀 **Containerized Workflow**: Use Docker and Makefiles for reproducible builds, linting, testing, and generation.
-- 🔄 **Cross-Platform Consistency**: Guarantees uniform API contracts between backend and frontend.
-- 📦 **CI/CD Friendly**: Pre-configured GitHub Actions automate build, test, and release pipelines.
-
-
-
-## 3. Getting Started
-
-To work with the Protobuf definitions and generate client/server code, ensure you have the following prerequisites installed.
-
-### Prerequisites
-
-- **Go**: [Installation Guide](https://go.dev/doc/install) (Go 1.24+ recommended)  
-- **Node.js**: [Installation Guide](https://nodejs.org/en/download/) (LTS version recommended)  
-- **`protoc`** (Protocol Buffer Compiler): [Installation Guide](https://grpc.io/docs/protoc-installation/) (v3.20.0+ recommended)  
-- **`buf`** (Protobuf CLI): [Installation Guide](https://docs.buf.build/installation) (v1.x.x+ recommended)  
-- **Docker**: [Installation Guide](https://docs.docker.com/get-docker/) (for containerized workflow)
-
-### Setup Instructions for Code Generation
-
-All code generation is orchestrated via the project's `Makefile`. The `generate_pb.sh` script is invoked by these make commands.
-
-#### Clone the Repository:
+## Quick Start
 
 ```bash
-git clone <your-repo-url>
-cd <your-repo-name>
+git clone https://github.com/spounge-ai/spounge-proto
+cd spounge-proto
+make docker-setup && make gen
 ```
 
-#### Quick Start with Docker:
+## Installation
 
-```bash
-make docker-setup
+| Language | Command |
+|----------|---------|
+| Go | `go get github.com/spoungeai/spounge-proto@latest` |
+| TypeScript | `npm install @spounge/proto-ts` |
+| Python | `pip install spounge-proto-py` |
+
+## Project Structure
+
+```
+proto/
+├── <domain>/<version>/     # Domain definitions (auth/v1/)
+├── common/v1/              # Shared definitions  
+└── api/v1/                 # API Gateway definitions
+
+gen/                        # Generated code
+├── go/                     # Go protobuf + gRPC/Connect
+├── ts/                     # TypeScript + Connect-Web
+├── py/                     # Python protobuf
+└── openapi/                # OpenAPI specs
 ```
 
-This builds the Docker image and generates all clients inside the container.
-
-#### Local Setup (Without Docker):
-
-```bash
-make install-tools
-```
-
-Installs required Go, TypeScript, and Python Protobuf plugins.
-
-#### Run the Generation Command:
-
-```bash
-make gen
-```
-
-This will:
-- Update buf dependencies
-- Clean existing generated code
-- Generate Go code (`gen/go`)
-- Generate TypeScript code (`gen/ts`)
-- Generate Python code (`gen/py`)
-- Generate OpenAPI definitions (`gen/openapi`)
-- Tidy Go modules
-
-### Folder Layout
-
-- `proto/`: All `.proto` source files
-- `proto/<domain>/<version>/`: Domain-specific definitions (e.g., `auth/v1/`)
-- `proto/common/v1/`: Shared definitions
-- `proto/api/v1/`: Public-facing API Gateway definitions
-- `gen/`: All auto-generated code  
-  - `gen/go/`: Go Protobuf messages and gRPC/Connect clients/servers  
-  - `gen/ts/`: TypeScript Protobuf messages and Connect-Web clients  
-  - `gen/py/`: Python Protobuf messages and alias routing.
-  - `gen/openapi/`: OpenAPI (Swagger) specs for HTTP Gateway  
-
-
-## 📦 Install
-
-If you're consuming generated clients without modifying Protobuf definitions, install them directly from the package managers:
-
-### Go
-
-```bash
-go get github.com/spoungeai/spounge-proto@latest
-````
-
-> Uses Go modules. Make sure your `go.mod` is initialized.
-
-### TypeScript / JavaScript
-
-```bash
-npm install @spounge/proto-ts
-```
-
-> Compatible with modern frontend frameworks and Node.js via Connect-Web.
-
-### Python
-
-```bash
-pip install spounge-proto-py
-```
-
-> Works with Python 3.9+ and integrates with standard `grpc` workflows.
-
-
-## 4. Calling the API
-
-Supported via gRPC (Go) and Connect-Web (TypeScript), with optional HTTP/REST gateway.
-
-### Tooling Used
-
-- **Go**: `google.golang.org/protobuf`, `google.golang.org/grpc`, `connectrpc.com/connect`, `grpc-gateway`
-- **TypeScript**: `@bufbuild/protobuf`, `@connectrpc/connect`, `@connectrpc/connect-web`
-
-
-### Go Example
+## Usage Examples
 
 <details>
-<summary>Click to expand Go example</summary>
+<summary><strong>Go Client</strong></summary>
 
 ```go
 package main
 
 import (
-	"context"
-	"log"
-	"time"
-
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
-	"google.golang.org/grpc/metadata"
-
-	apiv1 "github.com/spounge-ai/spounge-protos/gen/go/api/v1"
-	authv1 "github.com/spounge-ai/spounge-protos/gen/go/auth/v1"
+    "context"
+    "log"
+    "time"
+    "google.golang.org/grpc"
+    "google.golang.org/grpc/credentials/insecure"
+    "google.golang.org/grpc/metadata"
+    apiv1 "github.com/spounge-ai/spounge-protos/gen/go/api/v1"
+    authv1 "github.com/spounge-ai/spounge-protos/gen/go/auth/v1"
 )
 
 func main() {
-	conn, err := grpc.Dial("localhost:8080", grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithBlock())
-	if err != nil {
-		log.Fatalf("did not connect: %v", err)
-	}
-	defer conn.Close()
+    conn, err := grpc.Dial("localhost:8080", 
+        grpc.WithTransportCredentials(insecure.NewCredentials()),
+        grpc.WithBlock())
+    if err != nil {
+        log.Fatalf("connection failed: %v", err)
+    }
+    defer conn.Close()
 
-	authClient := apiv1.NewAuthGatewayServiceClient(conn)
+    client := apiv1.NewAuthGatewayServiceClient(conn)
+    
+    ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+    defer cancel()
+    
+    ctx = metadata.AppendToOutgoingContext(ctx, 
+        "authorization", "Bearer your_token",
+        "x-request-id", "unique-request-id")
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
-	defer cancel()
+    req := &apiv1.AuthGatewayServiceLoginRequest{
+        LoginRequest: &authv1.LoginRequest{
+            Email:    "test@example.com",
+            Password: "SecurePassword123",
+        },
+    }
 
-	ctx = metadata.AppendToOutgoingContext(ctx, "authorization", "Bearer your_auth_token_here")
-	ctx = metadata.AppendToOutgoingContext(ctx, "x-request-id", "unique-request-id-123")
+    res, err := client.Login(ctx, req)
+    if err != nil {
+        log.Fatalf("login failed: %v", err)
+    }
 
-	coreLoginReq := &authv1.LoginRequest{
-		Email:    "test@example.com",
-		Password: "SecurePassword123",
-	}
-
-	gatewayLoginReq := &apiv1.AuthGatewayServiceLoginRequest{
-		LoginRequest: coreLoginReq,
-	}
-
-	res, err := authClient.Login(ctx, gatewayLoginReq)
-	if err != nil {
-		log.Fatalf("could not login: %v", err)
-	}
-
-	log.Printf("Login successful! Token: %s", res.GetLoginResponse().GetToken())
+    log.Printf("Token: %s", res.GetLoginResponse().GetToken())
 }
 ```
-
 </details>
-
-### TypeScript Example
 
 <details>
-<summary>Click to expand TypeScript example</summary>
+<summary><strong>TypeScript Client</strong></summary>
 
-```ts
+```typescript
 import { createConnectTransport } from '@bufbuild/connect-web';
-import { AuthGatewayServiceLoginRequest, AuthGatewayServiceLoginResponse } from '../gen/ts/api/v1/auth_gateway_service';
-import { LoginRequest as CoreLoginRequest } from '../gen/ts/auth/v1/auth_service';
 import { AuthGatewayServiceClient } from '../gen/ts/api/v1/auth_gateway_service.client';
+import { AuthGatewayServiceLoginRequest } from '../gen/ts/api/v1/auth_gateway_service';
+import { LoginRequest } from '../gen/ts/auth/v1/auth_service';
 
 const transport = createConnectTransport({
-  baseUrl: 'http://localhost:8080',
-  interceptors: [
-    (next) => async (req) => {
-      req.header.set('Authorization', 'Bearer YOUR_AUTH_TOKEN');
-      return next(req);
-    },
-  ],
+    baseUrl: 'http://localhost:8080',
+    interceptors: [
+        (next) => async (req) => {
+            req.header.set('Authorization', 'Bearer YOUR_TOKEN');
+            return next(req);
+        },
+    ],
 });
 
-const authClient = new AuthGatewayServiceClient(transport);
+const client = new AuthGatewayServiceClient(transport);
 
-async function performLogin() {
-  try {
-    const coreLoginRequest = new CoreLoginRequest({
-      email: 'webuser@example.com',
-      password: 'AnotherSecurePassword!',
-    });
+async function login() {
+    try {
+        const request = new AuthGatewayServiceLoginRequest({
+            loginRequest: new LoginRequest({
+                email: 'user@example.com',
+                password: 'SecurePassword!',
+            }),
+        });
 
-    const gatewayLoginRequest = new AuthGatewayServiceLoginRequest({
-      loginRequest: coreLoginRequest,
-    });
-
-    const response: AuthGatewayServiceLoginResponse = await authClient.login(gatewayLoginRequest);
-
-    console.log('Login successful! Token:', response.loginResponse?.token);
-  } catch (error) {
-    console.error('Login failed:', error);
-  }
+        const response = await client.login(request);
+        console.log('Token:', response.loginResponse?.token);
+    } catch (error) {
+        console.error('Login failed:', error);
+    }
 }
-
-performLogin();
 ```
-
 </details>
 
-### Metadata & Errors
+## Code Generation
 
-- **Metadata/Auth**:
-  - Go: `metadata.AppendToOutgoingContext(...)`
-  - TypeScript: Use `createConnectTransport` interceptors
-- **Errors**:
-  - Go: Use `status.FromError(err)`
-  - TS: Caught as `ConnectError` objects
+| Command | Purpose |
+|---------|---------|
+| `make gen` | Generate all clients |
+| `make gen-go` | Go only |
+| `make gen-ts` | TypeScript only |
+| `make gen-py` | Python only |
+| `make docker-gen` | Docker-based generation |
 
-
-
-## 5. Proto Design Conventions
-
-Our Protobuf schema adheres to a set of conventions to ensure consistency, clarity, and maintainability.
-
-### Versioning
-
-- All packages are versioned (e.g., `package api.v1;`)
-- For breaking changes, create a new versioned package (e.g., `v2`), keeping `v1` stable for existing clients
-
-### Field Modifiers
-
-- `repeated`: For lists/arrays
-- `optional`: For scalar fields that may or may not be set (better semantics, clearer intent)
-- `oneof`: Used when only one field in a group can be set
+## Design Conventions
 
 ### Naming Standards
 
-| Element                  | Convention                              | Example                              |
-|--||--|
-| **Package Names**        | `lower.snake.case`                       | `api.v1`                             |
-| **Service Names**        | `PascalCase` ending in `Service`         | `AuthGatewayService`                |
-| **RPC Method Names**     | `PascalCase`                             | `Login`, `GetUserProfile`          |
-| **Messages (API Gateway)** | `ServiceNameMethodNameRequest/Response` | `AuthGatewayServiceLoginRequest`   |
-| **Field Names**          | `lower_snake_case`                       | `workflow_id`                       |
-| **Enum Names**           | `PascalCase`                             | `ExecutionStatus`                  |
-| **Enum Values**          | `ALL_UPPER_SNAKE_CASE` w/ enum prefix    | `EXECUTION_STATUS_UNSPECIFIED`     |
+| Element | Convention | Example |
+|---------|------------|---------|
+| Packages | `lower.snake.case` | `api.v1` |
+| Services | `PascalCase` + `Service` | `AuthGatewayService` |
+| RPC Methods | `PascalCase` | `Login`, `GetUserProfile` |
+| Messages | `ServiceMethodRequest/Response` | `AuthGatewayServiceLoginRequest` |
+| Fields | `lower_snake_case` | `workflow_id` |
+| Enums | `PascalCase` | `ExecutionStatus` |
+| Enum Values | `PREFIX_VALUE_NAME` | `EXECUTION_STATUS_PENDING` |
 
-### Imports & Modularity
+### Field Modifiers
 
-- Keep `.proto` files modular and clean
-- Import only what's necessary (e.g., `auth_service.proto` inside `auth_gateway_service.proto`)
+- `repeated` - Arrays/lists
+- `optional` - Nullable scalars (recommended for new fields)
+- `oneof` - Mutually exclusive field groups
 
+## API Evolution Rules
 
+| ✅ Allowed | ❌ Breaking Changes |
+|------------|-------------------|
+| Add new fields, services, methods | Remove/rename fields, services, methods |
+| Add `optional` fields | Change field types or numbers |
+| Add enum values (append only) | Reorder enum values |
 
-## 6. Code Generation
+## Testing
 
-Code generation is fully automated using `buf` and custom tooling.
-
-### 🛠️ Common Commands
-
-```bash
-# Generate Go, TypeScript, and Python clients
-make gen
-
-# Generate Go only
-make gen-go
-
-# Generate TypeScript only
-make gen-ts
-
-# Generate Python only
-make gen-py
-
-
-# Run generation inside Docker
-make docker-gen
-make docker-gen-go
-make docker-gen-ts
-make docker-gen-py
-```
-
-### 🧩 Tools Used
-
-| Tool / Plugin | Purpose |
-|||
-| `protoc`      | Core protobuf compiler (indirect via `buf`) |
-| `buf`         | Linter, formatter, code generation orchestrator |
-| `buf.build/protocolbuffers/go` | Go message generation |
-| `buf.build/grpc/go`           | Go gRPC stubs |
-| `buf.build/grpc-ecosystem/gateway` | Go HTTP/REST gateway stubs |
-| `buf.build/connectrpc/go`     | Go Connect stubs |
-| `buf.build/bufbuild/es`       | TS messages + Connect-Web clients |
-| `buf.build/grpc-ecosystem/openapiv2` | OpenAPI v2 specs |
-| `ts_imports.sh`               | Post-process TS output (index files) |
-| `update_ts_package.js`       | Generate `package.json` and `tsconfig.json` in `gen/ts` |
-
-
-
-## 7. Best Practices
-
-### 🔁 Evolving APIs Safely
-
-- **Only Add Fields**: No removals or renames in v1
-- **Do Not Reuse Field Numbers**: Use `reserved <number>` when deprecating
-- **Use `optional`** for new or nullable fields
-- **Use Versioning** (`v2`, etc.) for breaking changes
-- **Use `buf breaking`** in CI to prevent breaking changes
-
-### 💬 Documentation
-
-- Comment every service, RPC, message, and field
-- Use `//` comments above definitions to include in docs
-
-### 🔒 Forward Compatibility
-
-- Use strict linting (`buf lint`)
-- Clients should gracefully handle unknown fields
-
-
-
-## 8. Testing the API
-
-Testing is critical for maintaining reliability.
-
-### 🔍 Local Testing
-
-#### gRPC (`grpcurl`)
+<details>
+<summary><strong>gRPC Testing</strong></summary>
 
 ```bash
-# List available services
+# List services
 grpcurl localhost:8080 list
 
-# Test login RPC
-grpcurl -plaintext -d '{"loginRequest": {"email": "test@example.com", "password": "password"}}'   localhost:8080 api.v1.AuthGatewayService/Login
+# Test RPC
+grpcurl -plaintext -d '{
+    "loginRequest": {
+        "email": "test@example.com", 
+        "password": "password"
+    }
+}' localhost:8080 api.v1.AuthGatewayService/Login
 ```
+</details>
 
-#### HTTP/REST (`curl`)
+<details>
+<summary><strong>HTTP/REST Testing</strong></summary>
 
 ```bash
-curl -X POST -H "Content-Type: application/json"   -d '{"loginRequest": {"email": "test@example.com", "password": "password"}}'   http://localhost:8080/v1/auth/login
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -d '{"loginRequest": {"email": "test@example.com", "password": "password"}}' \
+  http://localhost:8080/v1/auth/login
 ```
+</details>
 
-### 🧪 Integration Testing
+| Command | Purpose |
+|---------|---------|
+| `make test-go` | Go integration tests |
+| `make test-ts` | TypeScript client tests |
+| `make test-py` | Python client tests |
 
-- Spin up local services + gateway
-- Use mocks for gRPC/Connect in tests
+## Development Workflow
 
-### 🧰 Test Commands
+1. Edit `.proto` files following conventions
+2. `buf format -w proto/` - Format
+3. `make lint` - Lint
+4. `make gen` - Generate
+5. `make test` - Test
+6. Commit (include generated code)
 
-```bash
-make test-go   # Runs Go tests in tests/go
-make test-ts   # Runs TypeScript tests in tests/ts
-```
+## CI/CD Pipeline
 
+- Protobuf linting (`buf lint`)
+- Breaking change detection (`buf breaking --against origin/main`)
+- Code generation verification
+- Client library testing
 
+## Prerequisites
 
-## 9. CI/CD Integration
+| Tool | Version | Installation |
+|------|---------|-------------|
+| Go | 1.24+ | [go.dev/doc/install](https://go.dev/doc/install) |
+| Node.js | LTS | [nodejs.org](https://nodejs.org/en/download/) |
+| protoc | v3.20.0+ | [grpc.io/docs/protoc-installation](https://grpc.io/docs/protoc-installation/) |
+| buf | v1.x.x+ | [docs.buf.build/installation](https://docs.buf.build/installation) |
+| Docker | Latest | [docs.docker.com/get-docker](https://docs.docker.com/get-docker/) |
 
-CI ensures correctness, stability, and style compliance.
+## Contact & Support
 
-### ✅ CI Checks
+- **Issues**: GitHub Issues
+- **Support**: dev@spounge.com
+- **License**: MIT
 
-- `buf lint`: Protobuf style and structure
-- `buf breaking`: Prevent breaking changes
-- `make gen`: Ensures code is regenerated before commit
+## References
 
-```yaml
-# Example CI step
-- name: Lint Protobuf
-  run: buf lint
+<details>
+<summary><strong>Documentation Links</strong></summary>
 
-- name: Check for Breaking Changes
-  run: buf breaking --against 'main'
-```
+**Protocol Buffers & gRPC**
+- [Protocol Buffers Documentation](https://protobuf.dev/)
+- [Proto3 Language Guide](https://protobuf.dev/programming-guides/proto3/)
+- [gRPC Documentation](https://grpc.io/docs/)
 
-Generated code is checked into the repo for clarity and reproducibility.
-
-
-
-## 10. Contributing to the API
-
-### 📜 Protobuf Rules
-
-- All changes to existing `v1` files **must be backward compatible**
-- Use `optional`, `repeated`, and unique field numbers
-- Never remove or reuse field numbers (`reserved` instead)
-- Do not change field types
-- New services/RPCs are always welcome
-
-### 🧼 Formatting & Linting
-
-```bash
-# Format .proto files
-buf format -w proto/
-
-# Lint .proto files
-make lint
-```
-
-### 🔍 Review & PR Process
-
-- All `.proto` changes go through a PR
-- PRs must pass all CI checks
-- Review required from a designated API owner or senior engineer
-
-
-
-## 11. License
-
-This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
-
-
-
-## 12. Contact
-
-🧽 For questions, support, or to report bugs:
-
-- Open an issue
-- Contact maintainers: [dev@spounge.com](mailto:dev@spounge.com)
-
-
-
-## 13. References & Tool Links
-
+**Buf Ecosystem**
 - [Buf Documentation](https://buf.build/docs)
 - [Buf Style Guide](https://buf.build/docs/style-guide)
 - [Buf Lint Rules](https://buf.build/docs/lint-overview)
-- [Buf Breaking Detection](https://buf.build/docs/breaking-overview)
-- [Protocol Buffers](https://protobuf.dev/)
-- [Proto3 Language Guide](https://protobuf.dev/programming-guides/proto3/)
-- [API Best Practices](https://cloud.google.com/apis/design)
-- [gRPC Docs](https://grpc.io/docs/)
-- [ConnectRPC Docs](https://connectrpc.com/docs)
-- [grpc-gateway GitHub](https://github.com/grpc-ecosystem/grpc-gateway)
-- [grpcurl GitHub](https://github.com/fullstorydev/grpcurl)
+
+**Connect & Gateway**
+- [ConnectRPC Documentation](https://connectrpc.com/docs)
+- [grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway)
+
+**API Design**
+- [Google API Design Guide](https://cloud.google.com/apis/design)
+</details>
