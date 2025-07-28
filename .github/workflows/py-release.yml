@@ -1,8 +1,8 @@
-name: "Spounge/proto Python Package Release"
+name: "spounge/proto-py package release"
 
 on:
   push:
-    branches: [python]
+    branches: [py-release]
     paths:
       - 'proto/**'
       - 'gen/py/**'
