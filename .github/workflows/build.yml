@@ -130,6 +130,14 @@ jobs:
             ${{ steps.lower-tag.outputs.repo_lower }}:latest \
             sh -c "npm run build"
 
+      - name: Generate Python protobuf files (inside Docker)
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/app \
+            -w /app \
+            ${{ steps.lower-tag.outputs.repo_lower }}:latest \
+            sh -c "make gen-py && make update-py-package"
+
       - name: Run tests inside Docker
         run: |
           docker run --rm \

@@ -1,5 +1,19 @@
 # @spounge/proto
 
+## 2.1.0
+
+### Minor Changes
+
+- [release]: nodus and polykey implementation
+
+### Patch Changes
+
+- [#25](https://github.com/spounge-ai/spounge-proto/pull/25) [`001be2c`](https://github.com/spounge-ai/spounge-proto/commit/001be2c1fedbf190afc6948cf42966f1fcf884f0) Thanks [@Evantopian](https://github.com/Evantopian)! - [@Spounge/proto-ts] - ConnectRPC update
+
+- [#23](https://github.com/spounge-ai/spounge-proto/pull/23) [`7b1f225`](https://github.com/spounge-ai/spounge-proto/commit/7b1f2251107c64f821c0799660b754e182f03366) Thanks [@Evantopian](https://github.com/Evantopian)! - [Hotfix] - Dependency Check
+
+- [#25](https://github.com/spounge-ai/spounge-proto/pull/25) [`001be2c`](https://github.com/spounge-ai/spounge-proto/commit/001be2c1fedbf190afc6948cf42966f1fcf884f0) Thanks [@Evantopian](https://github.com/Evantopian)! - [Patch] - Easier package consumption generation
+
 ## 2.0.2
 
 ### Patch Changes

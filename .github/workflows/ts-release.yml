@@ -1,8 +1,8 @@
-name: "Spounge/proto Package Release"
+name: "spounge/proto-ts package release"
 
 on:
   push:
-    branches: [release]
+    branches: [ts-release]
     paths:
       - 'proto/**'
       - 'gen/ts/**'
@@ -12,7 +12,7 @@ on:
       - 'package.json'
 
   pull_request:
-    branches: [release]
+    branches: [ts-release]
     paths:
       - 'proto/**'
       - 'gen/ts/**'
