@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package polykey.v2;
+
+import "google/protobuf/timestamp.proto";
+import "polykey/v2/key_types.proto";
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/polykey/v2;polykeyv2";
+
+message RequesterContext {
+  string client_identity = 1;
+  string certificate_fingerprint = 2;
+  string application_id = 3;
+  string correlation_id = 4;
+}
+
+message AccessAttributes {
+  string environment = 1;
+  string network_zone = 2;
+  string geographic_region = 3;
+  google.protobuf.Timestamp request_time = 4;
+  string time_window = 5; // e.g., "business-hours", "after-hours".
+  repeated string roles = 6;
+  repeated string permissions = 7;
+  map<string, string> custom_attributes = 8;
+}
+
+message KeyMetadata {
+  string key_id = 1;
+  KeyType key_type = 2;
+  KeyStatus status = 3;
+  int32 version = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+  google.protobuf.Timestamp expires_at = 7;
+  google.protobuf.Timestamp last_accessed_at = 8;
+  string creator_identity = 9;
+  repeated string authorized_contexts = 10;
+  map<string, string> access_policies = 11;
+  string description = 12;
+  map<string, string> tags = 13;
+  string data_classification = 14;
+  string metadata_checksum = 15;
+  int64 access_count = 16;
+}
+
+message KeyMaterial {
+  bytes encrypted_key_data = 1;
+  string encryption_algorithm = 2;    
+  string key_derivation_params = 3;
+  string key_checksum = 4;
+}
+
+message AccessHistoryEntry {
+  google.protobuf.Timestamp timestamp = 1;
+  string client_identity = 2;
+  string operation = 3;
+  bool success = 4;
+  string correlation_id = 5;
+}
+
+message PolicyDetail {
+  string policy_id = 1;
+  string policy_type = 2; // e.g., "RBAC", "ABAC", "TimeBased".
+  map<string, string> policy_params = 3;
+  google.protobuf.Timestamp effective_from = 4;
+  google.protobuf.Timestamp effective_until = 5;
+}

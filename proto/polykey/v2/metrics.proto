@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package polykey.v2;
+
+import "google/protobuf/timestamp.proto";
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/polykey/v2;polykeyv2";
+
+enum HealthStatus {
+  HEALTH_STATUS_UNSPECIFIED = 0;
+  HEALTH_STATUS_HEALTHY = 1;
+  HEALTH_STATUS_DEGRADED = 2;
+  HEALTH_STATUS_UNHEALTHY = 3;
+}
+
+message ServiceMetrics {
+  double average_response_time_ms = 1;
+  int64 requests_per_second = 2;
+  double error_rate_percent = 3;
+  double cpu_usage_percent = 4;
+  double memory_usage_percent = 5;
+  int64 active_keys_count = 6;
+  int64 total_requests_handled = 7;
+  google.protobuf.Timestamp uptime_since = 8;
+}
+
+message HealthCheckResponse {
+  HealthStatus status = 1;
+  google.protobuf.Timestamp timestamp = 2;
+  ServiceMetrics metrics = 3;
+  string service_version = 4;
+  string build_commit = 5;
+}

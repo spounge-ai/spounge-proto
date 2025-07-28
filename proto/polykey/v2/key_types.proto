@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package polykey.v2;
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/polykey/v2;polykeyv2";
+
+enum KeyType {
+  KEY_TYPE_UNSPECIFIED = 0;
+  KEY_TYPE_API_KEY = 1;
+  KEY_TYPE_AES_256 = 2;
+  KEY_TYPE_RSA_4096 = 3;
+  KEY_TYPE_ECDSA_P384 = 4;
+}
+
+enum KeyStatus {
+  KEY_STATUS_UNSPECIFIED = 0;
+  KEY_STATUS_ACTIVE = 1;
+  KEY_STATUS_ROTATING = 2;
+  KEY_STATUS_DEPRECATED = 3;
+  KEY_STATUS_REVOKED = 4;
+}
+
+enum RotationStrategy {
+  ROTATION_STRATEGY_UNSPECIFIED = 0;
+  ROTATION_STRATEGY_HOT = 1;
+  ROTATION_STRATEGY_STAGED = 2;
+  ROTATION_STRATEGY_SCHEDULED = 3;
+}
