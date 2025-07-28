@@ -11,8 +11,14 @@
     <a href="https://github.com/spoungeai/spounge-proto/actions/workflows/build.yml">
       <img src="https://img.shields.io/github/actions/workflow/status/spoungeai/spounge-proto/build.yml?label=Build&style=flat&color=brightgreen" alt="Build" />
     </a>
+    <a href="https://github.com/spoungeai/spounge-proto/releases/latest">
+      <img src="https://img.shields.io/github/v/tag/spoungeai/spounge-proto?label=proto-go&style=flat&color=17a2b8" alt="Go Module Version" />
+    </a>
     <a href="https://www.npmjs.com/package/@spounge/proto-ts">
-      <img src="https://img.shields.io/npm/v/@spounge/proto-ts?label=%40spounge%2Fproto-ts&style=flat&color=blue" alt="@spounge/proto-ts" />
+      <img src="https://img.shields.io/npm/v/@spounge/proto-ts?label=proto-ts&style=flat&color=blue" alt="@spounge/proto-ts" />
+    </a>
+    <a href="https://pypi.org/project/spounge-proto-py/">
+      <img src="https://img.shields.io/pypi/v/spounge-proto-py?label=proto-py&style=flat&color=DAA520" alt="spounge-proto-py" />
     </a>
     <a href="https://opensource.org/licenses/MIT">
       <img src="https://img.shields.io/badge/License-MIT-blue?style=flat" alt="MIT License" />
@@ -30,7 +36,7 @@
 
 Designed primarily for our large language model (LLM) workflows, this repository serves as a universal translator for Protobuf schemas, enabling seamless communication between microservices implemented in various languages and platforms.
 
-Automated code generation ensures consistent, type-safe clients for Go and TypeScript, minimizing integration errors and speeding up development.
+Automated code generation ensures consistent, type-safe clients for Go, TypeScript and Python, minimizing integration errors and speeding up development.
 
 
 
@@ -39,6 +45,7 @@ Automated code generation ensures consistent, type-safe clients for Go and TypeS
 - [Overview](#1-overview)
 - [Key Features](#2-key-features)
 - [Getting Started](#3-getting-started)
+- [Install](#📦-install)
 - [Calling the API](#4-calling-the-api)
 - [Proto Design Conventions](#5-proto-design-conventions)
 - [Code Generation](#6-code-generation)
@@ -70,7 +77,7 @@ The project operates within a monorepo structure, where `.proto` files are centr
 ## 2. Key Features
 
 - 🔑 **Single Source of Truth**: Centralized `.proto` files under `proto/` ensure all teams build from the same, authoritative schema.
-- 🛠️ **Automatic Client Generation**: Generate idiomatic Go and TypeScript client libraries with zero manual effort.
+- 🛠️ **Automatic Client Generation**: Generate idiomatic Go, TypeScript, and Python client libraries with zero manual effort.
 - 🚀 **Containerized Workflow**: Use Docker and Makefiles for reproducible builds, linting, testing, and generation.
 - 🔄 **Cross-Platform Consistency**: Guarantees uniform API contracts between backend and frontend.
 - 📦 **CI/CD Friendly**: Pre-configured GitHub Actions automate build, test, and release pipelines.
@@ -114,7 +121,7 @@ This builds the Docker image and generates all clients inside the container.
 make install-tools
 ```
 
-Installs required Go and TypeScript Protobuf plugins.
+Installs required Go, TypeScript, and Python Protobuf plugins.
 
 #### Run the Generation Command:
 
@@ -127,6 +134,7 @@ This will:
 - Clean existing generated code
 - Generate Go code (`gen/go`)
 - Generate TypeScript code (`gen/ts`)
+- Generate Python code (`gen/py`)
 - Generate OpenAPI definitions (`gen/openapi`)
 - Tidy Go modules
 
@@ -139,8 +147,37 @@ This will:
 - `gen/`: All auto-generated code  
   - `gen/go/`: Go Protobuf messages and gRPC/Connect clients/servers  
   - `gen/ts/`: TypeScript Protobuf messages and Connect-Web clients  
+  - `gen/py/`: Python Protobuf messages and alias routing.
   - `gen/openapi/`: OpenAPI (Swagger) specs for HTTP Gateway  
 
+
+## 📦 Install
+
+If you're consuming generated clients without modifying Protobuf definitions, install them directly from the package managers:
+
+### Go
+
+```bash
+go get github.com/spoungeai/spounge-proto@latest
+````
+
+> Uses Go modules. Make sure your `go.mod` is initialized.
+
+### TypeScript / JavaScript
+
+```bash
+npm install @spounge/proto-ts
+```
+
+> Compatible with modern frontend frameworks and Node.js via Connect-Web.
+
+### Python
+
+```bash
+pip install spounge-proto-py
+```
+
+> Works with Python 3.9+ and integrates with standard `grpc` workflows.
 
 
 ## 4. Calling the API
@@ -151,6 +188,7 @@ Supported via gRPC (Go) and Connect-Web (TypeScript), with optional HTTP/REST ga
 
 - **Go**: `google.golang.org/protobuf`, `google.golang.org/grpc`, `connectrpc.com/connect`, `grpc-gateway`
 - **TypeScript**: `@bufbuild/protobuf`, `@connectrpc/connect`, `@connectrpc/connect-web`
+
 
 ### Go Example
 
@@ -307,7 +345,7 @@ Code generation is fully automated using `buf` and custom tooling.
 ### 🛠️ Common Commands
 
 ```bash
-# Generate both Go and TypeScript clients
+# Generate Go, TypeScript, and Python clients
 make gen
 
 # Generate Go only
@@ -316,10 +354,15 @@ make gen-go
 # Generate TypeScript only
 make gen-ts
 
+# Generate Python only
+make gen-py
+
+
 # Run generation inside Docker
 make docker-gen
 make docker-gen-go
 make docker-gen-ts
+make docker-gen-py
 ```
 
 ### 🧩 Tools Used
