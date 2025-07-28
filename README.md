@@ -7,7 +7,7 @@
 Protocol Buffer definitions repositoiry powering the [@Spounge](https://github.com/spounge-ai) ecosystem services.
 
 [![Build](https://img.shields.io/github/actions/workflow/status/spoungeai/spounge-proto/build.yml?label=Build&style=flat&color=brightgreen)](https://github.com/spoungeai/spounge-proto/actions/workflows/build.yml)
-[![Go Module Version](https://img.shields.io/github/v/tag/spoungeai/spounge-proto?label=proto-go&style=flat&color=17a2b8)](https://github.com/spoungeai/spounge-proto/releases/latest)
+[![Go Module](https://img.shields.io/badge/proto--go-v1.2.1-17a2b8?style=flat)](https://github.com/spoungeai/spounge-proto/releases/tag/gen/go/v1.2.1)
 [![TypeScript Package](https://img.shields.io/npm/v/@spounge/proto-ts?label=proto-ts&style=flat&color=blue)](https://www.npmjs.com/package/@spounge/proto-ts)
 [![Python Package](https://img.shields.io/pypi/v/spounge-proto-py?label=proto-py&style=flat&color=DAA520)](https://pypi.org/project/spounge-proto-py/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue?style=flat)](https://opensource.org/licenses/MIT)
@@ -40,7 +40,7 @@ Universal schema translator for LLM microservices. Automated code generation for
 ```bash
 git clone https://github.com/spounge-ai/spounge-proto
 cd spounge-proto
-make docker-setup && make gen
+make docker-setup 
 ```
 
 ## Installation
@@ -255,8 +255,8 @@ curl -X POST \
 |------|---------|-------------|
 | Go | 1.24+ | [go.dev/doc/install](https://go.dev/doc/install) |
 | Node.js | LTS | [nodejs.org](https://nodejs.org/en/download/) |
-| protoc | v3.20.0+ | [grpc.io/docs/protoc-installation](https://grpc.io/docs/protoc-installation/) |
-| buf | v1.x.x+ | [docs.buf.build/installation](https://docs.buf.build/installation) |
+| protoc | v30+ | [protobuf.dev/installation/](https://protobuf.dev/installation/) |
+| buf | v2.x.x+ | [docs.buf.build/installation](https://docs.buf.build/installation) |
 | Docker | Latest | [docs.docker.com/get-docker](https://docs.docker.com/get-docker/) |
 
 ## Contact & Support
