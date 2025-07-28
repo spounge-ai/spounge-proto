@@ -8,7 +8,6 @@ on:
       - 'gen/ts/**'
       - 'gen/go/**'
       - '.changeset/**'
-      - '.github/workflows/ts-proto-gen.yml'
       - 'package.json'
  
 jobs:
