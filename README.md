@@ -1,33 +1,20 @@
 <div align="center">
-  <img src="./SpoungeBordered.png" alt="Spounge Logo" width="80" />
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="./docs/dark.svg">
+  <img alt="spounge-protos-logo" src="./docs/light.svg" width="50%" height="50%"> 
+</picture>
 
-  <h1>Spounge – Centralized Protocol Buffers</h1>
+Protocol Buffer definitions repositoiry powering the [@Spounge](https://github.com/spounge-ai) ecosystem services.
 
-  <p>
-    The canonical repository of Protocol Buffer definitions powering Spounge AI ecosystem services.
-  </p>
+[![Build](https://img.shields.io/github/actions/workflow/status/spoungeai/spounge-proto/build.yml?label=Build&style=flat&color=brightgreen)](https://github.com/spoungeai/spounge-proto/actions/workflows/build.yml)
+[![Go Module Version](https://img.shields.io/github/v/tag/spoungeai/spounge-proto?label=proto-go&style=flat&color=17a2b8)](https://github.com/spoungeai/spounge-proto/releases/latest)
+[![TypeScript Package](https://img.shields.io/npm/v/@spounge/proto-ts?label=proto-ts&style=flat&color=blue)](https://www.npmjs.com/package/@spounge/proto-ts)
+[![Python Package](https://img.shields.io/pypi/v/spounge-proto-py?label=proto-py&style=flat&color=DAA520)](https://pypi.org/project/spounge-proto-py/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue?style=flat)](https://opensource.org/licenses/MIT)
+[![Changelog](https://img.shields.io/badge/Changelog-Available-blue?style=flat)](./docs/CHANGELOG.md)
 
-  <p>
-    <a href="https://github.com/spoungeai/spounge-proto/actions/workflows/build.yml">
-      <img src="https://img.shields.io/github/actions/workflow/status/spoungeai/spounge-proto/build.yml?label=Build&style=flat&color=brightgreen" alt="Build" />
-    </a>
-    <a href="https://github.com/spoungeai/spounge-proto/releases/latest">
-      <img src="https://img.shields.io/github/v/tag/spoungeai/spounge-proto?label=proto-go&style=flat&color=17a2b8" alt="Go Module Version" />
-    </a>
-    <a href="https://www.npmjs.com/package/@spounge/proto-ts">
-      <img src="https://img.shields.io/npm/v/@spounge/proto-ts?label=proto-ts&style=flat&color=blue" alt="@spounge/proto-ts" />
-    </a>
-    <a href="https://pypi.org/project/spounge-proto-py/">
-      <img src="https://img.shields.io/pypi/v/spounge-proto-py?label=proto-py&style=flat&color=DAA520" alt="spounge-proto-py" />
-    </a>
-    <a href="https://opensource.org/licenses/MIT">
-      <img src="https://img.shields.io/badge/License-MIT-blue?style=flat" alt="MIT License" />
-    </a>
-    <a href="./CHANGELOG.md">
-      <img src="https://img.shields.io/badge/Changelog-Available-blue?style=flat" alt="Changelog" />
-    </a>
-  </p>
 </div>
+
 
 
 ## About
