@@ -1,0 +1,869 @@
+syntax = "proto3";
+
+package nodus.v1.nodes.v1;
+
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v1/nodes/v1;nodesv1";
+
+import "google/protobuf/any.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "nodus/v1/common/v1/types.proto";
+import "nodus/v1/common/v1/resources.proto";
+import "nodus/v1/common/v1/errors.proto";
+import "nodus/v1/nodes/v1/direct.proto";
+import "nodus/v1/nodes/v1/reasoning.proto";
+import "nodus/v1/nodes/v1/autonomous.proto";
+import "nodus/v1/nodes/v1/webhook.proto";
+
+message ExecuteNodeRequest {
+  string execution_id = 1;
+  string node_id = 2;
+  nodus.v1.common.v1.NodeType node_type = 3;
+  google.protobuf.Duration timeout = 4;
+  int32 max_retries = 5;
+
+  oneof node_config {
+    DirectNodeConfig direct_config = 10;
+    ReasoningNodeConfig reasoning_config = 11;
+    AutonomousNodeConfig autonomous_config = 12;
+    WebhookNodeConfig webhook_config = 13;
+  }
+
+  nodus.v1.common.v1.ExecutionContext execution_context = 20;
+  google.protobuf.Timestamp requested_at = 21;
+}
+
+message ExecuteNodeResponse {
+  string execution_id = 1;
+  string node_id = 2;
+  nodus.v1.common.v1.ExecutionStatus status = 3;
+  google.protobuf.Any result_data = 4;
+  ExecutionMetadata metadata = 5;
+  nodus.v1.common.v1.ExecutionError error = 6;
+  google.protobuf.Duration execution_time = 7;
+  nodus.v1.common.v1.ResourceConsumption resource_usage = 8;
+  google.protobuf.Timestamp completed_at = 9;
+}
+
+message ExecutionMetadata {
+  repeated ExecutionStep execution_steps = 1;
+  int32 total_iterations = 2;
+  int32 tool_invocations = 3;
+  google.protobuf.Duration llm_processing_time = 4;
+  google.protobuf.Duration tool_execution_time = 5;
+  google.protobuf.Duration serialization_time = 6;
+  float confidence_score = 7;
+  string termination_reason = 8;
+  repeated string warnings = 9;
+  map<string, string> custom_metrics = 10;
+}
+
+message ExecutionStep {
+  int32 step_number = 1;
+  StepType step_type = 2;
+  string description = 3;
+  google.protobuf.Any step_input = 4;
+  google.protobuf.Any step_output = 5;
+  google.protobuf.Duration step_duration = 6;
+  nodus.v1.common.v1.ExecutionStatus step_status = 7;
+  nodus.v1.common.v1.ExecutionError step_error = 8;
+}
+
+
+message ExecuteNodeStreamRequest {
+  string execution_id = 1;
+  string node_id = 2;
+  nodus.v1.common.v1.NodeType node_type = 3;
+  google.protobuf.Duration timeout = 4;
+  int32 max_retries = 5;
+
+  oneof node_config {
+    DirectNodeConfig direct_config = 10;
+    ReasoningNodeConfig reasoning_config = 11;
+    AutonomousNodeConfig autonomous_config = 12;
+    WebhookNodeConfig webhook_config = 13;
+  }
+
+  nodus.v1.common.v1.ExecutionContext execution_context = 20;
+  google.protobuf.Timestamp requested_at = 21;
+}
+
+message ExecuteNodeStreamResponse {
+  string execution_id = 1;
+  string node_id = 2;
+  nodus.v1.common.v1.ExecutionStatus status = 3;
+  google.protobuf.Any result_data = 4;
+  ExecutionMetadata metadata = 5;
+  nodus.v1.common.v1.ExecutionError error = 6;
+  google.protobuf.Duration execution_time = 7;
+  nodus.v1.common.v1.ResourceConsumption resource_usage = 8;
+  google.protobuf.Timestamp completed_at = 9;
+}
+
+
+
+enum StepType {
+  STEP_TYPE_UNSPECIFIED = 0;
+  STEP_TYPE_REASONING = 1;
+  STEP_TYPE_TOOL_INVOCATION = 2;
+  STEP_TYPE_RESULT_PROCESSING = 3;
+  STEP_TYPE_STATE_UPDATE = 4;
+  STEP_TYPE_VALIDATION = 5;
+}
+syntax = "proto3";
+
+package nodus.v1.nodes.v1;
+
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v1/nodes/v1;nodesv1";
+
+import "google/protobuf/duration.proto";
+
+message WebhookNodeConfig {
+  string listen_id = 1;
+  google.protobuf.Duration timeout = 2;
+  string verification_config_name = 3;
+}
+syntax = "proto3";
+
+package nodus.v1.nodes.v1;
+
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v1/nodes/v1;nodesv1";
+
+import "google/protobuf/duration.proto";
+import "nodus/v1/common/v1/types.proto";
+import "nodus/v1/integrations/v1/llm.proto";
+import "nodus/v1/mcp/v1/tool.proto";
+
+message ReasoningNodeConfig {
+  nodus.v1.integrations.v1.LLMConfiguration llm_config = 1;
+  nodus.v1.integrations.v1.LLMParameters model_parameters = 3;
+  string system_prompt = 4;
+  string user_prompt = 5;
+  repeated nodus.v1.common.v1.ChatMessage conversation_history = 6;
+  nodus.v1.mcp.v1.ToolScope tool_scope = 7;
+  repeated string allowed_tools = 8;
+  repeated string forbidden_tools = 9;
+  google.protobuf.Duration reasoning_timeout = 11;
+  bool require_tool_use = 12;
+  ReasoningOptions options = 13;
+}
+
+message ReasoningOptions {
+  bool enable_chain_of_thought = 1;
+  bool include_reasoning_trace = 2;
+  float temperature_override = 3;
+  bool validate_tool_outputs = 4;
+  string output_format_instruction = 5;
+  repeated string required_output_fields = 6;
+}
+syntax = "proto3";
+
+package nodus.v1.nodes.v1;
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v1/nodes/v1;nodesv1";
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/duration.proto";
+import "nodus/v1/common/v1/types.proto";
+
+message DirectNodeConfig {
+  string mcp_server_id = 1;
+  string tool_name = 3;
+  google.protobuf.Struct tool_parameters = 4;
+  google.protobuf.Duration tool_timeout = 5;
+  bool validate_parameters = 6;
+  nodus.v1.common.v1.ResultFormat output_format = 7;
+  repeated string extract_fields = 8;
+  DirectNodeOptions options = 9;
+}
+
+message DirectNodeOptions {
+  bool cache_result = 1;
+  google.protobuf.Duration cache_ttl = 2;
+  bool require_confirmation = 3;
+  map<string, string> parameter_overrides = 4;
+  RetryPolicy retry_policy = 5;
+}
+
+message RetryPolicy {
+  int32 max_attempts = 1;
+  google.protobuf.Duration initial_backoff = 2;
+  google.protobuf.Duration max_backoff = 3;
+  float backoff_multiplier = 4;
+  repeated string retryable_error_codes = 5;
+}
+syntax = "proto3";
+
+package nodus.v1.nodes.v1;
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v1/nodes/v1;nodesv1";
+
+import "google/protobuf/duration.proto";
+import "nodus/v1/common/v1/types.proto";
+import "nodus/v1/integrations/v1/llm.proto";
+import "nodus/v1/mcp/v1/tool.proto";
+
+message AutonomousNodeConfig {
+  nodus.v1.integrations.v1.LLMConfiguration llm_config = 1;
+  AgentType agent_type = 3;
+  string objective = 4;
+  string system_context = 5;
+  repeated nodus.v1.common.v1.ChatMessage initial_messages = 6;
+  nodus.v1.mcp.v1.ToolScope tool_scope = 7;
+  ToolSelectionStrategy tool_strategy = 8;
+  int32 max_iterations = 9;
+  google.protobuf.Duration max_execution_time = 10;
+  float confidence_threshold = 11;
+  bool persist_state = 12;
+  string state_key = 13;
+  google.protobuf.Duration state_ttl = 14;
+  bool enable_streaming = 15;
+  int32 stream_interval_ms = 16;
+  AutonomousOptions options = 17;
+}
+
+enum AgentType {
+  AGENT_TYPE_UNSPECIFIED = 0;
+  AGENT_TYPE_REACT = 1;
+  AGENT_TYPE_CHAIN_OF_THOUGHT = 2;
+  AGENT_TYPE_TOOL_CALLING = 3;
+  AGENT_TYPE_PLANNING = 4;
+  AGENT_TYPE_REFLECTION = 5;
+}
+
+enum ToolSelectionStrategy {
+  TOOL_SELECTION_STRATEGY_UNSPECIFIED = 0;
+  TOOL_SELECTION_STRATEGY_AUTOMATIC = 1;
+  TOOL_SELECTION_STRATEGY_EXPLICIT = 2;
+  TOOL_SELECTION_STRATEGY_INTERACTIVE = 3;
+  TOOL_SELECTION_STRATEGY_LEARNED = 4;
+}
+
+message AutonomousOptions {
+  bool enable_self_reflection = 1;
+  int32 reflection_interval = 2;
+  bool enable_memory_consolidation = 3;
+  bool enable_goal_decomposition = 4;
+  float exploration_rate = 5;
+  map<string, string> custom_parameters = 6;
+}
+syntax = "proto3";
+
+package nodus.v1.service.v1;
+
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v1/service/v1;servicev1";
+
+import "google/api/annotations.proto";
+import "nodus/v1/nodes/v1/execution.proto";
+import "nodus/v1/mcp/v1/connection.proto";
+
+service NodusService {
+  rpc ExecuteNode(nodus.v1.nodes.v1.ExecuteNodeRequest) returns (nodus.v1.nodes.v1.ExecuteNodeResponse) {
+    option (google.api.http) = {
+      post: "/v1/nodes:execute"
+      body: "*"
+    };
+  }
+
+  rpc ExecuteNodeStream(
+    nodus.v1.nodes.v1.ExecuteNodeStreamRequest
+  ) returns (
+    stream nodus.v1.nodes.v1.ExecuteNodeStreamResponse
+  ) {
+    option (google.api.http) = {
+      post: "/v1/nodes:executeStream"
+      body: "*"
+    };
+  }
+
+  rpc RegisterMCPServer(nodus.v1.mcp.v1.RegisterMCPServerRequest) returns (nodus.v1.mcp.v1.RegisterMCPServerResponse) {
+    option (google.api.http) = {
+      post: "/v1/mcp/servers:register"
+      body: "*"
+    };
+  }
+
+  rpc ListMCPServers(nodus.v1.mcp.v1.ListMCPServersRequest) returns (nodus.v1.mcp.v1.ListMCPServersResponse) {
+    option (google.api.http) = {
+      get: "/v1/mcp/servers"
+    };
+  }
+
+  rpc QueryMCPTools(nodus.v1.mcp.v1.QueryMCPToolsRequest) returns (nodus.v1.mcp.v1.QueryMCPToolsResponse) {
+    option (google.api.http) = {
+      get: "/v1/mcp/tools"
+    };
+  }
+
+  rpc CheckHealth(CheckHealthRequest) returns (CheckHealthResponse) {
+    option (google.api.http) = {
+      get: "/v1/health"
+    };
+  }
+}
+
+message CheckHealthRequest {
+  string service = 1;
+}
+
+message CheckHealthResponse {
+  enum ServingStatus {
+    SERVING_STATUS_UNKNOWN_UNSPECIFIED = 0;
+    SERVING_STATUS_SERVING = 1;
+    SERVING_STATUS_NOT_SERVING = 2;
+  }
+  ServingStatus status = 1;
+}
+syntax = "proto3";
+
+package nodus.v1.integrations.v1;
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v1/integrations/v1;integrationsv1";
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/duration.proto";
+import "nodus/v1/common/v1/auth.proto";
+
+enum HTTPMethod {
+  HTTP_METHOD_UNSPECIFIED = 0;
+  HTTP_METHOD_GET = 1;
+  HTTP_METHOD_POST = 2;
+  HTTP_METHOD_PUT = 3;
+  HTTP_METHOD_DELETE = 4;
+  HTTP_METHOD_PATCH = 5;
+  HTTP_METHOD_HEAD = 6;
+  HTTP_METHOD_OPTIONS = 7;
+}
+
+message APIConfig {
+  string name = 1;
+  string base_url = 2;
+  nodus.v1.common.v1.AuthenticationConfig auth_config = 4;
+  map<string, string> default_headers = 5;
+  google.protobuf.Duration timeout = 6;
+  RetryConfiguration retry_config = 7;
+  RateLimitConfiguration rate_limit_config = 8;
+}
+
+message RetryConfiguration {
+  int32 max_attempts = 1;
+  google.protobuf.Duration initial_backoff = 2;
+  google.protobuf.Duration max_backoff = 3;
+  float backoff_multiplier = 4;
+  repeated int32 retryable_status_codes = 5;
+}
+
+message RateLimitConfiguration {
+  int32 requests_per_second = 1;
+  int32 requests_per_minute = 2;
+  int32 concurrent_requests = 3;
+}
+
+message HTTPRequest {
+  HTTPMethod method = 1;
+  string endpoint = 2;
+  map<string, string> headers = 3;
+  google.protobuf.Struct query_params = 4;
+  google.protobuf.Struct body = 5;
+  google.protobuf.Duration timeout = 6;
+}
+
+message HTTPResponse {
+  int32 status_code = 1;
+  map<string, string> headers = 2;
+  google.protobuf.Struct body = 3;
+  google.protobuf.Duration response_time = 4;
+}
+syntax = "proto3";
+
+package nodus.v1.integrations.v1;
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v1/integrations/v1;integrationsv1";
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/duration.proto";
+
+enum DatabaseType {
+  DATABASE_TYPE_UNSPECIFIED = 0;
+  DATABASE_TYPE_POSTGRESQL = 1;
+  DATABASE_TYPE_MYSQL = 2;
+  DATABASE_TYPE_SQLITE = 3;
+  DATABASE_TYPE_MONGODB = 4;
+  DATABASE_TYPE_REDIS = 5;
+  DATABASE_TYPE_ELASTICSEARCH = 6;
+  DATABASE_TYPE_PINECONE = 7;
+  DATABASE_TYPE_QDRANT = 8;
+  DATABASE_TYPE_CLICKHOUSE = 9;
+}
+
+message DatabaseConfig {
+  DatabaseType database_type = 1;
+  string connection_string_template = 2; // For patterns like postgresql://${user}:${password}@...
+  string host = 3;
+  int32 port = 4;
+  string database = 5;
+  string username = 6;
+  string password_credential_id = 7;
+  bool use_ssl = 8;
+  map<string, string> connection_params = 9;
+  ConnectionPoolConfig pool_config = 10;
+}
+
+message ConnectionPoolConfig {
+  int32 max_connections = 1;
+  int32 min_connections = 2;
+  google.protobuf.Duration connection_timeout = 3;
+  google.protobuf.Duration idle_timeout = 4;
+  google.protobuf.Duration max_lifetime = 5;
+}
+
+message VectorDatabaseConfig {
+  DatabaseType database_type = 1;
+  string api_key_credential_id = 2;
+  string environment = 3;
+  string index_name = 4;
+  int32 dimension = 5;
+  string metric = 6;
+  map<string, google.protobuf.Value> metadata_config = 7;
+}
+
+message QueryConfig {
+  string query = 1;
+  google.protobuf.Struct parameters = 2;
+  int32 limit = 3;
+  int32 offset = 4;
+  google.protobuf.Duration timeout = 5;
+  bool read_only = 6;
+}
+syntax = "proto3";
+
+package nodus.v1.integrations.v1;
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v1/integrations/v1;integrationsv1";
+
+import "google/protobuf/struct.proto";
+
+enum LLMProvider {
+  LLM_PROVIDER_UNSPECIFIED = 0;
+  LLM_PROVIDER_OPENAI = 1;
+  LLM_PROVIDER_ANTHROPIC = 2;
+  LLM_PROVIDER_COHERE = 3;
+  LLM_PROVIDER_HUGGING_FACE = 4;
+  LLM_PROVIDER_GOOGLE = 5;
+  LLM_PROVIDER_MISTRAL = 6;
+  LLM_PROVIDER_LOCAL_OLLAMA = 7;
+  LLM_PROVIDER_AZURE_OPENAI = 8;
+  LLM_PROVIDER_AWS_BEDROCK = 9;
+}
+
+message LLMConfiguration {
+  LLMProvider provider = 1;
+  string model_name = 2;
+  string credential_id = 3;
+  string base_url = 4;
+  map<string, string> headers = 6;
+  RateLimitConfig rate_limits = 7;
+  map<string, google.protobuf.Value> provider_specific = 8;
+}
+
+message LLMParameters {
+  float temperature = 1;
+  int32 max_tokens = 2;
+  float top_p = 3;
+  float top_k = 4;
+  float frequency_penalty = 5;
+  float presence_penalty = 6;
+  repeated string stop_sequences = 7;
+  string system_prompt_template = 8;
+}
+
+message RateLimitConfig {
+  int32 requests_per_minute = 1;
+  int32 tokens_per_minute = 2;
+  int32 concurrent_requests = 3;
+}
+syntax = "proto3";
+
+package nodus.v1.integrations.v1;
+
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v1/integrations/v1;integrationsv1";
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+
+message WebhookCallback {
+  map<string, string> headers = 1;
+  map<string, string> query_params = 2;
+  google.protobuf.Struct body = 3;
+  google.protobuf.Timestamp received_at = 4;
+}
+syntax = "proto3";
+
+package nodus.v1.common.v1;
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v1/common/v1;commonv1";
+
+import "google/protobuf/duration.proto";
+
+message ResourceLimits {
+  int32 max_concurrent_executions = 1;
+  google.protobuf.Duration max_execution_time = 2;
+  int64 max_memory_bytes = 3;
+  int32 max_tool_calls = 4;
+  int64 max_output_size_bytes = 5;
+}
+
+message ResourceConsumption {
+  int64 memory_used_bytes = 1;
+  float cpu_utilization_percent = 2;
+  int32 network_requests = 3;
+  int64 network_bytes_transferred = 4;
+  google.protobuf.Duration total_duration = 5;
+}
+
+message ResourceRequirements {
+  int64 estimated_memory_bytes = 1;
+  google.protobuf.Duration estimated_duration = 2;
+  int32 estimated_network_calls = 3;
+  string resource_tier = 4;
+}
+syntax = "proto3";
+
+package nodus.v1.common.v1;
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v1/common/v1;commonv1";
+
+import "google/protobuf/timestamp.proto";
+
+enum ErrorType {
+  ERROR_TYPE_UNSPECIFIED = 0;
+  ERROR_TYPE_VALIDATION = 1;
+  ERROR_TYPE_TIMEOUT = 2;
+  ERROR_TYPE_RESOURCE_EXHAUSTION = 3;
+  ERROR_TYPE_EXTERNAL_SERVICE = 4;
+  ERROR_TYPE_LLM_PROVIDER = 5;
+  ERROR_TYPE_MCP_SERVER = 6;
+  ERROR_TYPE_DATABASE = 7;
+  ERROR_TYPE_API_INTEGRATION = 8;
+  ERROR_TYPE_AUTHENTICATION = 9;
+  ERROR_TYPE_INTERNAL = 10;
+}
+
+message ExecutionError {
+  ErrorType error_type = 1;
+  string error_code = 2;
+  string error_message = 3;
+  string stack_trace = 4;
+  ErrorContext context = 5;
+  repeated ErrorDetail details = 6;
+  bool retryable = 7;
+  int32 retry_after_seconds = 8;
+}
+
+message ErrorContext {
+  string component = 1;
+  string operation = 2;
+  map<string, string> parameters = 3;
+  google.protobuf.Timestamp timestamp = 4;
+  string trace_id = 5;
+}
+
+message ErrorDetail {
+  string field = 1;
+  string constraint = 2;
+  string actual_value = 3;
+  string expected_value = 4;
+}
+syntax = "proto3";
+
+package nodus.v1.common.v1;
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v1/common/v1;commonv1";
+
+import "google/protobuf/timestamp.proto";
+
+enum NodeType {
+  NODE_TYPE_UNSPECIFIED = 0;
+  NODE_TYPE_DIRECT = 1;
+  NODE_TYPE_REASONING = 2;
+  NODE_TYPE_AUTONOMOUS = 3;
+  NODE_TYPE_WEBHOOK = 4;
+}
+
+enum ExecutionStatus {
+  EXECUTION_STATUS_UNSPECIFIED = 0;
+  EXECUTION_STATUS_PENDING = 1;
+  EXECUTION_STATUS_RUNNING = 2;
+  EXECUTION_STATUS_COMPLETED = 3;
+  EXECUTION_STATUS_FAILED = 4;
+  EXECUTION_STATUS_TIMEOUT = 5;
+  EXECUTION_STATUS_CANCELLED = 6;
+}
+
+enum ResultFormat {
+  RESULT_FORMAT_UNSPECIFIED = 0;
+  RESULT_FORMAT_RAW = 1;
+  RESULT_FORMAT_JSON = 2;
+  RESULT_FORMAT_STRUCTURED = 3;
+}
+
+enum MessageRole {
+  MESSAGE_ROLE_UNSPECIFIED = 0;
+  MESSAGE_ROLE_SYSTEM = 1;
+  MESSAGE_ROLE_USER = 2;
+  MESSAGE_ROLE_ASSISTANT = 3;
+  MESSAGE_ROLE_TOOL = 4;
+}
+
+message ExecutionContext {
+  string execution_id = 1;
+  string workflow_id = 2;
+  string user_id = 3;
+  map<string, string> metadata = 4;
+  google.protobuf.Timestamp created_at = 5;
+}
+
+message ChatMessage {
+  MessageRole role = 1;
+  string content = 2;
+  google.protobuf.Timestamp timestamp = 3;
+  map<string, string> metadata = 4;
+}
+syntax = "proto3";
+
+package nodus.v1.common.v1;
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v1/common/v1;commonv1";
+
+enum AuthType {
+  AUTH_TYPE_UNSPECIFIED = 0;
+  AUTH_TYPE_NONE = 1;
+  AUTH_TYPE_API_KEY = 2;
+  AUTH_TYPE_BEARER_TOKEN = 3;
+  AUTH_TYPE_BASIC = 4;
+  AUTH_TYPE_OAUTH2 = 5;
+  AUTH_TYPE_CUSTOM = 6;
+}
+
+message AuthenticationConfig {
+  AuthType auth_type = 1;
+  oneof credentials {
+    string api_key_credential_id = 2;
+    string bearer_token_credential_id = 3;
+    BasicAuthConfig basic_auth = 4;
+    OAuth2Config oauth2 = 5;
+  }
+  map<string, string> custom_auth_params = 6;
+}
+
+message BasicAuthConfig {
+  string username = 1;
+  string password_credential_id = 2;
+}
+
+message OAuth2Config {
+  string token_url = 1;
+  string client_id_credential_id = 2;
+  string client_secret_credential_id = 3;
+  repeated string scopes = 4;
+}
+syntax = "proto3";
+
+package nodus.v1.mcp.v1;
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v1/mcp/v1;mcpv1";
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/duration.proto";
+import "nodus/v1/mcp/v1/server.proto";
+import "nodus/v1/mcp/v1/tool.proto";
+import "nodus/v1/common/v1/errors.proto";
+
+message RegisterMCPServerRequest {
+  string server_id = 1;
+  string endpoint = 2;
+  MCPServerType server_type = 3;
+  MCPConnectionConfig connection_config = 4;
+  map<string, string> metadata = 5;
+}
+
+message RegisterMCPServerResponse {
+  bool success = 1;
+  string server_id = 2;
+  MCPServerCapabilities capabilities = 3;
+  repeated MCPTool available_tools = 4;
+  nodus.v1.common.v1.ExecutionError error = 5;
+}
+
+message ListMCPServersRequest {
+  repeated string server_ids = 1;
+  MCPServerStatus status_filter = 2;
+  bool include_tools = 3;
+}
+
+message ListMCPServersResponse {
+  repeated MCPServerInfo servers = 1;
+  int32 total_servers = 2;
+}
+
+message QueryMCPToolsRequest {
+  repeated string server_ids = 1;
+  ToolFilter filter = 2;
+  int32 limit = 3;
+  string continuation_token = 4;
+}
+
+message QueryMCPToolsResponse {
+  repeated MCPTool tools = 1;
+  string next_continuation_token = 2;
+  int32 total_matches = 3;
+}
+
+message ToolFilter {
+  repeated ToolCategory categories = 1;
+  repeated string tags = 2;
+  string name_pattern = 3;
+  bool supports_streaming = 4;
+}
+
+message MCPToolInvocation {
+  string tool_id = 1;
+  string server_id = 2;
+  google.protobuf.Struct parameters = 3;
+  ToolInvocationOptions options = 4;
+}
+
+message ToolInvocationOptions {
+  bool validate_parameters = 1;
+  bool require_confirmation = 2;
+  google.protobuf.Duration timeout = 3;
+  map<string, string> context = 4;
+}
+
+message MCPToolResult {
+  bool success = 1;
+  google.protobuf.Struct result_data = 2;
+  string error_message = 3;
+  map<string, string> metadata = 4;
+}
+syntax = "proto3";
+
+package nodus.v1.mcp.v1;
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v1/mcp/v1;mcpv1";
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "nodus/v1/common/v1/auth.proto";
+
+enum MCPServerType {
+  MCP_SERVER_TYPE_UNSPECIFIED = 0;
+  MCP_SERVER_TYPE_HTTP = 1;
+  MCP_SERVER_TYPE_WEBSOCKET = 2;
+  MCP_SERVER_TYPE_GRPC = 3;
+  MCP_SERVER_TYPE_STDIO = 4;
+  MCP_SERVER_TYPE_TCP = 5;
+}
+
+enum MCPServerStatus {
+  MCP_SERVER_STATUS_UNSPECIFIED = 0;
+  MCP_SERVER_STATUS_HEALTHY = 1;
+  MCP_SERVER_STATUS_UNHEALTHY = 2;
+  MCP_SERVER_STATUS_CONNECTING = 3;
+  MCP_SERVER_STATUS_DISCONNECTED = 4;
+  MCP_SERVER_STATUS_MAINTENANCE = 5;
+}
+
+message MCPServerInfo {
+  string server_id = 1;
+  string name = 2;
+  string endpoint = 3;
+  MCPServerType server_type = 4;
+  MCPServerStatus status = 5;
+  MCPServerCapabilities capabilities = 6;
+  MCPConnectionConfig connection_config = 7;
+  map<string, string> metadata = 8;
+  google.protobuf.Timestamp registered_at = 9;
+  google.protobuf.Timestamp last_ping = 10;
+}
+
+message MCPServerCapabilities {
+  string protocol_version = 1;
+  repeated string supported_features = 2;
+  int32 max_concurrent_requests = 3;
+  repeated string supported_tool_categories = 4;
+  bool supports_streaming = 5;
+  bool supports_file_operations = 6;
+}
+
+message MCPConnectionConfig {
+  google.protobuf.Duration connection_timeout = 1;
+  google.protobuf.Duration request_timeout = 2;
+  int32 max_retries = 3;
+  google.protobuf.Duration retry_backoff = 4;
+  bool enable_keep_alive = 5;
+  google.protobuf.Duration keep_alive_interval = 6;
+  map<string, string> headers = 7;
+  nodus.v1.common.v1.AuthenticationConfig auth_config = 8;
+}
+syntax = "proto3";
+
+package nodus.v1.mcp.v1;
+option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v1/mcp/v1;mcpv1";
+
+import "google/protobuf/struct.proto";
+import "nodus/v1/common/v1/resources.proto";
+
+enum ToolCategory {
+  TOOL_CATEGORY_UNSPECIFIED = 0;
+  TOOL_CATEGORY_DATA_ACCESS = 1;
+  TOOL_CATEGORY_COMPUTATION = 2;
+  TOOL_CATEGORY_COMMUNICATION = 3;
+  TOOL_CATEGORY_FILE_SYSTEM = 4;
+  TOOL_CATEGORY_WEB_BROWSER = 5;
+  TOOL_CATEGORY_API_CLIENT = 6;
+  TOOL_CATEGORY_ANALYSIS = 7;
+  TOOL_CATEGORY_DATABASE = 8;
+  TOOL_CATEGORY_ML_INFERENCE = 9;
+}
+
+message MCPTool {
+  string tool_id = 1;
+  string server_id = 2;
+  string name = 3;
+  string description = 4;
+  google.protobuf.Struct input_schema = 5;
+  google.protobuf.Struct output_schema = 6;
+  ToolCategory category = 7;
+  repeated string tags = 8;
+  nodus.v1.common.v1.ResourceRequirements resource_requirements = 9;
+  ToolConfiguration configuration = 10;
+}
+
+message ToolConfiguration {
+  bool requires_confirmation = 1;
+  bool supports_streaming = 2;
+  repeated string required_permissions = 3;
+  map<string, string> default_parameters = 4;
+  repeated ParameterConstraint parameter_constraints = 5;
+}
+
+message ParameterConstraint {
+  string parameter_name = 1;
+  ConstraintType constraint_type = 2;
+  google.protobuf.Value constraint_value = 3;
+  string error_message = 4;
+}
+
+enum ConstraintType {
+  CONSTRAINT_TYPE_UNSPECIFIED = 0;
+  CONSTRAINT_TYPE_REQUIRED = 1;
+  CONSTRAINT_TYPE_MIN_LENGTH = 2;
+  CONSTRAINT_TYPE_MAX_LENGTH = 3;
+  CONSTRAINT_TYPE_PATTERN = 4;
+  CONSTRAINT_TYPE_ENUM = 5;
+  CONSTRAINT_TYPE_RANGE = 6;
+}
+
+message ToolScope {
+  repeated string server_ids = 1;
+  repeated ToolCategory categories = 2;
+  repeated string tags = 3;
+  ToolAccessPolicy access_policy = 4;
+}
+
+message ToolAccessPolicy {
+  bool require_confirmation = 1;
+  repeated string restricted_operations = 2;
+  map<string, string> parameter_overrides = 3;
+  repeated string allowed_domains = 4;
+}

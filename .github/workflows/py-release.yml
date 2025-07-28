@@ -78,7 +78,7 @@ jobs:
 
       - name: Fix ownership of generated files
         run: |
-          sudo chown -R $(whoami):$(whoami) gen/py/ || true
+          sudo chown -R $(whoami):$(whoami) gen/py || true
           chmod -R u+w gen/py/ || true
 
       - name: Build Python package
