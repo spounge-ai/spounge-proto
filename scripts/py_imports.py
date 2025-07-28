@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import os
 from pathlib import Path
-<<<<<<< HEAD
 import re
 
 SKIP_DIRS = {"google"}  
@@ -19,39 +18,13 @@ def generate_init_file(dir_path: Path):
     if not dir_path.is_dir() or should_skip_dir(dir_path):
         return
 
-=======
-
-def is_valid_module(filename: str) -> bool:
-    """Check if filename is a valid Python module (non-private, ends with .py, not __init__.py)."""
-    return filename.endswith(".py") and not filename.startswith("_") and filename != "__init__.py"
-
-def is_valid_package(directory: Path) -> bool:
-    """Check if directory is a valid Python package (contains __init__.py)."""
-    return (directory / "__init__.py").exists()
-
-def generate_init_file(dir_path: Path):
-    """Generate __init__.py that imports all modules and subpackages in dir_path."""
-    if not dir_path.is_dir():
-        return
-
-    # Find Python modules and subpackages
->>>>>>> main
     modules = sorted(f.stem for f in dir_path.iterdir() if f.is_file() and is_valid_module(f.name))
     subpackages = sorted(d.name for d in dir_path.iterdir() if d.is_dir() and is_valid_package(d))
 
     lines = []
-<<<<<<< HEAD
     for pkg in subpackages:
         lines.append(f"from . import {pkg}")
 
-=======
-
-    # Import subpackages
-    for pkg in subpackages:
-        lines.append(f"from . import {pkg}")
-
-    # Import modules if any
->>>>>>> main
     if modules:
         lines.append(f"from . import {', '.join(modules)}")
 
@@ -70,7 +43,6 @@ def generate_init_file(dir_path: Path):
 
     print(f"Generated {init_file}")
 
-<<<<<<< HEAD
 def rewrite_imports_add_prefix(root_dir: Path, packages_prefix: str, package_names: list[str]):
     pattern = re.compile(r"^(from|import)\s+(" + "|".join(map(re.escape, package_names)) + r")(\.|[\s])")
 
@@ -99,10 +71,6 @@ def rewrite_imports_add_prefix(root_dir: Path, packages_prefix: str, package_nam
             print(f"Patched imports in {py_file}")
 
 def walk_and_generate(root_dir: Path):
-=======
-def walk_and_generate(root_dir: Path):
-    """Recursively walk root_dir and generate __init__.py files."""
->>>>>>> main
     for current_dir, dirs, files in os.walk(root_dir):
         current_path = Path(current_dir)
         has_modules = any(is_valid_module(f) for f in files)
@@ -111,16 +79,11 @@ def walk_and_generate(root_dir: Path):
             generate_init_file(current_path)
 
 def main():
-<<<<<<< HEAD
     root_package_path = Path.cwd() / "gen" / "py" / "spounge"
-=======
-    root_package_path = Path.cwd() / "gen" / "py"
->>>>>>> main
     if not root_package_path.exists():
         print(f"Error: root package path {root_package_path} does not exist.")
         return
 
-<<<<<<< HEAD
     top_level_packages = [
         d.name for d in root_package_path.iterdir()
         if d.is_dir() and is_valid_package(d) and not should_skip_dir(d)
@@ -136,10 +99,6 @@ def main():
     rewrite_imports_add_prefix(root_package_path, "spounge", top_level_packages)
 
     print("All __init__.py files generated (excluding skipped dirs).")
-=======
-    walk_and_generate(root_package_path)
-    print("All __init__.py files generated successfully.")
->>>>>>> main
 
 if __name__ == "__main__":
     main()
