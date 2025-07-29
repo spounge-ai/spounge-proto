@@ -9,7 +9,7 @@ import "user/v2/user.proto";
 import "workflow/v2/execution.proto";
 import "workflow/v2/workflow.proto";
 
-option go_package = "github.com/spounge-ai/spounge-protos/gen/go/api/v2;apiv2";
+option go_package = "github.com/spounge-ai/spounge-proto/gen/go/api/v2;apiv2";
 
 service DashboardService {
   rpc GetDashboard(GetDashboardRequest) returns (GetDashboardResponse) {

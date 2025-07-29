@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package nodus.v1.mcp.v1;
-option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v1/mcp/v1;mcpv1";
+option go_package = "github.com/spounge-ai/spounge-proto/gen/go/nodus/v1/mcp/v1;mcpv1";
 
 import "google/protobuf/struct.proto";
 import "google/protobuf/duration.proto";

@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package nodus.v1.integrations.v1;
-option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v1/integrations/v1;integrationsv1";
+option go_package = "github.com/spounge-ai/spounge-proto/gen/go/nodus/v1/integrations/v1;integrationsv1";
 
 import "google/protobuf/struct.proto";
 

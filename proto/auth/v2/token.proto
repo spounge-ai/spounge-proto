@@ -4,7 +4,7 @@ package auth.v2;
 
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/spounge-ai/spounge-protos/gen/go/auth/v2;authv2";
+option go_package = "github.com/spounge-ai/spounge-proto/gen/go/auth/v2;authv2";
 
 enum TokenType {
   TOKEN_TYPE_UNSPECIFIED = 0;

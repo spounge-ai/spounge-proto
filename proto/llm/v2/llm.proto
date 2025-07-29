@@ -5,7 +5,7 @@ package llm.v2;
 import "common/v2/common.proto";
 import "google/protobuf/struct.proto";
 
-option go_package = "github.com/spounge-ai/spounge-protos/gen/go/llm/v2;llmv2";
+option go_package = "github.com/spounge-ai/spounge-proto/gen/go/llm/v2;llmv2";
 
 enum Provider {
   PROVIDER_UNSPECIFIED = 0;

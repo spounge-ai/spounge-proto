@@ -8,7 +8,7 @@ import "common/v2/common.proto";
 import "google/protobuf/field_mask.proto";
 import "workflow/v2/workflow.proto";
 
-option go_package = "github.com/spounge-ai/spounge-protos/gen/go/workflow/v2;workflowv2";
+option go_package = "github.com/spounge-ai/spounge-proto/gen/go/workflow/v2;workflowv2";
 
 service WorkflowService {
   rpc CreateWorkflow(CreateWorkflowRequest) returns (CreateWorkflowResponse) {}

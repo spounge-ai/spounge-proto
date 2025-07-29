@@ -4,7 +4,7 @@ package common.v2;
 
 import "google/protobuf/struct.proto";
 
-option go_package = "github.com/spounge-ai/spounge-protos/gen/go/common/v2;commonv2";
+option go_package = "github.com/spounge-ai/spounge-proto/gen/go/common/v2;commonv2";
 
 message Status {
   int32 code = 1;

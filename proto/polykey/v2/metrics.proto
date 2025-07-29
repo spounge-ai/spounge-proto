@@ -3,7 +3,7 @@ syntax = "proto3";
 package polykey.v2;
 
 import "google/protobuf/timestamp.proto";
-option go_package = "github.com/spounge-ai/spounge-protos/gen/go/polykey/v2;polykeyv2";
+option go_package = "github.com/spounge-ai/spounge-proto/gen/go/polykey/v2;polykeyv2";
 
 enum HealthStatus {
   HEALTH_STATUS_UNSPECIFIED = 0;

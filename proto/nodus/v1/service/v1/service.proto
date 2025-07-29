@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package nodus.v1.service.v1;
 
-option go_package = "github.com/spounge-ai/spounge-protos/gen/go/nodus/v1/service/v1;servicev1";
+option go_package = "github.com/spounge-ai/spounge-proto/gen/go/nodus/v1/service/v1;servicev1";
 
 import "google/api/annotations.proto";
 import "nodus/v1/nodes/v1/execution.proto";

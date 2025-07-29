@@ -4,7 +4,7 @@ package iam.v2;
 
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/spounge-ai/spounge-protos/gen/go/iam/v2;iamv2";
+option go_package = "github.com/spounge-ai/spounge-proto/gen/go/iam/v2;iamv2";
 
 message APIKey {
   string id = 1;

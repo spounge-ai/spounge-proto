@@ -8,7 +8,7 @@ import "polykey/v2/common.proto";
 import "polykey/v2/key_types.proto";
 import "polykey/v2/metrics.proto";
 
-option go_package = "github.com/spounge-ai/spounge-protos/gen/go/polykey/v2;polykeyv2";
+option go_package = "github.com/spounge-ai/spounge-proto/gen/go/polykey/v2;polykeyv2";
 
 service PolykeyService {
   rpc GetKey(GetKeyRequest) returns (GetKeyResponse);

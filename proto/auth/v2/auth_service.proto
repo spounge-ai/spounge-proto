@@ -9,7 +9,7 @@ import "common/v2/common.proto";
 import "google/protobuf/empty.proto";
 import "user/v2/user.proto";
 
-option go_package = "github.com/spounge-ai/spounge-protos/gen/go/auth/v2;authv2";
+option go_package = "github.com/spounge-ai/spounge-proto/gen/go/auth/v2;authv2";
 
 service AuthService {
   rpc Login(LoginRequest) returns (LoginResponse) {}

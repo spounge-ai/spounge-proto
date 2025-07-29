@@ -6,7 +6,7 @@ import "auth/v2/auth_service.proto";
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 
-option go_package = "github.com/spounge-ai/spounge-protos/gen/go/api/v2;apiv2";
+option go_package = "github.com/spounge-ai/spounge-proto/gen/go/api/v2;apiv2";
 
 service AuthGatewayService {
   rpc Login(AuthGatewayServiceLoginRequest) returns (AuthGatewayServiceLoginResponse) {

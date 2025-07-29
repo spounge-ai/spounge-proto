@@ -6,7 +6,7 @@ import "google/api/annotations.proto";
 import "workflow/v2/execution_service.proto"; 
 import "workflow/v2/workflow_service.proto"; 
 
-option go_package = "github.com/spounge-ai/spounge-protos/gen/go/api/v2;apiv2";
+option go_package = "github.com/spounge-ai/spounge-proto/gen/go/api/v2;apiv2";
 
 service WorkflowGatewayService {
   rpc CreateWorkflow(WorkflowGatewayServiceCreateWorkflowRequest) returns (WorkflowGatewayServiceCreateWorkflowResponse) {

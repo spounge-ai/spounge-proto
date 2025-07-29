@@ -6,7 +6,7 @@ package user.v2;
 
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/spounge-ai/spounge-protos/gen/go/user/v2;userv2";
+option go_package = "github.com/spounge-ai/spounge-proto/gen/go/user/v2;userv2";
 
 message UserProfile {
   string id = 1;

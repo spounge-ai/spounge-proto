@@ -6,7 +6,7 @@ import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 import "user/v2/user_service.proto"; // Only keeping user_service.proto
 
-option go_package = "github.com/spounge-ai/spounge-protos/gen/go/api/v2;apiv2";
+option go_package = "github.com/spounge-ai/spounge-proto/gen/go/api/v2;apiv2";
 
 service UserGatewayService {
   rpc GetUserProfile(UserGatewayServiceGetUserProfileRequest) returns (UserGatewayServiceGetUserProfileResponse) {

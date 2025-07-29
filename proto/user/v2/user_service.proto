@@ -10,7 +10,7 @@ import "google/protobuf/field_mask.proto";
 import "iam/v2/managed_secret.proto";
 import "user/v2/user.proto";
 
-option go_package = "github.com/spounge-ai/spounge-protos/gen/go/user/v2;userv2";
+option go_package = "github.com/spounge-ai/spounge-proto/gen/go/user/v2;userv2";
 
 service UserService {
   rpc GetUserProfile(google.protobuf.Empty) returns (GetUserProfileResponse) {}
