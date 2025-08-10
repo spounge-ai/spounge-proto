@@ -7,6 +7,7 @@ import "google/protobuf/empty.proto";
 import "polykey/v2/common.proto";
 import "polykey/v2/key_types.proto";
 import "polykey/v2/metrics.proto";
+import "polykey/v2/auth.proto";
 
 option go_package = "github.com/spounge-ai/spounge-proto/gen/go/polykey/v2;polykeyv2";
 
@@ -19,6 +20,10 @@ service PolykeyService {
   rpc UpdateKeyMetadata(UpdateKeyMetadataRequest) returns (google.protobuf.Empty);
   rpc GetKeyMetadata(GetKeyMetadataRequest) returns (GetKeyMetadataResponse);
   rpc HealthCheck(google.protobuf.Empty) returns (HealthCheckResponse);
+  
+  rpc Authenticate(AuthenticateRequest) returns (AuthenticateResponse);
+  rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);
+  rpc RevokeToken(RevokeTokenRequest) returns (RevokeTokenResponse);
 }
 
 message GetKeyRequest {

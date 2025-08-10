@@ -56,6 +56,15 @@ const (
 	// PolykeyServiceHealthCheckProcedure is the fully-qualified name of the PolykeyService's
 	// HealthCheck RPC.
 	PolykeyServiceHealthCheckProcedure = "/polykey.v2.PolykeyService/HealthCheck"
+	// PolykeyServiceAuthenticateProcedure is the fully-qualified name of the PolykeyService's
+	// Authenticate RPC.
+	PolykeyServiceAuthenticateProcedure = "/polykey.v2.PolykeyService/Authenticate"
+	// PolykeyServiceRefreshTokenProcedure is the fully-qualified name of the PolykeyService's
+	// RefreshToken RPC.
+	PolykeyServiceRefreshTokenProcedure = "/polykey.v2.PolykeyService/RefreshToken"
+	// PolykeyServiceRevokeTokenProcedure is the fully-qualified name of the PolykeyService's
+	// RevokeToken RPC.
+	PolykeyServiceRevokeTokenProcedure = "/polykey.v2.PolykeyService/RevokeToken"
 )
 
 // PolykeyServiceClient is a client for the polykey.v2.PolykeyService service.
@@ -68,6 +77,9 @@ type PolykeyServiceClient interface {
 	UpdateKeyMetadata(context.Context, *connect.Request[v2.UpdateKeyMetadataRequest]) (*connect.Response[emptypb.Empty], error)
 	GetKeyMetadata(context.Context, *connect.Request[v2.GetKeyMetadataRequest]) (*connect.Response[v2.GetKeyMetadataResponse], error)
 	HealthCheck(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[v2.HealthCheckResponse], error)
+	Authenticate(context.Context, *connect.Request[v2.AuthenticateRequest]) (*connect.Response[v2.AuthenticateResponse], error)
+	RefreshToken(context.Context, *connect.Request[v2.RefreshTokenRequest]) (*connect.Response[v2.RefreshTokenResponse], error)
+	RevokeToken(context.Context, *connect.Request[v2.RevokeTokenRequest]) (*connect.Response[v2.RevokeTokenResponse], error)
 }
 
 // NewPolykeyServiceClient constructs a client for the polykey.v2.PolykeyService service. By
@@ -129,6 +141,24 @@ func NewPolykeyServiceClient(httpClient connect.HTTPClient, baseURL string, opts
 			connect.WithSchema(polykeyServiceMethods.ByName("HealthCheck")),
 			connect.WithClientOptions(opts...),
 		),
+		authenticate: connect.NewClient[v2.AuthenticateRequest, v2.AuthenticateResponse](
+			httpClient,
+			baseURL+PolykeyServiceAuthenticateProcedure,
+			connect.WithSchema(polykeyServiceMethods.ByName("Authenticate")),
+			connect.WithClientOptions(opts...),
+		),
+		refreshToken: connect.NewClient[v2.RefreshTokenRequest, v2.RefreshTokenResponse](
+			httpClient,
+			baseURL+PolykeyServiceRefreshTokenProcedure,
+			connect.WithSchema(polykeyServiceMethods.ByName("RefreshToken")),
+			connect.WithClientOptions(opts...),
+		),
+		revokeToken: connect.NewClient[v2.RevokeTokenRequest, v2.RevokeTokenResponse](
+			httpClient,
+			baseURL+PolykeyServiceRevokeTokenProcedure,
+			connect.WithSchema(polykeyServiceMethods.ByName("RevokeToken")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -142,6 +172,9 @@ type polykeyServiceClient struct {
 	updateKeyMetadata *connect.Client[v2.UpdateKeyMetadataRequest, emptypb.Empty]
 	getKeyMetadata    *connect.Client[v2.GetKeyMetadataRequest, v2.GetKeyMetadataResponse]
 	healthCheck       *connect.Client[emptypb.Empty, v2.HealthCheckResponse]
+	authenticate      *connect.Client[v2.AuthenticateRequest, v2.AuthenticateResponse]
+	refreshToken      *connect.Client[v2.RefreshTokenRequest, v2.RefreshTokenResponse]
+	revokeToken       *connect.Client[v2.RevokeTokenRequest, v2.RevokeTokenResponse]
 }
 
 // GetKey calls polykey.v2.PolykeyService.GetKey.
@@ -184,6 +217,21 @@ func (c *polykeyServiceClient) HealthCheck(ctx context.Context, req *connect.Req
 	return c.healthCheck.CallUnary(ctx, req)
 }
 
+// Authenticate calls polykey.v2.PolykeyService.Authenticate.
+func (c *polykeyServiceClient) Authenticate(ctx context.Context, req *connect.Request[v2.AuthenticateRequest]) (*connect.Response[v2.AuthenticateResponse], error) {
+	return c.authenticate.CallUnary(ctx, req)
+}
+
+// RefreshToken calls polykey.v2.PolykeyService.RefreshToken.
+func (c *polykeyServiceClient) RefreshToken(ctx context.Context, req *connect.Request[v2.RefreshTokenRequest]) (*connect.Response[v2.RefreshTokenResponse], error) {
+	return c.refreshToken.CallUnary(ctx, req)
+}
+
+// RevokeToken calls polykey.v2.PolykeyService.RevokeToken.
+func (c *polykeyServiceClient) RevokeToken(ctx context.Context, req *connect.Request[v2.RevokeTokenRequest]) (*connect.Response[v2.RevokeTokenResponse], error) {
+	return c.revokeToken.CallUnary(ctx, req)
+}
+
 // PolykeyServiceHandler is an implementation of the polykey.v2.PolykeyService service.
 type PolykeyServiceHandler interface {
 	GetKey(context.Context, *connect.Request[v2.GetKeyRequest]) (*connect.Response[v2.GetKeyResponse], error)
@@ -194,6 +242,9 @@ type PolykeyServiceHandler interface {
 	UpdateKeyMetadata(context.Context, *connect.Request[v2.UpdateKeyMetadataRequest]) (*connect.Response[emptypb.Empty], error)
 	GetKeyMetadata(context.Context, *connect.Request[v2.GetKeyMetadataRequest]) (*connect.Response[v2.GetKeyMetadataResponse], error)
 	HealthCheck(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[v2.HealthCheckResponse], error)
+	Authenticate(context.Context, *connect.Request[v2.AuthenticateRequest]) (*connect.Response[v2.AuthenticateResponse], error)
+	RefreshToken(context.Context, *connect.Request[v2.RefreshTokenRequest]) (*connect.Response[v2.RefreshTokenResponse], error)
+	RevokeToken(context.Context, *connect.Request[v2.RevokeTokenRequest]) (*connect.Response[v2.RevokeTokenResponse], error)
 }
 
 // NewPolykeyServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -251,6 +302,24 @@ func NewPolykeyServiceHandler(svc PolykeyServiceHandler, opts ...connect.Handler
 		connect.WithSchema(polykeyServiceMethods.ByName("HealthCheck")),
 		connect.WithHandlerOptions(opts...),
 	)
+	polykeyServiceAuthenticateHandler := connect.NewUnaryHandler(
+		PolykeyServiceAuthenticateProcedure,
+		svc.Authenticate,
+		connect.WithSchema(polykeyServiceMethods.ByName("Authenticate")),
+		connect.WithHandlerOptions(opts...),
+	)
+	polykeyServiceRefreshTokenHandler := connect.NewUnaryHandler(
+		PolykeyServiceRefreshTokenProcedure,
+		svc.RefreshToken,
+		connect.WithSchema(polykeyServiceMethods.ByName("RefreshToken")),
+		connect.WithHandlerOptions(opts...),
+	)
+	polykeyServiceRevokeTokenHandler := connect.NewUnaryHandler(
+		PolykeyServiceRevokeTokenProcedure,
+		svc.RevokeToken,
+		connect.WithSchema(polykeyServiceMethods.ByName("RevokeToken")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/polykey.v2.PolykeyService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case PolykeyServiceGetKeyProcedure:
@@ -269,6 +338,12 @@ func NewPolykeyServiceHandler(svc PolykeyServiceHandler, opts ...connect.Handler
 			polykeyServiceGetKeyMetadataHandler.ServeHTTP(w, r)
 		case PolykeyServiceHealthCheckProcedure:
 			polykeyServiceHealthCheckHandler.ServeHTTP(w, r)
+		case PolykeyServiceAuthenticateProcedure:
+			polykeyServiceAuthenticateHandler.ServeHTTP(w, r)
+		case PolykeyServiceRefreshTokenProcedure:
+			polykeyServiceRefreshTokenHandler.ServeHTTP(w, r)
+		case PolykeyServiceRevokeTokenProcedure:
+			polykeyServiceRevokeTokenHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -308,4 +383,16 @@ func (UnimplementedPolykeyServiceHandler) GetKeyMetadata(context.Context, *conne
 
 func (UnimplementedPolykeyServiceHandler) HealthCheck(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[v2.HealthCheckResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("polykey.v2.PolykeyService.HealthCheck is not implemented"))
+}
+
+func (UnimplementedPolykeyServiceHandler) Authenticate(context.Context, *connect.Request[v2.AuthenticateRequest]) (*connect.Response[v2.AuthenticateResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("polykey.v2.PolykeyService.Authenticate is not implemented"))
+}
+
+func (UnimplementedPolykeyServiceHandler) RefreshToken(context.Context, *connect.Request[v2.RefreshTokenRequest]) (*connect.Response[v2.RefreshTokenResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("polykey.v2.PolykeyService.RefreshToken is not implemented"))
+}
+
+func (UnimplementedPolykeyServiceHandler) RevokeToken(context.Context, *connect.Request[v2.RevokeTokenRequest]) (*connect.Response[v2.RevokeTokenResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("polykey.v2.PolykeyService.RevokeToken is not implemented"))
 }

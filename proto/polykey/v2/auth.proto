@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package polykey.v2;
+
+import "google/protobuf/timestamp.proto";
+option go_package = "github.com/spounge-ai/spounge-proto/gen/go/polykey/v2;polykeyv2";
+
+ 
+message AuthenticateRequest {
+  string client_id = 1;          // e.g., "nodus", "workflow-engine"
+  string api_key = 2;            // Pre-shared secret
+  string grant_type = 3;        
+}
+
+message AuthenticateResponse {
+  string access_token = 1;       // JWT token
+  string token_type = 2;         // "Bearer"
+  int64 expires_in = 3;          // Token TTL in seconds
+  repeated string permissions = 4; // ["secrets:read", "secrets:write"]
+  google.protobuf.Timestamp issued_at = 5;
+}
+
+message RefreshTokenRequest {
+  string refresh_token = 1;
+}
+
+message RefreshTokenResponse {
+  string access_token = 1;
+  string token_type = 2;
+  int64 expires_in = 3;
+  google.protobuf.Timestamp issued_at = 4;
+}
+
+message RevokeTokenRequest {
+  string access_token = 1;
+  string client_id = 2;
+}
+
+message RevokeTokenResponse {
+  bool revoked = 1;
+  google.protobuf.Timestamp revoked_at = 2;
+}
+
+
+
+// use later for scale
+message ClientInfo {
+  string client_id = 1;
+  string client_name = 2;
+  repeated string permissions = 3;
+  string environment = 4;        // "dev", "staging", "prod"
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp last_used_at = 6;
+}

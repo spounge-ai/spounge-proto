@@ -28,6 +28,9 @@ const (
 	PolykeyService_UpdateKeyMetadata_FullMethodName = "/polykey.v2.PolykeyService/UpdateKeyMetadata"
 	PolykeyService_GetKeyMetadata_FullMethodName    = "/polykey.v2.PolykeyService/GetKeyMetadata"
 	PolykeyService_HealthCheck_FullMethodName       = "/polykey.v2.PolykeyService/HealthCheck"
+	PolykeyService_Authenticate_FullMethodName      = "/polykey.v2.PolykeyService/Authenticate"
+	PolykeyService_RefreshToken_FullMethodName      = "/polykey.v2.PolykeyService/RefreshToken"
+	PolykeyService_RevokeToken_FullMethodName       = "/polykey.v2.PolykeyService/RevokeToken"
 )
 
 // PolykeyServiceClient is the client API for PolykeyService service.
@@ -42,6 +45,9 @@ type PolykeyServiceClient interface {
 	UpdateKeyMetadata(ctx context.Context, in *UpdateKeyMetadataRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	GetKeyMetadata(ctx context.Context, in *GetKeyMetadataRequest, opts ...grpc.CallOption) (*GetKeyMetadataResponse, error)
 	HealthCheck(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*HealthCheckResponse, error)
+	Authenticate(ctx context.Context, in *AuthenticateRequest, opts ...grpc.CallOption) (*AuthenticateResponse, error)
+	RefreshToken(ctx context.Context, in *RefreshTokenRequest, opts ...grpc.CallOption) (*RefreshTokenResponse, error)
+	RevokeToken(ctx context.Context, in *RevokeTokenRequest, opts ...grpc.CallOption) (*RevokeTokenResponse, error)
 }
 
 type polykeyServiceClient struct {
@@ -132,6 +138,36 @@ func (c *polykeyServiceClient) HealthCheck(ctx context.Context, in *emptypb.Empt
 	return out, nil
 }
 
+func (c *polykeyServiceClient) Authenticate(ctx context.Context, in *AuthenticateRequest, opts ...grpc.CallOption) (*AuthenticateResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AuthenticateResponse)
+	err := c.cc.Invoke(ctx, PolykeyService_Authenticate_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *polykeyServiceClient) RefreshToken(ctx context.Context, in *RefreshTokenRequest, opts ...grpc.CallOption) (*RefreshTokenResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RefreshTokenResponse)
+	err := c.cc.Invoke(ctx, PolykeyService_RefreshToken_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *polykeyServiceClient) RevokeToken(ctx context.Context, in *RevokeTokenRequest, opts ...grpc.CallOption) (*RevokeTokenResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RevokeTokenResponse)
+	err := c.cc.Invoke(ctx, PolykeyService_RevokeToken_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PolykeyServiceServer is the server API for PolykeyService service.
 // All implementations must embed UnimplementedPolykeyServiceServer
 // for forward compatibility.
@@ -144,6 +180,9 @@ type PolykeyServiceServer interface {
 	UpdateKeyMetadata(context.Context, *UpdateKeyMetadataRequest) (*emptypb.Empty, error)
 	GetKeyMetadata(context.Context, *GetKeyMetadataRequest) (*GetKeyMetadataResponse, error)
 	HealthCheck(context.Context, *emptypb.Empty) (*HealthCheckResponse, error)
+	Authenticate(context.Context, *AuthenticateRequest) (*AuthenticateResponse, error)
+	RefreshToken(context.Context, *RefreshTokenRequest) (*RefreshTokenResponse, error)
+	RevokeToken(context.Context, *RevokeTokenRequest) (*RevokeTokenResponse, error)
 	mustEmbedUnimplementedPolykeyServiceServer()
 }
 
@@ -177,6 +216,15 @@ func (UnimplementedPolykeyServiceServer) GetKeyMetadata(context.Context, *GetKey
 }
 func (UnimplementedPolykeyServiceServer) HealthCheck(context.Context, *emptypb.Empty) (*HealthCheckResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method HealthCheck not implemented")
+}
+func (UnimplementedPolykeyServiceServer) Authenticate(context.Context, *AuthenticateRequest) (*AuthenticateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Authenticate not implemented")
+}
+func (UnimplementedPolykeyServiceServer) RefreshToken(context.Context, *RefreshTokenRequest) (*RefreshTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RefreshToken not implemented")
+}
+func (UnimplementedPolykeyServiceServer) RevokeToken(context.Context, *RevokeTokenRequest) (*RevokeTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RevokeToken not implemented")
 }
 func (UnimplementedPolykeyServiceServer) mustEmbedUnimplementedPolykeyServiceServer() {}
 func (UnimplementedPolykeyServiceServer) testEmbeddedByValue()                        {}
@@ -343,6 +391,60 @@ func _PolykeyService_HealthCheck_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PolykeyService_Authenticate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AuthenticateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PolykeyServiceServer).Authenticate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PolykeyService_Authenticate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PolykeyServiceServer).Authenticate(ctx, req.(*AuthenticateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PolykeyService_RefreshToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RefreshTokenRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PolykeyServiceServer).RefreshToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PolykeyService_RefreshToken_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PolykeyServiceServer).RefreshToken(ctx, req.(*RefreshTokenRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PolykeyService_RevokeToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RevokeTokenRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PolykeyServiceServer).RevokeToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PolykeyService_RevokeToken_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PolykeyServiceServer).RevokeToken(ctx, req.(*RevokeTokenRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PolykeyService_ServiceDesc is the grpc.ServiceDesc for PolykeyService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -381,6 +483,18 @@ var PolykeyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "HealthCheck",
 			Handler:    _PolykeyService_HealthCheck_Handler,
+		},
+		{
+			MethodName: "Authenticate",
+			Handler:    _PolykeyService_Authenticate_Handler,
+		},
+		{
+			MethodName: "RefreshToken",
+			Handler:    _PolykeyService_RefreshToken_Handler,
+		},
+		{
+			MethodName: "RevokeToken",
+			Handler:    _PolykeyService_RevokeToken_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
