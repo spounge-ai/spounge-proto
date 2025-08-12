@@ -7,6 +7,7 @@
 package polykeyv2
 
 import (
+	v2 "github.com/spounge-ai/spounge-proto/gen/go/common/v2"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -89,7 +90,7 @@ type AuthenticateResponse struct {
 	ExpiresIn     int64                  `protobuf:"varint,3,opt,name=expires_in,json=expiresIn,proto3" json:"expires_in,omitempty"`      // Token TTL in seconds
 	Permissions   []string               `protobuf:"bytes,4,rep,name=permissions,proto3" json:"permissions,omitempty"`                    // ["secrets:read", "secrets:write"]
 	IssuedAt      *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=issued_at,json=issuedAt,proto3" json:"issued_at,omitempty"`
-	ServiceTier   ClientTier             `protobuf:"varint,6,opt,name=service_tier,json=serviceTier,proto3,enum=polykey.v2.ClientTier" json:"service_tier,omitempty"`
+	ClientTier    v2.ClientTier          `protobuf:"varint,6,opt,name=client_tier,json=clientTier,proto3,enum=common.v2.ClientTier" json:"client_tier,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -159,11 +160,11 @@ func (x *AuthenticateResponse) GetIssuedAt() *timestamppb.Timestamp {
 	return nil
 }
 
-func (x *AuthenticateResponse) GetServiceTier() ClientTier {
+func (x *AuthenticateResponse) GetClientTier() v2.ClientTier {
 	if x != nil {
-		return x.ServiceTier
+		return x.ClientTier
 	}
-	return ClientTier_CLIENT_TIER_UNSPECIFIED
+	return v2.ClientTier(0)
 }
 
 type RefreshTokenRequest struct {
@@ -391,7 +392,7 @@ type ClientInfo struct {
 	Environment   string                 `protobuf:"bytes,4,opt,name=environment,proto3" json:"environment,omitempty"` // "dev", "staging", "prod"
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	LastUsedAt    *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=last_used_at,json=lastUsedAt,proto3" json:"last_used_at,omitempty"`
-	ServiceTier   ClientTier             `protobuf:"varint,7,opt,name=service_tier,json=serviceTier,proto3,enum=polykey.v2.ClientTier" json:"service_tier,omitempty"`
+	ClientTier    v2.ClientTier          `protobuf:"varint,7,opt,name=client_tier,json=clientTier,proto3,enum=common.v2.ClientTier" json:"client_tier,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -468,11 +469,11 @@ func (x *ClientInfo) GetLastUsedAt() *timestamppb.Timestamp {
 	return nil
 }
 
-func (x *ClientInfo) GetServiceTier() ClientTier {
+func (x *ClientInfo) GetClientTier() v2.ClientTier {
 	if x != nil {
-		return x.ServiceTier
+		return x.ClientTier
 	}
-	return ClientTier_CLIENT_TIER_UNSPECIFIED
+	return v2.ClientTier(0)
 }
 
 var File_polykey_v2_auth_proto protoreflect.FileDescriptor
@@ -480,12 +481,12 @@ var File_polykey_v2_auth_proto protoreflect.FileDescriptor
 const file_polykey_v2_auth_proto_rawDesc = "" +
 	"\n" +
 	"\x15polykey/v2/auth.proto\x12\n" +
-	"polykey.v2\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x17polykey/v2/common.proto\"j\n" +
+	"polykey.v2\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x16common/v2/common.proto\"j\n" +
 	"\x13AuthenticateRequest\x12\x1b\n" +
 	"\tclient_id\x18\x01 \x01(\tR\bclientId\x12\x17\n" +
 	"\aapi_key\x18\x02 \x01(\tR\x06apiKey\x12\x1d\n" +
 	"\n" +
-	"grant_type\x18\x03 \x01(\tR\tgrantType\"\x8d\x02\n" +
+	"grant_type\x18\x03 \x01(\tR\tgrantType\"\x8a\x02\n" +
 	"\x14AuthenticateResponse\x12!\n" +
 	"\faccess_token\x18\x01 \x01(\tR\vaccessToken\x12\x1d\n" +
 	"\n" +
@@ -493,8 +494,9 @@ const file_polykey_v2_auth_proto_rawDesc = "" +
 	"\n" +
 	"expires_in\x18\x03 \x01(\x03R\texpiresIn\x12 \n" +
 	"\vpermissions\x18\x04 \x03(\tR\vpermissions\x127\n" +
-	"\tissued_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\bissuedAt\x129\n" +
-	"\fservice_tier\x18\x06 \x01(\x0e2\x16.polykey.v2.ClientTierR\vserviceTier\":\n" +
+	"\tissued_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\bissuedAt\x126\n" +
+	"\vclient_tier\x18\x06 \x01(\x0e2\x15.common.v2.ClientTierR\n" +
+	"clientTier\":\n" +
 	"\x13RefreshTokenRequest\x12#\n" +
 	"\rrefresh_token\x18\x01 \x01(\tR\frefreshToken\"\xb0\x01\n" +
 	"\x14RefreshTokenResponse\x12!\n" +
@@ -510,7 +512,7 @@ const file_polykey_v2_auth_proto_rawDesc = "" +
 	"\x13RevokeTokenResponse\x12\x18\n" +
 	"\arevoked\x18\x01 \x01(\bR\arevoked\x129\n" +
 	"\n" +
-	"revoked_at\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\trevokedAt\"\xc2\x02\n" +
+	"revoked_at\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\trevokedAt\"\xbf\x02\n" +
 	"\n" +
 	"ClientInfo\x12\x1b\n" +
 	"\tclient_id\x18\x01 \x01(\tR\bclientId\x12\x1f\n" +
@@ -521,8 +523,9 @@ const file_polykey_v2_auth_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12<\n" +
 	"\flast_used_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
-	"lastUsedAt\x129\n" +
-	"\fservice_tier\x18\a \x01(\x0e2\x16.polykey.v2.ClientTierR\vserviceTierB\xa5\x01\n" +
+	"lastUsedAt\x126\n" +
+	"\vclient_tier\x18\a \x01(\x0e2\x15.common.v2.ClientTierR\n" +
+	"clientTierB\xa5\x01\n" +
 	"\x0ecom.polykey.v2B\tAuthProtoP\x01Z?github.com/spounge-ai/spounge-proto/gen/go/polykey/v2;polykeyv2\xa2\x02\x03PXX\xaa\x02\n" +
 	"Polykey.V2\xca\x02\n" +
 	"Polykey\\V2\xe2\x02\x16Polykey\\V2\\GPBMetadata\xea\x02\vPolykey::V2b\x06proto3"
@@ -549,16 +552,16 @@ var file_polykey_v2_auth_proto_goTypes = []any{
 	(*RevokeTokenResponse)(nil),   // 5: polykey.v2.RevokeTokenResponse
 	(*ClientInfo)(nil),            // 6: polykey.v2.ClientInfo
 	(*timestamppb.Timestamp)(nil), // 7: google.protobuf.Timestamp
-	(ClientTier)(0),               // 8: polykey.v2.ClientTier
+	(v2.ClientTier)(0),            // 8: common.v2.ClientTier
 }
 var file_polykey_v2_auth_proto_depIdxs = []int32{
 	7, // 0: polykey.v2.AuthenticateResponse.issued_at:type_name -> google.protobuf.Timestamp
-	8, // 1: polykey.v2.AuthenticateResponse.service_tier:type_name -> polykey.v2.ClientTier
+	8, // 1: polykey.v2.AuthenticateResponse.client_tier:type_name -> common.v2.ClientTier
 	7, // 2: polykey.v2.RefreshTokenResponse.issued_at:type_name -> google.protobuf.Timestamp
 	7, // 3: polykey.v2.RevokeTokenResponse.revoked_at:type_name -> google.protobuf.Timestamp
 	7, // 4: polykey.v2.ClientInfo.created_at:type_name -> google.protobuf.Timestamp
 	7, // 5: polykey.v2.ClientInfo.last_used_at:type_name -> google.protobuf.Timestamp
-	8, // 6: polykey.v2.ClientInfo.service_tier:type_name -> polykey.v2.ClientTier
+	8, // 6: polykey.v2.ClientInfo.client_tier:type_name -> common.v2.ClientTier
 	7, // [7:7] is the sub-list for method output_type
 	7, // [7:7] is the sub-list for method input_type
 	7, // [7:7] is the sub-list for extension type_name
@@ -571,7 +574,6 @@ func file_polykey_v2_auth_proto_init() {
 	if File_polykey_v2_auth_proto != nil {
 		return
 	}
-	file_polykey_v2_common_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

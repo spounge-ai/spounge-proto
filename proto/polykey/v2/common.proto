@@ -4,21 +4,17 @@ package polykey.v2;
 
 import "google/protobuf/timestamp.proto";
 import "polykey/v2/key_types.proto";
+import "common/v2/common.proto";
 option go_package = "github.com/spounge-ai/spounge-proto/gen/go/polykey/v2;polykeyv2";
 
-enum ClientTier {
-  CLIENT_TIER_UNSPECIFIED = 0;
-  CLIENT_TIER_FREE = 1;
-  CLIENT_TIER_PRO = 2;
-  CLIENT_TIER_ENTERPRISE = 3;
-}
+
 
 message RequesterContext {
   string client_identity = 1;
   string certificate_fingerprint = 2;
   string application_id = 3;
   string correlation_id = 4;
-  ClientTier service_tier = 5;
+  common.v2.ClientTier client_tier = 5;
 }
 
 message AccessAttributes {

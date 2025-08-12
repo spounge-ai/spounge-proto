@@ -22,6 +22,58 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type ClientTier int32
+
+const (
+	ClientTier_CLIENT_TIER_UNSPECIFIED ClientTier = 0
+	ClientTier_CLIENT_TIER_FREE        ClientTier = 1
+	ClientTier_CLIENT_TIER_PRO         ClientTier = 2
+	ClientTier_CLIENT_TIER_ENTERPRISE  ClientTier = 3
+)
+
+// Enum value maps for ClientTier.
+var (
+	ClientTier_name = map[int32]string{
+		0: "CLIENT_TIER_UNSPECIFIED",
+		1: "CLIENT_TIER_FREE",
+		2: "CLIENT_TIER_PRO",
+		3: "CLIENT_TIER_ENTERPRISE",
+	}
+	ClientTier_value = map[string]int32{
+		"CLIENT_TIER_UNSPECIFIED": 0,
+		"CLIENT_TIER_FREE":        1,
+		"CLIENT_TIER_PRO":         2,
+		"CLIENT_TIER_ENTERPRISE":  3,
+	}
+)
+
+func (x ClientTier) Enum() *ClientTier {
+	p := new(ClientTier)
+	*p = x
+	return p
+}
+
+func (x ClientTier) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ClientTier) Descriptor() protoreflect.EnumDescriptor {
+	return file_common_v2_common_proto_enumTypes[0].Descriptor()
+}
+
+func (ClientTier) Type() protoreflect.EnumType {
+	return &file_common_v2_common_proto_enumTypes[0]
+}
+
+func (x ClientTier) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ClientTier.Descriptor instead.
+func (ClientTier) EnumDescriptor() ([]byte, []int) {
+	return file_common_v2_common_proto_rawDescGZIP(), []int{0}
+}
+
 type Status struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Code          int32                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
@@ -379,7 +431,13 @@ const file_common_v2_common_proto_rawDesc = "" +
 	"\x06fields\x18\x01 \x03(\v2\x1f.common.v2.Metadata.FieldsEntryR\x06fields\x1a9\n" +
 	"\vFieldsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\xa0\x01\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01*p\n" +
+	"\n" +
+	"ClientTier\x12\x1b\n" +
+	"\x17CLIENT_TIER_UNSPECIFIED\x10\x00\x12\x14\n" +
+	"\x10CLIENT_TIER_FREE\x10\x01\x12\x13\n" +
+	"\x0fCLIENT_TIER_PRO\x10\x02\x12\x1a\n" +
+	"\x16CLIENT_TIER_ENTERPRISE\x10\x03B\xa0\x01\n" +
 	"\rcom.common.v2B\vCommonProtoP\x01Z=github.com/spounge-ai/spounge-proto/gen/go/common/v2;commonv2\xa2\x02\x03CXX\xaa\x02\tCommon.V2\xca\x02\tCommon\\V2\xe2\x02\x15Common\\V2\\GPBMetadata\xea\x02\n" +
 	"Common::V2b\x06proto3"
 
@@ -395,20 +453,22 @@ func file_common_v2_common_proto_rawDescGZIP() []byte {
 	return file_common_v2_common_proto_rawDescData
 }
 
+var file_common_v2_common_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_common_v2_common_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_common_v2_common_proto_goTypes = []any{
-	(*Status)(nil),           // 0: common.v2.Status
-	(*File)(nil),             // 1: common.v2.File
-	(*PaginationParams)(nil), // 2: common.v2.PaginationParams
-	(*PaginationResult)(nil), // 3: common.v2.PaginationResult
-	(*EntityId)(nil),         // 4: common.v2.EntityId
-	(*Metadata)(nil),         // 5: common.v2.Metadata
-	nil,                      // 6: common.v2.Metadata.FieldsEntry
-	(*structpb.Struct)(nil),  // 7: google.protobuf.Struct
+	(ClientTier)(0),          // 0: common.v2.ClientTier
+	(*Status)(nil),           // 1: common.v2.Status
+	(*File)(nil),             // 2: common.v2.File
+	(*PaginationParams)(nil), // 3: common.v2.PaginationParams
+	(*PaginationResult)(nil), // 4: common.v2.PaginationResult
+	(*EntityId)(nil),         // 5: common.v2.EntityId
+	(*Metadata)(nil),         // 6: common.v2.Metadata
+	nil,                      // 7: common.v2.Metadata.FieldsEntry
+	(*structpb.Struct)(nil),  // 8: google.protobuf.Struct
 }
 var file_common_v2_common_proto_depIdxs = []int32{
-	7, // 0: common.v2.Status.details:type_name -> google.protobuf.Struct
-	6, // 1: common.v2.Metadata.fields:type_name -> common.v2.Metadata.FieldsEntry
+	8, // 0: common.v2.Status.details:type_name -> google.protobuf.Struct
+	7, // 1: common.v2.Metadata.fields:type_name -> common.v2.Metadata.FieldsEntry
 	2, // [2:2] is the sub-list for method output_type
 	2, // [2:2] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name
@@ -426,13 +486,14 @@ func file_common_v2_common_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_common_v2_common_proto_rawDesc), len(file_common_v2_common_proto_rawDesc)),
-			NumEnums:      0,
+			NumEnums:      1,
 			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_common_v2_common_proto_goTypes,
 		DependencyIndexes: file_common_v2_common_proto_depIdxs,
+		EnumInfos:         file_common_v2_common_proto_enumTypes,
 		MessageInfos:      file_common_v2_common_proto_msgTypes,
 	}.Build()
 	File_common_v2_common_proto = out.File

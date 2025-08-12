@@ -12,6 +12,13 @@ message Status {
   google.protobuf.Struct details = 3;
 }
 
+enum ClientTier {
+  CLIENT_TIER_UNSPECIFIED = 0;
+  CLIENT_TIER_FREE = 1;
+  CLIENT_TIER_PRO = 2;
+  CLIENT_TIER_ENTERPRISE = 3;
+}
+
 message File {
   string file_name = 1;
   string mime_type = 2;
