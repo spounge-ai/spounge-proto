@@ -22,12 +22,65 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type ClientTier int32
+
+const (
+	ClientTier_CLIENT_TIER_UNSPECIFIED ClientTier = 0
+	ClientTier_CLIENT_TIER_FREE        ClientTier = 1
+	ClientTier_CLIENT_TIER_PRO         ClientTier = 2
+	ClientTier_CLIENT_TIER_ENTERPRISE  ClientTier = 3
+)
+
+// Enum value maps for ClientTier.
+var (
+	ClientTier_name = map[int32]string{
+		0: "CLIENT_TIER_UNSPECIFIED",
+		1: "CLIENT_TIER_FREE",
+		2: "CLIENT_TIER_PRO",
+		3: "CLIENT_TIER_ENTERPRISE",
+	}
+	ClientTier_value = map[string]int32{
+		"CLIENT_TIER_UNSPECIFIED": 0,
+		"CLIENT_TIER_FREE":        1,
+		"CLIENT_TIER_PRO":         2,
+		"CLIENT_TIER_ENTERPRISE":  3,
+	}
+)
+
+func (x ClientTier) Enum() *ClientTier {
+	p := new(ClientTier)
+	*p = x
+	return p
+}
+
+func (x ClientTier) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ClientTier) Descriptor() protoreflect.EnumDescriptor {
+	return file_polykey_v2_common_proto_enumTypes[0].Descriptor()
+}
+
+func (ClientTier) Type() protoreflect.EnumType {
+	return &file_polykey_v2_common_proto_enumTypes[0]
+}
+
+func (x ClientTier) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ClientTier.Descriptor instead.
+func (ClientTier) EnumDescriptor() ([]byte, []int) {
+	return file_polykey_v2_common_proto_rawDescGZIP(), []int{0}
+}
+
 type RequesterContext struct {
 	state                  protoimpl.MessageState `protogen:"open.v1"`
 	ClientIdentity         string                 `protobuf:"bytes,1,opt,name=client_identity,json=clientIdentity,proto3" json:"client_identity,omitempty"`
 	CertificateFingerprint string                 `protobuf:"bytes,2,opt,name=certificate_fingerprint,json=certificateFingerprint,proto3" json:"certificate_fingerprint,omitempty"`
 	ApplicationId          string                 `protobuf:"bytes,3,opt,name=application_id,json=applicationId,proto3" json:"application_id,omitempty"`
 	CorrelationId          string                 `protobuf:"bytes,4,opt,name=correlation_id,json=correlationId,proto3" json:"correlation_id,omitempty"`
+	ServiceTier            ClientTier             `protobuf:"varint,5,opt,name=service_tier,json=serviceTier,proto3,enum=polykey.v2.ClientTier" json:"service_tier,omitempty"`
 	unknownFields          protoimpl.UnknownFields
 	sizeCache              protoimpl.SizeCache
 }
@@ -88,6 +141,13 @@ func (x *RequesterContext) GetCorrelationId() string {
 		return x.CorrelationId
 	}
 	return ""
+}
+
+func (x *RequesterContext) GetServiceTier() ClientTier {
+	if x != nil {
+		return x.ServiceTier
+	}
+	return ClientTier_CLIENT_TIER_UNSPECIFIED
 }
 
 type AccessAttributes struct {
@@ -579,12 +639,13 @@ var File_polykey_v2_common_proto protoreflect.FileDescriptor
 const file_polykey_v2_common_proto_rawDesc = "" +
 	"\n" +
 	"\x17polykey/v2/common.proto\x12\n" +
-	"polykey.v2\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1apolykey/v2/key_types.proto\"\xc2\x01\n" +
+	"polykey.v2\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1apolykey/v2/key_types.proto\"\xfd\x01\n" +
 	"\x10RequesterContext\x12'\n" +
 	"\x0fclient_identity\x18\x01 \x01(\tR\x0eclientIdentity\x127\n" +
 	"\x17certificate_fingerprint\x18\x02 \x01(\tR\x16certificateFingerprint\x12%\n" +
 	"\x0eapplication_id\x18\x03 \x01(\tR\rapplicationId\x12%\n" +
-	"\x0ecorrelation_id\x18\x04 \x01(\tR\rcorrelationId\"\xc2\x03\n" +
+	"\x0ecorrelation_id\x18\x04 \x01(\tR\rcorrelationId\x129\n" +
+	"\fservice_tier\x18\x05 \x01(\x0e2\x16.polykey.v2.ClientTierR\vserviceTier\"\xc2\x03\n" +
 	"\x10AccessAttributes\x12 \n" +
 	"\venvironment\x18\x01 \x01(\tR\venvironment\x12!\n" +
 	"\fnetwork_zone\x18\x02 \x01(\tR\vnetworkZone\x12+\n" +
@@ -645,7 +706,13 @@ const file_polykey_v2_common_proto_rawDesc = "" +
 	"\x0feffective_until\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\x0eeffectiveUntil\x1a?\n" +
 	"\x11PolicyParamsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\xa7\x01\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01*p\n" +
+	"\n" +
+	"ClientTier\x12\x1b\n" +
+	"\x17CLIENT_TIER_UNSPECIFIED\x10\x00\x12\x14\n" +
+	"\x10CLIENT_TIER_FREE\x10\x01\x12\x13\n" +
+	"\x0fCLIENT_TIER_PRO\x10\x02\x12\x1a\n" +
+	"\x16CLIENT_TIER_ENTERPRISE\x10\x03B\xa7\x01\n" +
 	"\x0ecom.polykey.v2B\vCommonProtoP\x01Z?github.com/spounge-ai/spounge-proto/gen/go/polykey/v2;polykeyv2\xa2\x02\x03PXX\xaa\x02\n" +
 	"Polykey.V2\xca\x02\n" +
 	"Polykey\\V2\xe2\x02\x16Polykey\\V2\\GPBMetadata\xea\x02\vPolykey::V2b\x06proto3"
@@ -662,42 +729,45 @@ func file_polykey_v2_common_proto_rawDescGZIP() []byte {
 	return file_polykey_v2_common_proto_rawDescData
 }
 
+var file_polykey_v2_common_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_polykey_v2_common_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_polykey_v2_common_proto_goTypes = []any{
-	(*RequesterContext)(nil),      // 0: polykey.v2.RequesterContext
-	(*AccessAttributes)(nil),      // 1: polykey.v2.AccessAttributes
-	(*KeyMetadata)(nil),           // 2: polykey.v2.KeyMetadata
-	(*KeyMaterial)(nil),           // 3: polykey.v2.KeyMaterial
-	(*AccessHistoryEntry)(nil),    // 4: polykey.v2.AccessHistoryEntry
-	(*PolicyDetail)(nil),          // 5: polykey.v2.PolicyDetail
-	nil,                           // 6: polykey.v2.AccessAttributes.CustomAttributesEntry
-	nil,                           // 7: polykey.v2.KeyMetadata.AccessPoliciesEntry
-	nil,                           // 8: polykey.v2.KeyMetadata.TagsEntry
-	nil,                           // 9: polykey.v2.PolicyDetail.PolicyParamsEntry
-	(*timestamppb.Timestamp)(nil), // 10: google.protobuf.Timestamp
-	(KeyType)(0),                  // 11: polykey.v2.KeyType
-	(KeyStatus)(0),                // 12: polykey.v2.KeyStatus
+	(ClientTier)(0),               // 0: polykey.v2.ClientTier
+	(*RequesterContext)(nil),      // 1: polykey.v2.RequesterContext
+	(*AccessAttributes)(nil),      // 2: polykey.v2.AccessAttributes
+	(*KeyMetadata)(nil),           // 3: polykey.v2.KeyMetadata
+	(*KeyMaterial)(nil),           // 4: polykey.v2.KeyMaterial
+	(*AccessHistoryEntry)(nil),    // 5: polykey.v2.AccessHistoryEntry
+	(*PolicyDetail)(nil),          // 6: polykey.v2.PolicyDetail
+	nil,                           // 7: polykey.v2.AccessAttributes.CustomAttributesEntry
+	nil,                           // 8: polykey.v2.KeyMetadata.AccessPoliciesEntry
+	nil,                           // 9: polykey.v2.KeyMetadata.TagsEntry
+	nil,                           // 10: polykey.v2.PolicyDetail.PolicyParamsEntry
+	(*timestamppb.Timestamp)(nil), // 11: google.protobuf.Timestamp
+	(KeyType)(0),                  // 12: polykey.v2.KeyType
+	(KeyStatus)(0),                // 13: polykey.v2.KeyStatus
 }
 var file_polykey_v2_common_proto_depIdxs = []int32{
-	10, // 0: polykey.v2.AccessAttributes.request_time:type_name -> google.protobuf.Timestamp
-	6,  // 1: polykey.v2.AccessAttributes.custom_attributes:type_name -> polykey.v2.AccessAttributes.CustomAttributesEntry
-	11, // 2: polykey.v2.KeyMetadata.key_type:type_name -> polykey.v2.KeyType
-	12, // 3: polykey.v2.KeyMetadata.status:type_name -> polykey.v2.KeyStatus
-	10, // 4: polykey.v2.KeyMetadata.created_at:type_name -> google.protobuf.Timestamp
-	10, // 5: polykey.v2.KeyMetadata.updated_at:type_name -> google.protobuf.Timestamp
-	10, // 6: polykey.v2.KeyMetadata.expires_at:type_name -> google.protobuf.Timestamp
-	10, // 7: polykey.v2.KeyMetadata.last_accessed_at:type_name -> google.protobuf.Timestamp
-	7,  // 8: polykey.v2.KeyMetadata.access_policies:type_name -> polykey.v2.KeyMetadata.AccessPoliciesEntry
-	8,  // 9: polykey.v2.KeyMetadata.tags:type_name -> polykey.v2.KeyMetadata.TagsEntry
-	10, // 10: polykey.v2.AccessHistoryEntry.timestamp:type_name -> google.protobuf.Timestamp
-	9,  // 11: polykey.v2.PolicyDetail.policy_params:type_name -> polykey.v2.PolicyDetail.PolicyParamsEntry
-	10, // 12: polykey.v2.PolicyDetail.effective_from:type_name -> google.protobuf.Timestamp
-	10, // 13: polykey.v2.PolicyDetail.effective_until:type_name -> google.protobuf.Timestamp
-	14, // [14:14] is the sub-list for method output_type
-	14, // [14:14] is the sub-list for method input_type
-	14, // [14:14] is the sub-list for extension type_name
-	14, // [14:14] is the sub-list for extension extendee
-	0,  // [0:14] is the sub-list for field type_name
+	0,  // 0: polykey.v2.RequesterContext.service_tier:type_name -> polykey.v2.ClientTier
+	11, // 1: polykey.v2.AccessAttributes.request_time:type_name -> google.protobuf.Timestamp
+	7,  // 2: polykey.v2.AccessAttributes.custom_attributes:type_name -> polykey.v2.AccessAttributes.CustomAttributesEntry
+	12, // 3: polykey.v2.KeyMetadata.key_type:type_name -> polykey.v2.KeyType
+	13, // 4: polykey.v2.KeyMetadata.status:type_name -> polykey.v2.KeyStatus
+	11, // 5: polykey.v2.KeyMetadata.created_at:type_name -> google.protobuf.Timestamp
+	11, // 6: polykey.v2.KeyMetadata.updated_at:type_name -> google.protobuf.Timestamp
+	11, // 7: polykey.v2.KeyMetadata.expires_at:type_name -> google.protobuf.Timestamp
+	11, // 8: polykey.v2.KeyMetadata.last_accessed_at:type_name -> google.protobuf.Timestamp
+	8,  // 9: polykey.v2.KeyMetadata.access_policies:type_name -> polykey.v2.KeyMetadata.AccessPoliciesEntry
+	9,  // 10: polykey.v2.KeyMetadata.tags:type_name -> polykey.v2.KeyMetadata.TagsEntry
+	11, // 11: polykey.v2.AccessHistoryEntry.timestamp:type_name -> google.protobuf.Timestamp
+	10, // 12: polykey.v2.PolicyDetail.policy_params:type_name -> polykey.v2.PolicyDetail.PolicyParamsEntry
+	11, // 13: polykey.v2.PolicyDetail.effective_from:type_name -> google.protobuf.Timestamp
+	11, // 14: polykey.v2.PolicyDetail.effective_until:type_name -> google.protobuf.Timestamp
+	15, // [15:15] is the sub-list for method output_type
+	15, // [15:15] is the sub-list for method input_type
+	15, // [15:15] is the sub-list for extension type_name
+	15, // [15:15] is the sub-list for extension extendee
+	0,  // [0:15] is the sub-list for field type_name
 }
 
 func init() { file_polykey_v2_common_proto_init() }
@@ -711,13 +781,14 @@ func file_polykey_v2_common_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_polykey_v2_common_proto_rawDesc), len(file_polykey_v2_common_proto_rawDesc)),
-			NumEnums:      0,
+			NumEnums:      1,
 			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_polykey_v2_common_proto_goTypes,
 		DependencyIndexes: file_polykey_v2_common_proto_depIdxs,
+		EnumInfos:         file_polykey_v2_common_proto_enumTypes,
 		MessageInfos:      file_polykey_v2_common_proto_msgTypes,
 	}.Build()
 	File_polykey_v2_common_proto = out.File

@@ -3,6 +3,7 @@ syntax = "proto3";
 package polykey.v2;
 
 import "google/protobuf/timestamp.proto";
+import "polykey/v2/common.proto";
 option go_package = "github.com/spounge-ai/spounge-proto/gen/go/polykey/v2;polykeyv2";
 
  
@@ -18,6 +19,7 @@ message AuthenticateResponse {
   int64 expires_in = 3;          // Token TTL in seconds
   repeated string permissions = 4; // ["secrets:read", "secrets:write"]
   google.protobuf.Timestamp issued_at = 5;
+  ClientTier service_tier = 6; 
 }
 
 message RefreshTokenRequest {
@@ -51,4 +53,5 @@ message ClientInfo {
   string environment = 4;        // "dev", "staging", "prod"
   google.protobuf.Timestamp created_at = 5;
   google.protobuf.Timestamp last_used_at = 6;
+  ClientTier service_tier = 7;
 }
