@@ -25,3 +25,9 @@ enum RotationStrategy {
   ROTATION_STRATEGY_STAGED = 2;
   ROTATION_STRATEGY_SCHEDULED = 3;
 }
+
+enum StorageProfile {
+  STORAGE_PROFILE_UNSPECIFIED = 0;
+  STORAGE_PROFILE_STANDARD = 1; // polykey master key
+  STORAGE_PROFILE_HARDENED = 2; // Enhanced security profile (e.g., uses HSM).
+}

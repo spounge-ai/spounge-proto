@@ -183,6 +183,55 @@ func (RotationStrategy) EnumDescriptor() ([]byte, []int) {
 	return file_polykey_v2_key_types_proto_rawDescGZIP(), []int{2}
 }
 
+type StorageProfile int32
+
+const (
+	StorageProfile_STORAGE_PROFILE_UNSPECIFIED StorageProfile = 0
+	StorageProfile_STORAGE_PROFILE_STANDARD    StorageProfile = 1 // polykey master key
+	StorageProfile_STORAGE_PROFILE_HARDENED    StorageProfile = 2 // Enhanced security profile (e.g., uses HSM).
+)
+
+// Enum value maps for StorageProfile.
+var (
+	StorageProfile_name = map[int32]string{
+		0: "STORAGE_PROFILE_UNSPECIFIED",
+		1: "STORAGE_PROFILE_STANDARD",
+		2: "STORAGE_PROFILE_HARDENED",
+	}
+	StorageProfile_value = map[string]int32{
+		"STORAGE_PROFILE_UNSPECIFIED": 0,
+		"STORAGE_PROFILE_STANDARD":    1,
+		"STORAGE_PROFILE_HARDENED":    2,
+	}
+)
+
+func (x StorageProfile) Enum() *StorageProfile {
+	p := new(StorageProfile)
+	*p = x
+	return p
+}
+
+func (x StorageProfile) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (StorageProfile) Descriptor() protoreflect.EnumDescriptor {
+	return file_polykey_v2_key_types_proto_enumTypes[3].Descriptor()
+}
+
+func (StorageProfile) Type() protoreflect.EnumType {
+	return &file_polykey_v2_key_types_proto_enumTypes[3]
+}
+
+func (x StorageProfile) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use StorageProfile.Descriptor instead.
+func (StorageProfile) EnumDescriptor() ([]byte, []int) {
+	return file_polykey_v2_key_types_proto_rawDescGZIP(), []int{3}
+}
+
 var File_polykey_v2_key_types_proto protoreflect.FileDescriptor
 
 const file_polykey_v2_key_types_proto_rawDesc = "" +
@@ -205,7 +254,11 @@ const file_polykey_v2_key_types_proto_rawDesc = "" +
 	"\x1dROTATION_STRATEGY_UNSPECIFIED\x10\x00\x12\x19\n" +
 	"\x15ROTATION_STRATEGY_HOT\x10\x01\x12\x1c\n" +
 	"\x18ROTATION_STRATEGY_STAGED\x10\x02\x12\x1f\n" +
-	"\x1bROTATION_STRATEGY_SCHEDULED\x10\x03B\xa9\x01\n" +
+	"\x1bROTATION_STRATEGY_SCHEDULED\x10\x03*m\n" +
+	"\x0eStorageProfile\x12\x1f\n" +
+	"\x1bSTORAGE_PROFILE_UNSPECIFIED\x10\x00\x12\x1c\n" +
+	"\x18STORAGE_PROFILE_STANDARD\x10\x01\x12\x1c\n" +
+	"\x18STORAGE_PROFILE_HARDENED\x10\x02B\xa9\x01\n" +
 	"\x0ecom.polykey.v2B\rKeyTypesProtoP\x01Z?github.com/spounge-ai/spounge-proto/gen/go/polykey/v2;polykeyv2\xa2\x02\x03PXX\xaa\x02\n" +
 	"Polykey.V2\xca\x02\n" +
 	"Polykey\\V2\xe2\x02\x16Polykey\\V2\\GPBMetadata\xea\x02\vPolykey::V2b\x06proto3"
@@ -222,11 +275,12 @@ func file_polykey_v2_key_types_proto_rawDescGZIP() []byte {
 	return file_polykey_v2_key_types_proto_rawDescData
 }
 
-var file_polykey_v2_key_types_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_polykey_v2_key_types_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
 var file_polykey_v2_key_types_proto_goTypes = []any{
 	(KeyType)(0),          // 0: polykey.v2.KeyType
 	(KeyStatus)(0),        // 1: polykey.v2.KeyStatus
 	(RotationStrategy)(0), // 2: polykey.v2.RotationStrategy
+	(StorageProfile)(0),   // 3: polykey.v2.StorageProfile
 }
 var file_polykey_v2_key_types_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -246,7 +300,7 @@ func file_polykey_v2_key_types_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_polykey_v2_key_types_proto_rawDesc), len(file_polykey_v2_key_types_proto_rawDesc)),
-			NumEnums:      3,
+			NumEnums:      4,
 			NumMessages:   0,
 			NumExtensions: 0,
 			NumServices:   0,

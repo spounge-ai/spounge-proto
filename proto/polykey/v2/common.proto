@@ -45,7 +45,7 @@ message KeyMetadata {
   string data_classification = 14;
   string metadata_checksum = 15;
   int64 access_count = 16;
-  string storage_type = 17;
+  StorageProfile storage_type = 17;
 }
 
 message KeyMaterial {
