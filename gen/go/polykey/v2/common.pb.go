@@ -217,6 +217,7 @@ type KeyMetadata struct {
 	DataClassification string                 `protobuf:"bytes,14,opt,name=data_classification,json=dataClassification,proto3" json:"data_classification,omitempty"`
 	MetadataChecksum   string                 `protobuf:"bytes,15,opt,name=metadata_checksum,json=metadataChecksum,proto3" json:"metadata_checksum,omitempty"`
 	AccessCount        int64                  `protobuf:"varint,16,opt,name=access_count,json=accessCount,proto3" json:"access_count,omitempty"`
+	StorageType        string                 `protobuf:"bytes,17,opt,name=storage_type,json=storageType,proto3" json:"storage_type,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -361,6 +362,13 @@ func (x *KeyMetadata) GetAccessCount() int64 {
 		return x.AccessCount
 	}
 	return 0
+}
+
+func (x *KeyMetadata) GetStorageType() string {
+	if x != nil {
+		return x.StorageType
+	}
+	return ""
 }
 
 type KeyMaterial struct {
@@ -608,7 +616,7 @@ const file_polykey_v2_common_proto_rawDesc = "" +
 	"\x11custom_attributes\x18\b \x03(\v22.polykey.v2.AccessAttributes.CustomAttributesEntryR\x10customAttributes\x1aC\n" +
 	"\x15CustomAttributesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x9c\a\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xbf\a\n" +
 	"\vKeyMetadata\x12\x15\n" +
 	"\x06key_id\x18\x01 \x01(\tR\x05keyId\x12.\n" +
 	"\bkey_type\x18\x02 \x01(\x0e2\x13.polykey.v2.KeyTypeR\akeyType\x12-\n" +
@@ -629,7 +637,8 @@ const file_polykey_v2_common_proto_rawDesc = "" +
 	"\x04tags\x18\r \x03(\v2!.polykey.v2.KeyMetadata.TagsEntryR\x04tags\x12/\n" +
 	"\x13data_classification\x18\x0e \x01(\tR\x12dataClassification\x12+\n" +
 	"\x11metadata_checksum\x18\x0f \x01(\tR\x10metadataChecksum\x12!\n" +
-	"\faccess_count\x18\x10 \x01(\x03R\vaccessCount\x1aA\n" +
+	"\faccess_count\x18\x10 \x01(\x03R\vaccessCount\x12!\n" +
+	"\fstorage_type\x18\x11 \x01(\tR\vstorageType\x1aA\n" +
 	"\x13AccessPoliciesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a7\n" +
