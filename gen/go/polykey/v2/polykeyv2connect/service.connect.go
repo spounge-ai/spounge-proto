@@ -34,6 +34,9 @@ const (
 // reflection-formatted method names, remove the leading slash and convert the remaining slash to a
 // period.
 const (
+	// PolykeyServiceHealthCheckProcedure is the fully-qualified name of the PolykeyService's
+	// HealthCheck RPC.
+	PolykeyServiceHealthCheckProcedure = "/polykey.v2.PolykeyService/HealthCheck"
 	// PolykeyServiceGetKeyProcedure is the fully-qualified name of the PolykeyService's GetKey RPC.
 	PolykeyServiceGetKeyProcedure = "/polykey.v2.PolykeyService/GetKey"
 	// PolykeyServiceListKeysProcedure is the fully-qualified name of the PolykeyService's ListKeys RPC.
@@ -53,9 +56,42 @@ const (
 	// PolykeyServiceGetKeyMetadataProcedure is the fully-qualified name of the PolykeyService's
 	// GetKeyMetadata RPC.
 	PolykeyServiceGetKeyMetadataProcedure = "/polykey.v2.PolykeyService/GetKeyMetadata"
-	// PolykeyServiceHealthCheckProcedure is the fully-qualified name of the PolykeyService's
-	// HealthCheck RPC.
-	PolykeyServiceHealthCheckProcedure = "/polykey.v2.PolykeyService/HealthCheck"
+	// PolykeyServiceBatchGetKeysProcedure is the fully-qualified name of the PolykeyService's
+	// BatchGetKeys RPC.
+	PolykeyServiceBatchGetKeysProcedure = "/polykey.v2.PolykeyService/BatchGetKeys"
+	// PolykeyServiceBatchCreateKeysProcedure is the fully-qualified name of the PolykeyService's
+	// BatchCreateKeys RPC.
+	PolykeyServiceBatchCreateKeysProcedure = "/polykey.v2.PolykeyService/BatchCreateKeys"
+	// PolykeyServiceBatchRotateKeysProcedure is the fully-qualified name of the PolykeyService's
+	// BatchRotateKeys RPC.
+	PolykeyServiceBatchRotateKeysProcedure = "/polykey.v2.PolykeyService/BatchRotateKeys"
+	// PolykeyServiceBatchRevokeKeysProcedure is the fully-qualified name of the PolykeyService's
+	// BatchRevokeKeys RPC.
+	PolykeyServiceBatchRevokeKeysProcedure = "/polykey.v2.PolykeyService/BatchRevokeKeys"
+	// PolykeyServiceBatchUpdateKeyMetadataProcedure is the fully-qualified name of the PolykeyService's
+	// BatchUpdateKeyMetadata RPC.
+	PolykeyServiceBatchUpdateKeyMetadataProcedure = "/polykey.v2.PolykeyService/BatchUpdateKeyMetadata"
+	// PolykeyServiceBatchGetKeyMetadataProcedure is the fully-qualified name of the PolykeyService's
+	// BatchGetKeyMetadata RPC.
+	PolykeyServiceBatchGetKeyMetadataProcedure = "/polykey.v2.PolykeyService/BatchGetKeyMetadata"
+	// PolykeyServiceStreamGetKeysProcedure is the fully-qualified name of the PolykeyService's
+	// StreamGetKeys RPC.
+	PolykeyServiceStreamGetKeysProcedure = "/polykey.v2.PolykeyService/StreamGetKeys"
+	// PolykeyServiceStreamCreateKeysProcedure is the fully-qualified name of the PolykeyService's
+	// StreamCreateKeys RPC.
+	PolykeyServiceStreamCreateKeysProcedure = "/polykey.v2.PolykeyService/StreamCreateKeys"
+	// PolykeyServiceStreamRotateKeysProcedure is the fully-qualified name of the PolykeyService's
+	// StreamRotateKeys RPC.
+	PolykeyServiceStreamRotateKeysProcedure = "/polykey.v2.PolykeyService/StreamRotateKeys"
+	// PolykeyServiceStreamRevokeKeysProcedure is the fully-qualified name of the PolykeyService's
+	// StreamRevokeKeys RPC.
+	PolykeyServiceStreamRevokeKeysProcedure = "/polykey.v2.PolykeyService/StreamRevokeKeys"
+	// PolykeyServiceStreamUpdateKeyMetadataProcedure is the fully-qualified name of the
+	// PolykeyService's StreamUpdateKeyMetadata RPC.
+	PolykeyServiceStreamUpdateKeyMetadataProcedure = "/polykey.v2.PolykeyService/StreamUpdateKeyMetadata"
+	// PolykeyServiceStreamGetKeyMetadataProcedure is the fully-qualified name of the PolykeyService's
+	// StreamGetKeyMetadata RPC.
+	PolykeyServiceStreamGetKeyMetadataProcedure = "/polykey.v2.PolykeyService/StreamGetKeyMetadata"
 	// PolykeyServiceAuthenticateProcedure is the fully-qualified name of the PolykeyService's
 	// Authenticate RPC.
 	PolykeyServiceAuthenticateProcedure = "/polykey.v2.PolykeyService/Authenticate"
@@ -69,6 +105,8 @@ const (
 
 // PolykeyServiceClient is a client for the polykey.v2.PolykeyService service.
 type PolykeyServiceClient interface {
+	HealthCheck(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[v2.HealthCheckResponse], error)
+	// 1-5, few nodes
 	GetKey(context.Context, *connect.Request[v2.GetKeyRequest]) (*connect.Response[v2.GetKeyResponse], error)
 	ListKeys(context.Context, *connect.Request[v2.ListKeysRequest]) (*connect.Response[v2.ListKeysResponse], error)
 	CreateKey(context.Context, *connect.Request[v2.CreateKeyRequest]) (*connect.Response[v2.CreateKeyResponse], error)
@@ -76,7 +114,20 @@ type PolykeyServiceClient interface {
 	RevokeKey(context.Context, *connect.Request[v2.RevokeKeyRequest]) (*connect.Response[emptypb.Empty], error)
 	UpdateKeyMetadata(context.Context, *connect.Request[v2.UpdateKeyMetadataRequest]) (*connect.Response[emptypb.Empty], error)
 	GetKeyMetadata(context.Context, *connect.Request[v2.GetKeyMetadataRequest]) (*connect.Response[v2.GetKeyMetadataResponse], error)
-	HealthCheck(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[v2.HealthCheckResponse], error)
+	// Batch operations (5-50 keys)
+	BatchGetKeys(context.Context, *connect.Request[v2.BatchGetKeysRequest]) (*connect.Response[v2.BatchGetKeysResponse], error)
+	BatchCreateKeys(context.Context, *connect.Request[v2.BatchCreateKeysRequest]) (*connect.Response[v2.BatchCreateKeysResponse], error)
+	BatchRotateKeys(context.Context, *connect.Request[v2.BatchRotateKeysRequest]) (*connect.Response[v2.BatchRotateKeysResponse], error)
+	BatchRevokeKeys(context.Context, *connect.Request[v2.BatchRevokeKeysRequest]) (*connect.Response[v2.BatchRevokeKeysResponse], error)
+	BatchUpdateKeyMetadata(context.Context, *connect.Request[v2.BatchUpdateKeyMetadataRequest]) (*connect.Response[v2.BatchUpdateKeyMetadataResponse], error)
+	BatchGetKeyMetadata(context.Context, *connect.Request[v2.BatchGetKeyMetadataRequest]) (*connect.Response[v2.BatchGetKeyMetadataResponse], error)
+	// Streaming operations (50+ keys) unlikely right now, but in-case
+	StreamGetKeys(context.Context, *connect.Request[v2.StreamGetKeysRequest]) (*connect.ServerStreamForClient[v2.StreamGetKeysResponse], error)
+	StreamCreateKeys(context.Context) *connect.BidiStreamForClient[v2.StreamCreateKeysRequest, v2.StreamCreateKeysResponse]
+	StreamRotateKeys(context.Context) *connect.BidiStreamForClient[v2.StreamRotateKeysRequest, v2.StreamRotateKeysResponse]
+	StreamRevokeKeys(context.Context) *connect.BidiStreamForClient[v2.StreamRevokeKeysRequest, v2.StreamRevokeKeysResponse]
+	StreamUpdateKeyMetadata(context.Context) *connect.BidiStreamForClient[v2.StreamUpdateKeyMetadataRequest, v2.StreamUpdateKeyMetadataResponse]
+	StreamGetKeyMetadata(context.Context) *connect.BidiStreamForClient[v2.StreamGetKeyMetadataRequest, v2.StreamGetKeyMetadataResponse]
 	Authenticate(context.Context, *connect.Request[v2.AuthenticateRequest]) (*connect.Response[v2.AuthenticateResponse], error)
 	RefreshToken(context.Context, *connect.Request[v2.RefreshTokenRequest]) (*connect.Response[v2.RefreshTokenResponse], error)
 	RevokeToken(context.Context, *connect.Request[v2.RevokeTokenRequest]) (*connect.Response[v2.RevokeTokenResponse], error)
@@ -93,6 +144,12 @@ func NewPolykeyServiceClient(httpClient connect.HTTPClient, baseURL string, opts
 	baseURL = strings.TrimRight(baseURL, "/")
 	polykeyServiceMethods := v2.File_polykey_v2_service_proto.Services().ByName("PolykeyService").Methods()
 	return &polykeyServiceClient{
+		healthCheck: connect.NewClient[emptypb.Empty, v2.HealthCheckResponse](
+			httpClient,
+			baseURL+PolykeyServiceHealthCheckProcedure,
+			connect.WithSchema(polykeyServiceMethods.ByName("HealthCheck")),
+			connect.WithClientOptions(opts...),
+		),
 		getKey: connect.NewClient[v2.GetKeyRequest, v2.GetKeyResponse](
 			httpClient,
 			baseURL+PolykeyServiceGetKeyProcedure,
@@ -135,10 +192,76 @@ func NewPolykeyServiceClient(httpClient connect.HTTPClient, baseURL string, opts
 			connect.WithSchema(polykeyServiceMethods.ByName("GetKeyMetadata")),
 			connect.WithClientOptions(opts...),
 		),
-		healthCheck: connect.NewClient[emptypb.Empty, v2.HealthCheckResponse](
+		batchGetKeys: connect.NewClient[v2.BatchGetKeysRequest, v2.BatchGetKeysResponse](
 			httpClient,
-			baseURL+PolykeyServiceHealthCheckProcedure,
-			connect.WithSchema(polykeyServiceMethods.ByName("HealthCheck")),
+			baseURL+PolykeyServiceBatchGetKeysProcedure,
+			connect.WithSchema(polykeyServiceMethods.ByName("BatchGetKeys")),
+			connect.WithClientOptions(opts...),
+		),
+		batchCreateKeys: connect.NewClient[v2.BatchCreateKeysRequest, v2.BatchCreateKeysResponse](
+			httpClient,
+			baseURL+PolykeyServiceBatchCreateKeysProcedure,
+			connect.WithSchema(polykeyServiceMethods.ByName("BatchCreateKeys")),
+			connect.WithClientOptions(opts...),
+		),
+		batchRotateKeys: connect.NewClient[v2.BatchRotateKeysRequest, v2.BatchRotateKeysResponse](
+			httpClient,
+			baseURL+PolykeyServiceBatchRotateKeysProcedure,
+			connect.WithSchema(polykeyServiceMethods.ByName("BatchRotateKeys")),
+			connect.WithClientOptions(opts...),
+		),
+		batchRevokeKeys: connect.NewClient[v2.BatchRevokeKeysRequest, v2.BatchRevokeKeysResponse](
+			httpClient,
+			baseURL+PolykeyServiceBatchRevokeKeysProcedure,
+			connect.WithSchema(polykeyServiceMethods.ByName("BatchRevokeKeys")),
+			connect.WithClientOptions(opts...),
+		),
+		batchUpdateKeyMetadata: connect.NewClient[v2.BatchUpdateKeyMetadataRequest, v2.BatchUpdateKeyMetadataResponse](
+			httpClient,
+			baseURL+PolykeyServiceBatchUpdateKeyMetadataProcedure,
+			connect.WithSchema(polykeyServiceMethods.ByName("BatchUpdateKeyMetadata")),
+			connect.WithClientOptions(opts...),
+		),
+		batchGetKeyMetadata: connect.NewClient[v2.BatchGetKeyMetadataRequest, v2.BatchGetKeyMetadataResponse](
+			httpClient,
+			baseURL+PolykeyServiceBatchGetKeyMetadataProcedure,
+			connect.WithSchema(polykeyServiceMethods.ByName("BatchGetKeyMetadata")),
+			connect.WithClientOptions(opts...),
+		),
+		streamGetKeys: connect.NewClient[v2.StreamGetKeysRequest, v2.StreamGetKeysResponse](
+			httpClient,
+			baseURL+PolykeyServiceStreamGetKeysProcedure,
+			connect.WithSchema(polykeyServiceMethods.ByName("StreamGetKeys")),
+			connect.WithClientOptions(opts...),
+		),
+		streamCreateKeys: connect.NewClient[v2.StreamCreateKeysRequest, v2.StreamCreateKeysResponse](
+			httpClient,
+			baseURL+PolykeyServiceStreamCreateKeysProcedure,
+			connect.WithSchema(polykeyServiceMethods.ByName("StreamCreateKeys")),
+			connect.WithClientOptions(opts...),
+		),
+		streamRotateKeys: connect.NewClient[v2.StreamRotateKeysRequest, v2.StreamRotateKeysResponse](
+			httpClient,
+			baseURL+PolykeyServiceStreamRotateKeysProcedure,
+			connect.WithSchema(polykeyServiceMethods.ByName("StreamRotateKeys")),
+			connect.WithClientOptions(opts...),
+		),
+		streamRevokeKeys: connect.NewClient[v2.StreamRevokeKeysRequest, v2.StreamRevokeKeysResponse](
+			httpClient,
+			baseURL+PolykeyServiceStreamRevokeKeysProcedure,
+			connect.WithSchema(polykeyServiceMethods.ByName("StreamRevokeKeys")),
+			connect.WithClientOptions(opts...),
+		),
+		streamUpdateKeyMetadata: connect.NewClient[v2.StreamUpdateKeyMetadataRequest, v2.StreamUpdateKeyMetadataResponse](
+			httpClient,
+			baseURL+PolykeyServiceStreamUpdateKeyMetadataProcedure,
+			connect.WithSchema(polykeyServiceMethods.ByName("StreamUpdateKeyMetadata")),
+			connect.WithClientOptions(opts...),
+		),
+		streamGetKeyMetadata: connect.NewClient[v2.StreamGetKeyMetadataRequest, v2.StreamGetKeyMetadataResponse](
+			httpClient,
+			baseURL+PolykeyServiceStreamGetKeyMetadataProcedure,
+			connect.WithSchema(polykeyServiceMethods.ByName("StreamGetKeyMetadata")),
 			connect.WithClientOptions(opts...),
 		),
 		authenticate: connect.NewClient[v2.AuthenticateRequest, v2.AuthenticateResponse](
@@ -164,17 +287,34 @@ func NewPolykeyServiceClient(httpClient connect.HTTPClient, baseURL string, opts
 
 // polykeyServiceClient implements PolykeyServiceClient.
 type polykeyServiceClient struct {
-	getKey            *connect.Client[v2.GetKeyRequest, v2.GetKeyResponse]
-	listKeys          *connect.Client[v2.ListKeysRequest, v2.ListKeysResponse]
-	createKey         *connect.Client[v2.CreateKeyRequest, v2.CreateKeyResponse]
-	rotateKey         *connect.Client[v2.RotateKeyRequest, v2.RotateKeyResponse]
-	revokeKey         *connect.Client[v2.RevokeKeyRequest, emptypb.Empty]
-	updateKeyMetadata *connect.Client[v2.UpdateKeyMetadataRequest, emptypb.Empty]
-	getKeyMetadata    *connect.Client[v2.GetKeyMetadataRequest, v2.GetKeyMetadataResponse]
-	healthCheck       *connect.Client[emptypb.Empty, v2.HealthCheckResponse]
-	authenticate      *connect.Client[v2.AuthenticateRequest, v2.AuthenticateResponse]
-	refreshToken      *connect.Client[v2.RefreshTokenRequest, v2.RefreshTokenResponse]
-	revokeToken       *connect.Client[v2.RevokeTokenRequest, v2.RevokeTokenResponse]
+	healthCheck             *connect.Client[emptypb.Empty, v2.HealthCheckResponse]
+	getKey                  *connect.Client[v2.GetKeyRequest, v2.GetKeyResponse]
+	listKeys                *connect.Client[v2.ListKeysRequest, v2.ListKeysResponse]
+	createKey               *connect.Client[v2.CreateKeyRequest, v2.CreateKeyResponse]
+	rotateKey               *connect.Client[v2.RotateKeyRequest, v2.RotateKeyResponse]
+	revokeKey               *connect.Client[v2.RevokeKeyRequest, emptypb.Empty]
+	updateKeyMetadata       *connect.Client[v2.UpdateKeyMetadataRequest, emptypb.Empty]
+	getKeyMetadata          *connect.Client[v2.GetKeyMetadataRequest, v2.GetKeyMetadataResponse]
+	batchGetKeys            *connect.Client[v2.BatchGetKeysRequest, v2.BatchGetKeysResponse]
+	batchCreateKeys         *connect.Client[v2.BatchCreateKeysRequest, v2.BatchCreateKeysResponse]
+	batchRotateKeys         *connect.Client[v2.BatchRotateKeysRequest, v2.BatchRotateKeysResponse]
+	batchRevokeKeys         *connect.Client[v2.BatchRevokeKeysRequest, v2.BatchRevokeKeysResponse]
+	batchUpdateKeyMetadata  *connect.Client[v2.BatchUpdateKeyMetadataRequest, v2.BatchUpdateKeyMetadataResponse]
+	batchGetKeyMetadata     *connect.Client[v2.BatchGetKeyMetadataRequest, v2.BatchGetKeyMetadataResponse]
+	streamGetKeys           *connect.Client[v2.StreamGetKeysRequest, v2.StreamGetKeysResponse]
+	streamCreateKeys        *connect.Client[v2.StreamCreateKeysRequest, v2.StreamCreateKeysResponse]
+	streamRotateKeys        *connect.Client[v2.StreamRotateKeysRequest, v2.StreamRotateKeysResponse]
+	streamRevokeKeys        *connect.Client[v2.StreamRevokeKeysRequest, v2.StreamRevokeKeysResponse]
+	streamUpdateKeyMetadata *connect.Client[v2.StreamUpdateKeyMetadataRequest, v2.StreamUpdateKeyMetadataResponse]
+	streamGetKeyMetadata    *connect.Client[v2.StreamGetKeyMetadataRequest, v2.StreamGetKeyMetadataResponse]
+	authenticate            *connect.Client[v2.AuthenticateRequest, v2.AuthenticateResponse]
+	refreshToken            *connect.Client[v2.RefreshTokenRequest, v2.RefreshTokenResponse]
+	revokeToken             *connect.Client[v2.RevokeTokenRequest, v2.RevokeTokenResponse]
+}
+
+// HealthCheck calls polykey.v2.PolykeyService.HealthCheck.
+func (c *polykeyServiceClient) HealthCheck(ctx context.Context, req *connect.Request[emptypb.Empty]) (*connect.Response[v2.HealthCheckResponse], error) {
+	return c.healthCheck.CallUnary(ctx, req)
 }
 
 // GetKey calls polykey.v2.PolykeyService.GetKey.
@@ -212,9 +352,64 @@ func (c *polykeyServiceClient) GetKeyMetadata(ctx context.Context, req *connect.
 	return c.getKeyMetadata.CallUnary(ctx, req)
 }
 
-// HealthCheck calls polykey.v2.PolykeyService.HealthCheck.
-func (c *polykeyServiceClient) HealthCheck(ctx context.Context, req *connect.Request[emptypb.Empty]) (*connect.Response[v2.HealthCheckResponse], error) {
-	return c.healthCheck.CallUnary(ctx, req)
+// BatchGetKeys calls polykey.v2.PolykeyService.BatchGetKeys.
+func (c *polykeyServiceClient) BatchGetKeys(ctx context.Context, req *connect.Request[v2.BatchGetKeysRequest]) (*connect.Response[v2.BatchGetKeysResponse], error) {
+	return c.batchGetKeys.CallUnary(ctx, req)
+}
+
+// BatchCreateKeys calls polykey.v2.PolykeyService.BatchCreateKeys.
+func (c *polykeyServiceClient) BatchCreateKeys(ctx context.Context, req *connect.Request[v2.BatchCreateKeysRequest]) (*connect.Response[v2.BatchCreateKeysResponse], error) {
+	return c.batchCreateKeys.CallUnary(ctx, req)
+}
+
+// BatchRotateKeys calls polykey.v2.PolykeyService.BatchRotateKeys.
+func (c *polykeyServiceClient) BatchRotateKeys(ctx context.Context, req *connect.Request[v2.BatchRotateKeysRequest]) (*connect.Response[v2.BatchRotateKeysResponse], error) {
+	return c.batchRotateKeys.CallUnary(ctx, req)
+}
+
+// BatchRevokeKeys calls polykey.v2.PolykeyService.BatchRevokeKeys.
+func (c *polykeyServiceClient) BatchRevokeKeys(ctx context.Context, req *connect.Request[v2.BatchRevokeKeysRequest]) (*connect.Response[v2.BatchRevokeKeysResponse], error) {
+	return c.batchRevokeKeys.CallUnary(ctx, req)
+}
+
+// BatchUpdateKeyMetadata calls polykey.v2.PolykeyService.BatchUpdateKeyMetadata.
+func (c *polykeyServiceClient) BatchUpdateKeyMetadata(ctx context.Context, req *connect.Request[v2.BatchUpdateKeyMetadataRequest]) (*connect.Response[v2.BatchUpdateKeyMetadataResponse], error) {
+	return c.batchUpdateKeyMetadata.CallUnary(ctx, req)
+}
+
+// BatchGetKeyMetadata calls polykey.v2.PolykeyService.BatchGetKeyMetadata.
+func (c *polykeyServiceClient) BatchGetKeyMetadata(ctx context.Context, req *connect.Request[v2.BatchGetKeyMetadataRequest]) (*connect.Response[v2.BatchGetKeyMetadataResponse], error) {
+	return c.batchGetKeyMetadata.CallUnary(ctx, req)
+}
+
+// StreamGetKeys calls polykey.v2.PolykeyService.StreamGetKeys.
+func (c *polykeyServiceClient) StreamGetKeys(ctx context.Context, req *connect.Request[v2.StreamGetKeysRequest]) (*connect.ServerStreamForClient[v2.StreamGetKeysResponse], error) {
+	return c.streamGetKeys.CallServerStream(ctx, req)
+}
+
+// StreamCreateKeys calls polykey.v2.PolykeyService.StreamCreateKeys.
+func (c *polykeyServiceClient) StreamCreateKeys(ctx context.Context) *connect.BidiStreamForClient[v2.StreamCreateKeysRequest, v2.StreamCreateKeysResponse] {
+	return c.streamCreateKeys.CallBidiStream(ctx)
+}
+
+// StreamRotateKeys calls polykey.v2.PolykeyService.StreamRotateKeys.
+func (c *polykeyServiceClient) StreamRotateKeys(ctx context.Context) *connect.BidiStreamForClient[v2.StreamRotateKeysRequest, v2.StreamRotateKeysResponse] {
+	return c.streamRotateKeys.CallBidiStream(ctx)
+}
+
+// StreamRevokeKeys calls polykey.v2.PolykeyService.StreamRevokeKeys.
+func (c *polykeyServiceClient) StreamRevokeKeys(ctx context.Context) *connect.BidiStreamForClient[v2.StreamRevokeKeysRequest, v2.StreamRevokeKeysResponse] {
+	return c.streamRevokeKeys.CallBidiStream(ctx)
+}
+
+// StreamUpdateKeyMetadata calls polykey.v2.PolykeyService.StreamUpdateKeyMetadata.
+func (c *polykeyServiceClient) StreamUpdateKeyMetadata(ctx context.Context) *connect.BidiStreamForClient[v2.StreamUpdateKeyMetadataRequest, v2.StreamUpdateKeyMetadataResponse] {
+	return c.streamUpdateKeyMetadata.CallBidiStream(ctx)
+}
+
+// StreamGetKeyMetadata calls polykey.v2.PolykeyService.StreamGetKeyMetadata.
+func (c *polykeyServiceClient) StreamGetKeyMetadata(ctx context.Context) *connect.BidiStreamForClient[v2.StreamGetKeyMetadataRequest, v2.StreamGetKeyMetadataResponse] {
+	return c.streamGetKeyMetadata.CallBidiStream(ctx)
 }
 
 // Authenticate calls polykey.v2.PolykeyService.Authenticate.
@@ -234,6 +429,8 @@ func (c *polykeyServiceClient) RevokeToken(ctx context.Context, req *connect.Req
 
 // PolykeyServiceHandler is an implementation of the polykey.v2.PolykeyService service.
 type PolykeyServiceHandler interface {
+	HealthCheck(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[v2.HealthCheckResponse], error)
+	// 1-5, few nodes
 	GetKey(context.Context, *connect.Request[v2.GetKeyRequest]) (*connect.Response[v2.GetKeyResponse], error)
 	ListKeys(context.Context, *connect.Request[v2.ListKeysRequest]) (*connect.Response[v2.ListKeysResponse], error)
 	CreateKey(context.Context, *connect.Request[v2.CreateKeyRequest]) (*connect.Response[v2.CreateKeyResponse], error)
@@ -241,7 +438,20 @@ type PolykeyServiceHandler interface {
 	RevokeKey(context.Context, *connect.Request[v2.RevokeKeyRequest]) (*connect.Response[emptypb.Empty], error)
 	UpdateKeyMetadata(context.Context, *connect.Request[v2.UpdateKeyMetadataRequest]) (*connect.Response[emptypb.Empty], error)
 	GetKeyMetadata(context.Context, *connect.Request[v2.GetKeyMetadataRequest]) (*connect.Response[v2.GetKeyMetadataResponse], error)
-	HealthCheck(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[v2.HealthCheckResponse], error)
+	// Batch operations (5-50 keys)
+	BatchGetKeys(context.Context, *connect.Request[v2.BatchGetKeysRequest]) (*connect.Response[v2.BatchGetKeysResponse], error)
+	BatchCreateKeys(context.Context, *connect.Request[v2.BatchCreateKeysRequest]) (*connect.Response[v2.BatchCreateKeysResponse], error)
+	BatchRotateKeys(context.Context, *connect.Request[v2.BatchRotateKeysRequest]) (*connect.Response[v2.BatchRotateKeysResponse], error)
+	BatchRevokeKeys(context.Context, *connect.Request[v2.BatchRevokeKeysRequest]) (*connect.Response[v2.BatchRevokeKeysResponse], error)
+	BatchUpdateKeyMetadata(context.Context, *connect.Request[v2.BatchUpdateKeyMetadataRequest]) (*connect.Response[v2.BatchUpdateKeyMetadataResponse], error)
+	BatchGetKeyMetadata(context.Context, *connect.Request[v2.BatchGetKeyMetadataRequest]) (*connect.Response[v2.BatchGetKeyMetadataResponse], error)
+	// Streaming operations (50+ keys) unlikely right now, but in-case
+	StreamGetKeys(context.Context, *connect.Request[v2.StreamGetKeysRequest], *connect.ServerStream[v2.StreamGetKeysResponse]) error
+	StreamCreateKeys(context.Context, *connect.BidiStream[v2.StreamCreateKeysRequest, v2.StreamCreateKeysResponse]) error
+	StreamRotateKeys(context.Context, *connect.BidiStream[v2.StreamRotateKeysRequest, v2.StreamRotateKeysResponse]) error
+	StreamRevokeKeys(context.Context, *connect.BidiStream[v2.StreamRevokeKeysRequest, v2.StreamRevokeKeysResponse]) error
+	StreamUpdateKeyMetadata(context.Context, *connect.BidiStream[v2.StreamUpdateKeyMetadataRequest, v2.StreamUpdateKeyMetadataResponse]) error
+	StreamGetKeyMetadata(context.Context, *connect.BidiStream[v2.StreamGetKeyMetadataRequest, v2.StreamGetKeyMetadataResponse]) error
 	Authenticate(context.Context, *connect.Request[v2.AuthenticateRequest]) (*connect.Response[v2.AuthenticateResponse], error)
 	RefreshToken(context.Context, *connect.Request[v2.RefreshTokenRequest]) (*connect.Response[v2.RefreshTokenResponse], error)
 	RevokeToken(context.Context, *connect.Request[v2.RevokeTokenRequest]) (*connect.Response[v2.RevokeTokenResponse], error)
@@ -254,6 +464,12 @@ type PolykeyServiceHandler interface {
 // and JSON codecs. They also support gzip compression.
 func NewPolykeyServiceHandler(svc PolykeyServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
 	polykeyServiceMethods := v2.File_polykey_v2_service_proto.Services().ByName("PolykeyService").Methods()
+	polykeyServiceHealthCheckHandler := connect.NewUnaryHandler(
+		PolykeyServiceHealthCheckProcedure,
+		svc.HealthCheck,
+		connect.WithSchema(polykeyServiceMethods.ByName("HealthCheck")),
+		connect.WithHandlerOptions(opts...),
+	)
 	polykeyServiceGetKeyHandler := connect.NewUnaryHandler(
 		PolykeyServiceGetKeyProcedure,
 		svc.GetKey,
@@ -296,10 +512,76 @@ func NewPolykeyServiceHandler(svc PolykeyServiceHandler, opts ...connect.Handler
 		connect.WithSchema(polykeyServiceMethods.ByName("GetKeyMetadata")),
 		connect.WithHandlerOptions(opts...),
 	)
-	polykeyServiceHealthCheckHandler := connect.NewUnaryHandler(
-		PolykeyServiceHealthCheckProcedure,
-		svc.HealthCheck,
-		connect.WithSchema(polykeyServiceMethods.ByName("HealthCheck")),
+	polykeyServiceBatchGetKeysHandler := connect.NewUnaryHandler(
+		PolykeyServiceBatchGetKeysProcedure,
+		svc.BatchGetKeys,
+		connect.WithSchema(polykeyServiceMethods.ByName("BatchGetKeys")),
+		connect.WithHandlerOptions(opts...),
+	)
+	polykeyServiceBatchCreateKeysHandler := connect.NewUnaryHandler(
+		PolykeyServiceBatchCreateKeysProcedure,
+		svc.BatchCreateKeys,
+		connect.WithSchema(polykeyServiceMethods.ByName("BatchCreateKeys")),
+		connect.WithHandlerOptions(opts...),
+	)
+	polykeyServiceBatchRotateKeysHandler := connect.NewUnaryHandler(
+		PolykeyServiceBatchRotateKeysProcedure,
+		svc.BatchRotateKeys,
+		connect.WithSchema(polykeyServiceMethods.ByName("BatchRotateKeys")),
+		connect.WithHandlerOptions(opts...),
+	)
+	polykeyServiceBatchRevokeKeysHandler := connect.NewUnaryHandler(
+		PolykeyServiceBatchRevokeKeysProcedure,
+		svc.BatchRevokeKeys,
+		connect.WithSchema(polykeyServiceMethods.ByName("BatchRevokeKeys")),
+		connect.WithHandlerOptions(opts...),
+	)
+	polykeyServiceBatchUpdateKeyMetadataHandler := connect.NewUnaryHandler(
+		PolykeyServiceBatchUpdateKeyMetadataProcedure,
+		svc.BatchUpdateKeyMetadata,
+		connect.WithSchema(polykeyServiceMethods.ByName("BatchUpdateKeyMetadata")),
+		connect.WithHandlerOptions(opts...),
+	)
+	polykeyServiceBatchGetKeyMetadataHandler := connect.NewUnaryHandler(
+		PolykeyServiceBatchGetKeyMetadataProcedure,
+		svc.BatchGetKeyMetadata,
+		connect.WithSchema(polykeyServiceMethods.ByName("BatchGetKeyMetadata")),
+		connect.WithHandlerOptions(opts...),
+	)
+	polykeyServiceStreamGetKeysHandler := connect.NewServerStreamHandler(
+		PolykeyServiceStreamGetKeysProcedure,
+		svc.StreamGetKeys,
+		connect.WithSchema(polykeyServiceMethods.ByName("StreamGetKeys")),
+		connect.WithHandlerOptions(opts...),
+	)
+	polykeyServiceStreamCreateKeysHandler := connect.NewBidiStreamHandler(
+		PolykeyServiceStreamCreateKeysProcedure,
+		svc.StreamCreateKeys,
+		connect.WithSchema(polykeyServiceMethods.ByName("StreamCreateKeys")),
+		connect.WithHandlerOptions(opts...),
+	)
+	polykeyServiceStreamRotateKeysHandler := connect.NewBidiStreamHandler(
+		PolykeyServiceStreamRotateKeysProcedure,
+		svc.StreamRotateKeys,
+		connect.WithSchema(polykeyServiceMethods.ByName("StreamRotateKeys")),
+		connect.WithHandlerOptions(opts...),
+	)
+	polykeyServiceStreamRevokeKeysHandler := connect.NewBidiStreamHandler(
+		PolykeyServiceStreamRevokeKeysProcedure,
+		svc.StreamRevokeKeys,
+		connect.WithSchema(polykeyServiceMethods.ByName("StreamRevokeKeys")),
+		connect.WithHandlerOptions(opts...),
+	)
+	polykeyServiceStreamUpdateKeyMetadataHandler := connect.NewBidiStreamHandler(
+		PolykeyServiceStreamUpdateKeyMetadataProcedure,
+		svc.StreamUpdateKeyMetadata,
+		connect.WithSchema(polykeyServiceMethods.ByName("StreamUpdateKeyMetadata")),
+		connect.WithHandlerOptions(opts...),
+	)
+	polykeyServiceStreamGetKeyMetadataHandler := connect.NewBidiStreamHandler(
+		PolykeyServiceStreamGetKeyMetadataProcedure,
+		svc.StreamGetKeyMetadata,
+		connect.WithSchema(polykeyServiceMethods.ByName("StreamGetKeyMetadata")),
 		connect.WithHandlerOptions(opts...),
 	)
 	polykeyServiceAuthenticateHandler := connect.NewUnaryHandler(
@@ -322,6 +604,8 @@ func NewPolykeyServiceHandler(svc PolykeyServiceHandler, opts ...connect.Handler
 	)
 	return "/polykey.v2.PolykeyService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
+		case PolykeyServiceHealthCheckProcedure:
+			polykeyServiceHealthCheckHandler.ServeHTTP(w, r)
 		case PolykeyServiceGetKeyProcedure:
 			polykeyServiceGetKeyHandler.ServeHTTP(w, r)
 		case PolykeyServiceListKeysProcedure:
@@ -336,8 +620,30 @@ func NewPolykeyServiceHandler(svc PolykeyServiceHandler, opts ...connect.Handler
 			polykeyServiceUpdateKeyMetadataHandler.ServeHTTP(w, r)
 		case PolykeyServiceGetKeyMetadataProcedure:
 			polykeyServiceGetKeyMetadataHandler.ServeHTTP(w, r)
-		case PolykeyServiceHealthCheckProcedure:
-			polykeyServiceHealthCheckHandler.ServeHTTP(w, r)
+		case PolykeyServiceBatchGetKeysProcedure:
+			polykeyServiceBatchGetKeysHandler.ServeHTTP(w, r)
+		case PolykeyServiceBatchCreateKeysProcedure:
+			polykeyServiceBatchCreateKeysHandler.ServeHTTP(w, r)
+		case PolykeyServiceBatchRotateKeysProcedure:
+			polykeyServiceBatchRotateKeysHandler.ServeHTTP(w, r)
+		case PolykeyServiceBatchRevokeKeysProcedure:
+			polykeyServiceBatchRevokeKeysHandler.ServeHTTP(w, r)
+		case PolykeyServiceBatchUpdateKeyMetadataProcedure:
+			polykeyServiceBatchUpdateKeyMetadataHandler.ServeHTTP(w, r)
+		case PolykeyServiceBatchGetKeyMetadataProcedure:
+			polykeyServiceBatchGetKeyMetadataHandler.ServeHTTP(w, r)
+		case PolykeyServiceStreamGetKeysProcedure:
+			polykeyServiceStreamGetKeysHandler.ServeHTTP(w, r)
+		case PolykeyServiceStreamCreateKeysProcedure:
+			polykeyServiceStreamCreateKeysHandler.ServeHTTP(w, r)
+		case PolykeyServiceStreamRotateKeysProcedure:
+			polykeyServiceStreamRotateKeysHandler.ServeHTTP(w, r)
+		case PolykeyServiceStreamRevokeKeysProcedure:
+			polykeyServiceStreamRevokeKeysHandler.ServeHTTP(w, r)
+		case PolykeyServiceStreamUpdateKeyMetadataProcedure:
+			polykeyServiceStreamUpdateKeyMetadataHandler.ServeHTTP(w, r)
+		case PolykeyServiceStreamGetKeyMetadataProcedure:
+			polykeyServiceStreamGetKeyMetadataHandler.ServeHTTP(w, r)
 		case PolykeyServiceAuthenticateProcedure:
 			polykeyServiceAuthenticateHandler.ServeHTTP(w, r)
 		case PolykeyServiceRefreshTokenProcedure:
@@ -352,6 +658,10 @@ func NewPolykeyServiceHandler(svc PolykeyServiceHandler, opts ...connect.Handler
 
 // UnimplementedPolykeyServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedPolykeyServiceHandler struct{}
+
+func (UnimplementedPolykeyServiceHandler) HealthCheck(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[v2.HealthCheckResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("polykey.v2.PolykeyService.HealthCheck is not implemented"))
+}
 
 func (UnimplementedPolykeyServiceHandler) GetKey(context.Context, *connect.Request[v2.GetKeyRequest]) (*connect.Response[v2.GetKeyResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("polykey.v2.PolykeyService.GetKey is not implemented"))
@@ -381,8 +691,52 @@ func (UnimplementedPolykeyServiceHandler) GetKeyMetadata(context.Context, *conne
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("polykey.v2.PolykeyService.GetKeyMetadata is not implemented"))
 }
 
-func (UnimplementedPolykeyServiceHandler) HealthCheck(context.Context, *connect.Request[emptypb.Empty]) (*connect.Response[v2.HealthCheckResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("polykey.v2.PolykeyService.HealthCheck is not implemented"))
+func (UnimplementedPolykeyServiceHandler) BatchGetKeys(context.Context, *connect.Request[v2.BatchGetKeysRequest]) (*connect.Response[v2.BatchGetKeysResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("polykey.v2.PolykeyService.BatchGetKeys is not implemented"))
+}
+
+func (UnimplementedPolykeyServiceHandler) BatchCreateKeys(context.Context, *connect.Request[v2.BatchCreateKeysRequest]) (*connect.Response[v2.BatchCreateKeysResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("polykey.v2.PolykeyService.BatchCreateKeys is not implemented"))
+}
+
+func (UnimplementedPolykeyServiceHandler) BatchRotateKeys(context.Context, *connect.Request[v2.BatchRotateKeysRequest]) (*connect.Response[v2.BatchRotateKeysResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("polykey.v2.PolykeyService.BatchRotateKeys is not implemented"))
+}
+
+func (UnimplementedPolykeyServiceHandler) BatchRevokeKeys(context.Context, *connect.Request[v2.BatchRevokeKeysRequest]) (*connect.Response[v2.BatchRevokeKeysResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("polykey.v2.PolykeyService.BatchRevokeKeys is not implemented"))
+}
+
+func (UnimplementedPolykeyServiceHandler) BatchUpdateKeyMetadata(context.Context, *connect.Request[v2.BatchUpdateKeyMetadataRequest]) (*connect.Response[v2.BatchUpdateKeyMetadataResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("polykey.v2.PolykeyService.BatchUpdateKeyMetadata is not implemented"))
+}
+
+func (UnimplementedPolykeyServiceHandler) BatchGetKeyMetadata(context.Context, *connect.Request[v2.BatchGetKeyMetadataRequest]) (*connect.Response[v2.BatchGetKeyMetadataResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("polykey.v2.PolykeyService.BatchGetKeyMetadata is not implemented"))
+}
+
+func (UnimplementedPolykeyServiceHandler) StreamGetKeys(context.Context, *connect.Request[v2.StreamGetKeysRequest], *connect.ServerStream[v2.StreamGetKeysResponse]) error {
+	return connect.NewError(connect.CodeUnimplemented, errors.New("polykey.v2.PolykeyService.StreamGetKeys is not implemented"))
+}
+
+func (UnimplementedPolykeyServiceHandler) StreamCreateKeys(context.Context, *connect.BidiStream[v2.StreamCreateKeysRequest, v2.StreamCreateKeysResponse]) error {
+	return connect.NewError(connect.CodeUnimplemented, errors.New("polykey.v2.PolykeyService.StreamCreateKeys is not implemented"))
+}
+
+func (UnimplementedPolykeyServiceHandler) StreamRotateKeys(context.Context, *connect.BidiStream[v2.StreamRotateKeysRequest, v2.StreamRotateKeysResponse]) error {
+	return connect.NewError(connect.CodeUnimplemented, errors.New("polykey.v2.PolykeyService.StreamRotateKeys is not implemented"))
+}
+
+func (UnimplementedPolykeyServiceHandler) StreamRevokeKeys(context.Context, *connect.BidiStream[v2.StreamRevokeKeysRequest, v2.StreamRevokeKeysResponse]) error {
+	return connect.NewError(connect.CodeUnimplemented, errors.New("polykey.v2.PolykeyService.StreamRevokeKeys is not implemented"))
+}
+
+func (UnimplementedPolykeyServiceHandler) StreamUpdateKeyMetadata(context.Context, *connect.BidiStream[v2.StreamUpdateKeyMetadataRequest, v2.StreamUpdateKeyMetadataResponse]) error {
+	return connect.NewError(connect.CodeUnimplemented, errors.New("polykey.v2.PolykeyService.StreamUpdateKeyMetadata is not implemented"))
+}
+
+func (UnimplementedPolykeyServiceHandler) StreamGetKeyMetadata(context.Context, *connect.BidiStream[v2.StreamGetKeyMetadataRequest, v2.StreamGetKeyMetadataResponse]) error {
+	return connect.NewError(connect.CodeUnimplemented, errors.New("polykey.v2.PolykeyService.StreamGetKeyMetadata is not implemented"))
 }
 
 func (UnimplementedPolykeyServiceHandler) Authenticate(context.Context, *connect.Request[v2.AuthenticateRequest]) (*connect.Response[v2.AuthenticateResponse], error) {

@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+package polykey.v2;
+
+import "polykey/v2/common.proto";
+import "polykey/v2/single_operations.proto";
+
+option go_package = "github.com/spounge-ai/spounge-proto/gen/go/polykey/v2;polykeyv2";
+
+// Stream request/response messages for high-volume operations (100+ keys)
+
+message StreamGetKeysRequest {
+  string key_id = 1;
+  RequesterContext requester_context = 2;
+  AccessAttributes attributes = 3;
+  int32 version = 4;
+  optional bool skip_metadata = 5;
+}
+
+message StreamCreateKeysRequest {
+  CreateKeyRequest request = 1;
+}
+
+message StreamRotateKeysRequest {
+  RotateKeyRequest request = 1;
+}
+
+message StreamRevokeKeysRequest {
+  RevokeKeyRequest request = 1;
+}
+
+message StreamUpdateKeyMetadataRequest {
+  UpdateKeyMetadataRequest request = 1;
+}
+
+message StreamGetKeyMetadataRequest {
+  GetKeyMetadataRequest request = 1;
+}
+
+// Stream responses
+message StreamGetKeysResponse {
+  string key_id = 1;
+  oneof result {
+    GetKeyResponse success = 2;
+    string error = 3;
+  }
+  int32 sequence_number = 4;
+}
+
+message StreamCreateKeysResponse {
+  int32 request_sequence = 1;
+  oneof result {
+    CreateKeyResponse success = 2;
+    string error = 3;
+  }
+}
+
+message StreamRotateKeysResponse {
+  string key_id = 1;
+  oneof result {
+    RotateKeyResponse success = 2;
+    string error = 3;
+  }
+}
+
+message StreamRevokeKeysResponse {
+  string key_id = 1;
+  oneof result {
+    bool success = 2;
+    string error = 3;
+  }
+}
+
+message StreamUpdateKeyMetadataResponse {
+  string key_id = 1;
+  oneof result {
+    bool success = 2;
+    string error = 3;
+  }
+}
+
+message StreamGetKeyMetadataResponse {
+  string key_id = 1;
+  oneof result {
+    GetKeyMetadataResponse success = 2;
+    string error = 3;
+  }
+}

@@ -20,23 +20,37 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	PolykeyService_GetKey_FullMethodName            = "/polykey.v2.PolykeyService/GetKey"
-	PolykeyService_ListKeys_FullMethodName          = "/polykey.v2.PolykeyService/ListKeys"
-	PolykeyService_CreateKey_FullMethodName         = "/polykey.v2.PolykeyService/CreateKey"
-	PolykeyService_RotateKey_FullMethodName         = "/polykey.v2.PolykeyService/RotateKey"
-	PolykeyService_RevokeKey_FullMethodName         = "/polykey.v2.PolykeyService/RevokeKey"
-	PolykeyService_UpdateKeyMetadata_FullMethodName = "/polykey.v2.PolykeyService/UpdateKeyMetadata"
-	PolykeyService_GetKeyMetadata_FullMethodName    = "/polykey.v2.PolykeyService/GetKeyMetadata"
-	PolykeyService_HealthCheck_FullMethodName       = "/polykey.v2.PolykeyService/HealthCheck"
-	PolykeyService_Authenticate_FullMethodName      = "/polykey.v2.PolykeyService/Authenticate"
-	PolykeyService_RefreshToken_FullMethodName      = "/polykey.v2.PolykeyService/RefreshToken"
-	PolykeyService_RevokeToken_FullMethodName       = "/polykey.v2.PolykeyService/RevokeToken"
+	PolykeyService_HealthCheck_FullMethodName             = "/polykey.v2.PolykeyService/HealthCheck"
+	PolykeyService_GetKey_FullMethodName                  = "/polykey.v2.PolykeyService/GetKey"
+	PolykeyService_ListKeys_FullMethodName                = "/polykey.v2.PolykeyService/ListKeys"
+	PolykeyService_CreateKey_FullMethodName               = "/polykey.v2.PolykeyService/CreateKey"
+	PolykeyService_RotateKey_FullMethodName               = "/polykey.v2.PolykeyService/RotateKey"
+	PolykeyService_RevokeKey_FullMethodName               = "/polykey.v2.PolykeyService/RevokeKey"
+	PolykeyService_UpdateKeyMetadata_FullMethodName       = "/polykey.v2.PolykeyService/UpdateKeyMetadata"
+	PolykeyService_GetKeyMetadata_FullMethodName          = "/polykey.v2.PolykeyService/GetKeyMetadata"
+	PolykeyService_BatchGetKeys_FullMethodName            = "/polykey.v2.PolykeyService/BatchGetKeys"
+	PolykeyService_BatchCreateKeys_FullMethodName         = "/polykey.v2.PolykeyService/BatchCreateKeys"
+	PolykeyService_BatchRotateKeys_FullMethodName         = "/polykey.v2.PolykeyService/BatchRotateKeys"
+	PolykeyService_BatchRevokeKeys_FullMethodName         = "/polykey.v2.PolykeyService/BatchRevokeKeys"
+	PolykeyService_BatchUpdateKeyMetadata_FullMethodName  = "/polykey.v2.PolykeyService/BatchUpdateKeyMetadata"
+	PolykeyService_BatchGetKeyMetadata_FullMethodName     = "/polykey.v2.PolykeyService/BatchGetKeyMetadata"
+	PolykeyService_StreamGetKeys_FullMethodName           = "/polykey.v2.PolykeyService/StreamGetKeys"
+	PolykeyService_StreamCreateKeys_FullMethodName        = "/polykey.v2.PolykeyService/StreamCreateKeys"
+	PolykeyService_StreamRotateKeys_FullMethodName        = "/polykey.v2.PolykeyService/StreamRotateKeys"
+	PolykeyService_StreamRevokeKeys_FullMethodName        = "/polykey.v2.PolykeyService/StreamRevokeKeys"
+	PolykeyService_StreamUpdateKeyMetadata_FullMethodName = "/polykey.v2.PolykeyService/StreamUpdateKeyMetadata"
+	PolykeyService_StreamGetKeyMetadata_FullMethodName    = "/polykey.v2.PolykeyService/StreamGetKeyMetadata"
+	PolykeyService_Authenticate_FullMethodName            = "/polykey.v2.PolykeyService/Authenticate"
+	PolykeyService_RefreshToken_FullMethodName            = "/polykey.v2.PolykeyService/RefreshToken"
+	PolykeyService_RevokeToken_FullMethodName             = "/polykey.v2.PolykeyService/RevokeToken"
 )
 
 // PolykeyServiceClient is the client API for PolykeyService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PolykeyServiceClient interface {
+	HealthCheck(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*HealthCheckResponse, error)
+	// 1-5, few nodes
 	GetKey(ctx context.Context, in *GetKeyRequest, opts ...grpc.CallOption) (*GetKeyResponse, error)
 	ListKeys(ctx context.Context, in *ListKeysRequest, opts ...grpc.CallOption) (*ListKeysResponse, error)
 	CreateKey(ctx context.Context, in *CreateKeyRequest, opts ...grpc.CallOption) (*CreateKeyResponse, error)
@@ -44,7 +58,20 @@ type PolykeyServiceClient interface {
 	RevokeKey(ctx context.Context, in *RevokeKeyRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	UpdateKeyMetadata(ctx context.Context, in *UpdateKeyMetadataRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	GetKeyMetadata(ctx context.Context, in *GetKeyMetadataRequest, opts ...grpc.CallOption) (*GetKeyMetadataResponse, error)
-	HealthCheck(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*HealthCheckResponse, error)
+	// Batch operations (5-50 keys)
+	BatchGetKeys(ctx context.Context, in *BatchGetKeysRequest, opts ...grpc.CallOption) (*BatchGetKeysResponse, error)
+	BatchCreateKeys(ctx context.Context, in *BatchCreateKeysRequest, opts ...grpc.CallOption) (*BatchCreateKeysResponse, error)
+	BatchRotateKeys(ctx context.Context, in *BatchRotateKeysRequest, opts ...grpc.CallOption) (*BatchRotateKeysResponse, error)
+	BatchRevokeKeys(ctx context.Context, in *BatchRevokeKeysRequest, opts ...grpc.CallOption) (*BatchRevokeKeysResponse, error)
+	BatchUpdateKeyMetadata(ctx context.Context, in *BatchUpdateKeyMetadataRequest, opts ...grpc.CallOption) (*BatchUpdateKeyMetadataResponse, error)
+	BatchGetKeyMetadata(ctx context.Context, in *BatchGetKeyMetadataRequest, opts ...grpc.CallOption) (*BatchGetKeyMetadataResponse, error)
+	// Streaming operations (50+ keys) unlikely right now, but in-case
+	StreamGetKeys(ctx context.Context, in *StreamGetKeysRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[StreamGetKeysResponse], error)
+	StreamCreateKeys(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[StreamCreateKeysRequest, StreamCreateKeysResponse], error)
+	StreamRotateKeys(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[StreamRotateKeysRequest, StreamRotateKeysResponse], error)
+	StreamRevokeKeys(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[StreamRevokeKeysRequest, StreamRevokeKeysResponse], error)
+	StreamUpdateKeyMetadata(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[StreamUpdateKeyMetadataRequest, StreamUpdateKeyMetadataResponse], error)
+	StreamGetKeyMetadata(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[StreamGetKeyMetadataRequest, StreamGetKeyMetadataResponse], error)
 	Authenticate(ctx context.Context, in *AuthenticateRequest, opts ...grpc.CallOption) (*AuthenticateResponse, error)
 	RefreshToken(ctx context.Context, in *RefreshTokenRequest, opts ...grpc.CallOption) (*RefreshTokenResponse, error)
 	RevokeToken(ctx context.Context, in *RevokeTokenRequest, opts ...grpc.CallOption) (*RevokeTokenResponse, error)
@@ -56,6 +83,16 @@ type polykeyServiceClient struct {
 
 func NewPolykeyServiceClient(cc grpc.ClientConnInterface) PolykeyServiceClient {
 	return &polykeyServiceClient{cc}
+}
+
+func (c *polykeyServiceClient) HealthCheck(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*HealthCheckResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(HealthCheckResponse)
+	err := c.cc.Invoke(ctx, PolykeyService_HealthCheck_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *polykeyServiceClient) GetKey(ctx context.Context, in *GetKeyRequest, opts ...grpc.CallOption) (*GetKeyResponse, error) {
@@ -128,15 +165,149 @@ func (c *polykeyServiceClient) GetKeyMetadata(ctx context.Context, in *GetKeyMet
 	return out, nil
 }
 
-func (c *polykeyServiceClient) HealthCheck(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*HealthCheckResponse, error) {
+func (c *polykeyServiceClient) BatchGetKeys(ctx context.Context, in *BatchGetKeysRequest, opts ...grpc.CallOption) (*BatchGetKeysResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(HealthCheckResponse)
-	err := c.cc.Invoke(ctx, PolykeyService_HealthCheck_FullMethodName, in, out, cOpts...)
+	out := new(BatchGetKeysResponse)
+	err := c.cc.Invoke(ctx, PolykeyService_BatchGetKeys_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
+
+func (c *polykeyServiceClient) BatchCreateKeys(ctx context.Context, in *BatchCreateKeysRequest, opts ...grpc.CallOption) (*BatchCreateKeysResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(BatchCreateKeysResponse)
+	err := c.cc.Invoke(ctx, PolykeyService_BatchCreateKeys_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *polykeyServiceClient) BatchRotateKeys(ctx context.Context, in *BatchRotateKeysRequest, opts ...grpc.CallOption) (*BatchRotateKeysResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(BatchRotateKeysResponse)
+	err := c.cc.Invoke(ctx, PolykeyService_BatchRotateKeys_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *polykeyServiceClient) BatchRevokeKeys(ctx context.Context, in *BatchRevokeKeysRequest, opts ...grpc.CallOption) (*BatchRevokeKeysResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(BatchRevokeKeysResponse)
+	err := c.cc.Invoke(ctx, PolykeyService_BatchRevokeKeys_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *polykeyServiceClient) BatchUpdateKeyMetadata(ctx context.Context, in *BatchUpdateKeyMetadataRequest, opts ...grpc.CallOption) (*BatchUpdateKeyMetadataResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(BatchUpdateKeyMetadataResponse)
+	err := c.cc.Invoke(ctx, PolykeyService_BatchUpdateKeyMetadata_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *polykeyServiceClient) BatchGetKeyMetadata(ctx context.Context, in *BatchGetKeyMetadataRequest, opts ...grpc.CallOption) (*BatchGetKeyMetadataResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(BatchGetKeyMetadataResponse)
+	err := c.cc.Invoke(ctx, PolykeyService_BatchGetKeyMetadata_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *polykeyServiceClient) StreamGetKeys(ctx context.Context, in *StreamGetKeysRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[StreamGetKeysResponse], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &PolykeyService_ServiceDesc.Streams[0], PolykeyService_StreamGetKeys_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[StreamGetKeysRequest, StreamGetKeysResponse]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type PolykeyService_StreamGetKeysClient = grpc.ServerStreamingClient[StreamGetKeysResponse]
+
+func (c *polykeyServiceClient) StreamCreateKeys(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[StreamCreateKeysRequest, StreamCreateKeysResponse], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &PolykeyService_ServiceDesc.Streams[1], PolykeyService_StreamCreateKeys_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[StreamCreateKeysRequest, StreamCreateKeysResponse]{ClientStream: stream}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type PolykeyService_StreamCreateKeysClient = grpc.BidiStreamingClient[StreamCreateKeysRequest, StreamCreateKeysResponse]
+
+func (c *polykeyServiceClient) StreamRotateKeys(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[StreamRotateKeysRequest, StreamRotateKeysResponse], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &PolykeyService_ServiceDesc.Streams[2], PolykeyService_StreamRotateKeys_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[StreamRotateKeysRequest, StreamRotateKeysResponse]{ClientStream: stream}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type PolykeyService_StreamRotateKeysClient = grpc.BidiStreamingClient[StreamRotateKeysRequest, StreamRotateKeysResponse]
+
+func (c *polykeyServiceClient) StreamRevokeKeys(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[StreamRevokeKeysRequest, StreamRevokeKeysResponse], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &PolykeyService_ServiceDesc.Streams[3], PolykeyService_StreamRevokeKeys_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[StreamRevokeKeysRequest, StreamRevokeKeysResponse]{ClientStream: stream}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type PolykeyService_StreamRevokeKeysClient = grpc.BidiStreamingClient[StreamRevokeKeysRequest, StreamRevokeKeysResponse]
+
+func (c *polykeyServiceClient) StreamUpdateKeyMetadata(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[StreamUpdateKeyMetadataRequest, StreamUpdateKeyMetadataResponse], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &PolykeyService_ServiceDesc.Streams[4], PolykeyService_StreamUpdateKeyMetadata_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[StreamUpdateKeyMetadataRequest, StreamUpdateKeyMetadataResponse]{ClientStream: stream}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type PolykeyService_StreamUpdateKeyMetadataClient = grpc.BidiStreamingClient[StreamUpdateKeyMetadataRequest, StreamUpdateKeyMetadataResponse]
+
+func (c *polykeyServiceClient) StreamGetKeyMetadata(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[StreamGetKeyMetadataRequest, StreamGetKeyMetadataResponse], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &PolykeyService_ServiceDesc.Streams[5], PolykeyService_StreamGetKeyMetadata_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[StreamGetKeyMetadataRequest, StreamGetKeyMetadataResponse]{ClientStream: stream}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type PolykeyService_StreamGetKeyMetadataClient = grpc.BidiStreamingClient[StreamGetKeyMetadataRequest, StreamGetKeyMetadataResponse]
 
 func (c *polykeyServiceClient) Authenticate(ctx context.Context, in *AuthenticateRequest, opts ...grpc.CallOption) (*AuthenticateResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
@@ -172,6 +343,8 @@ func (c *polykeyServiceClient) RevokeToken(ctx context.Context, in *RevokeTokenR
 // All implementations must embed UnimplementedPolykeyServiceServer
 // for forward compatibility.
 type PolykeyServiceServer interface {
+	HealthCheck(context.Context, *emptypb.Empty) (*HealthCheckResponse, error)
+	// 1-5, few nodes
 	GetKey(context.Context, *GetKeyRequest) (*GetKeyResponse, error)
 	ListKeys(context.Context, *ListKeysRequest) (*ListKeysResponse, error)
 	CreateKey(context.Context, *CreateKeyRequest) (*CreateKeyResponse, error)
@@ -179,7 +352,20 @@ type PolykeyServiceServer interface {
 	RevokeKey(context.Context, *RevokeKeyRequest) (*emptypb.Empty, error)
 	UpdateKeyMetadata(context.Context, *UpdateKeyMetadataRequest) (*emptypb.Empty, error)
 	GetKeyMetadata(context.Context, *GetKeyMetadataRequest) (*GetKeyMetadataResponse, error)
-	HealthCheck(context.Context, *emptypb.Empty) (*HealthCheckResponse, error)
+	// Batch operations (5-50 keys)
+	BatchGetKeys(context.Context, *BatchGetKeysRequest) (*BatchGetKeysResponse, error)
+	BatchCreateKeys(context.Context, *BatchCreateKeysRequest) (*BatchCreateKeysResponse, error)
+	BatchRotateKeys(context.Context, *BatchRotateKeysRequest) (*BatchRotateKeysResponse, error)
+	BatchRevokeKeys(context.Context, *BatchRevokeKeysRequest) (*BatchRevokeKeysResponse, error)
+	BatchUpdateKeyMetadata(context.Context, *BatchUpdateKeyMetadataRequest) (*BatchUpdateKeyMetadataResponse, error)
+	BatchGetKeyMetadata(context.Context, *BatchGetKeyMetadataRequest) (*BatchGetKeyMetadataResponse, error)
+	// Streaming operations (50+ keys) unlikely right now, but in-case
+	StreamGetKeys(*StreamGetKeysRequest, grpc.ServerStreamingServer[StreamGetKeysResponse]) error
+	StreamCreateKeys(grpc.BidiStreamingServer[StreamCreateKeysRequest, StreamCreateKeysResponse]) error
+	StreamRotateKeys(grpc.BidiStreamingServer[StreamRotateKeysRequest, StreamRotateKeysResponse]) error
+	StreamRevokeKeys(grpc.BidiStreamingServer[StreamRevokeKeysRequest, StreamRevokeKeysResponse]) error
+	StreamUpdateKeyMetadata(grpc.BidiStreamingServer[StreamUpdateKeyMetadataRequest, StreamUpdateKeyMetadataResponse]) error
+	StreamGetKeyMetadata(grpc.BidiStreamingServer[StreamGetKeyMetadataRequest, StreamGetKeyMetadataResponse]) error
 	Authenticate(context.Context, *AuthenticateRequest) (*AuthenticateResponse, error)
 	RefreshToken(context.Context, *RefreshTokenRequest) (*RefreshTokenResponse, error)
 	RevokeToken(context.Context, *RevokeTokenRequest) (*RevokeTokenResponse, error)
@@ -193,6 +379,9 @@ type PolykeyServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedPolykeyServiceServer struct{}
 
+func (UnimplementedPolykeyServiceServer) HealthCheck(context.Context, *emptypb.Empty) (*HealthCheckResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method HealthCheck not implemented")
+}
 func (UnimplementedPolykeyServiceServer) GetKey(context.Context, *GetKeyRequest) (*GetKeyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetKey not implemented")
 }
@@ -214,8 +403,41 @@ func (UnimplementedPolykeyServiceServer) UpdateKeyMetadata(context.Context, *Upd
 func (UnimplementedPolykeyServiceServer) GetKeyMetadata(context.Context, *GetKeyMetadataRequest) (*GetKeyMetadataResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetKeyMetadata not implemented")
 }
-func (UnimplementedPolykeyServiceServer) HealthCheck(context.Context, *emptypb.Empty) (*HealthCheckResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method HealthCheck not implemented")
+func (UnimplementedPolykeyServiceServer) BatchGetKeys(context.Context, *BatchGetKeysRequest) (*BatchGetKeysResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BatchGetKeys not implemented")
+}
+func (UnimplementedPolykeyServiceServer) BatchCreateKeys(context.Context, *BatchCreateKeysRequest) (*BatchCreateKeysResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BatchCreateKeys not implemented")
+}
+func (UnimplementedPolykeyServiceServer) BatchRotateKeys(context.Context, *BatchRotateKeysRequest) (*BatchRotateKeysResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BatchRotateKeys not implemented")
+}
+func (UnimplementedPolykeyServiceServer) BatchRevokeKeys(context.Context, *BatchRevokeKeysRequest) (*BatchRevokeKeysResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BatchRevokeKeys not implemented")
+}
+func (UnimplementedPolykeyServiceServer) BatchUpdateKeyMetadata(context.Context, *BatchUpdateKeyMetadataRequest) (*BatchUpdateKeyMetadataResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BatchUpdateKeyMetadata not implemented")
+}
+func (UnimplementedPolykeyServiceServer) BatchGetKeyMetadata(context.Context, *BatchGetKeyMetadataRequest) (*BatchGetKeyMetadataResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BatchGetKeyMetadata not implemented")
+}
+func (UnimplementedPolykeyServiceServer) StreamGetKeys(*StreamGetKeysRequest, grpc.ServerStreamingServer[StreamGetKeysResponse]) error {
+	return status.Errorf(codes.Unimplemented, "method StreamGetKeys not implemented")
+}
+func (UnimplementedPolykeyServiceServer) StreamCreateKeys(grpc.BidiStreamingServer[StreamCreateKeysRequest, StreamCreateKeysResponse]) error {
+	return status.Errorf(codes.Unimplemented, "method StreamCreateKeys not implemented")
+}
+func (UnimplementedPolykeyServiceServer) StreamRotateKeys(grpc.BidiStreamingServer[StreamRotateKeysRequest, StreamRotateKeysResponse]) error {
+	return status.Errorf(codes.Unimplemented, "method StreamRotateKeys not implemented")
+}
+func (UnimplementedPolykeyServiceServer) StreamRevokeKeys(grpc.BidiStreamingServer[StreamRevokeKeysRequest, StreamRevokeKeysResponse]) error {
+	return status.Errorf(codes.Unimplemented, "method StreamRevokeKeys not implemented")
+}
+func (UnimplementedPolykeyServiceServer) StreamUpdateKeyMetadata(grpc.BidiStreamingServer[StreamUpdateKeyMetadataRequest, StreamUpdateKeyMetadataResponse]) error {
+	return status.Errorf(codes.Unimplemented, "method StreamUpdateKeyMetadata not implemented")
+}
+func (UnimplementedPolykeyServiceServer) StreamGetKeyMetadata(grpc.BidiStreamingServer[StreamGetKeyMetadataRequest, StreamGetKeyMetadataResponse]) error {
+	return status.Errorf(codes.Unimplemented, "method StreamGetKeyMetadata not implemented")
 }
 func (UnimplementedPolykeyServiceServer) Authenticate(context.Context, *AuthenticateRequest) (*AuthenticateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Authenticate not implemented")
@@ -245,6 +467,24 @@ func RegisterPolykeyServiceServer(s grpc.ServiceRegistrar, srv PolykeyServiceSer
 		t.testEmbeddedByValue()
 	}
 	s.RegisterService(&PolykeyService_ServiceDesc, srv)
+}
+
+func _PolykeyService_HealthCheck_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PolykeyServiceServer).HealthCheck(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PolykeyService_HealthCheck_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PolykeyServiceServer).HealthCheck(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _PolykeyService_GetKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -373,23 +613,159 @@ func _PolykeyService_GetKeyMetadata_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PolykeyService_HealthCheck_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(emptypb.Empty)
+func _PolykeyService_BatchGetKeys_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BatchGetKeysRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PolykeyServiceServer).HealthCheck(ctx, in)
+		return srv.(PolykeyServiceServer).BatchGetKeys(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: PolykeyService_HealthCheck_FullMethodName,
+		FullMethod: PolykeyService_BatchGetKeys_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PolykeyServiceServer).HealthCheck(ctx, req.(*emptypb.Empty))
+		return srv.(PolykeyServiceServer).BatchGetKeys(ctx, req.(*BatchGetKeysRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
+
+func _PolykeyService_BatchCreateKeys_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BatchCreateKeysRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PolykeyServiceServer).BatchCreateKeys(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PolykeyService_BatchCreateKeys_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PolykeyServiceServer).BatchCreateKeys(ctx, req.(*BatchCreateKeysRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PolykeyService_BatchRotateKeys_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BatchRotateKeysRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PolykeyServiceServer).BatchRotateKeys(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PolykeyService_BatchRotateKeys_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PolykeyServiceServer).BatchRotateKeys(ctx, req.(*BatchRotateKeysRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PolykeyService_BatchRevokeKeys_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BatchRevokeKeysRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PolykeyServiceServer).BatchRevokeKeys(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PolykeyService_BatchRevokeKeys_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PolykeyServiceServer).BatchRevokeKeys(ctx, req.(*BatchRevokeKeysRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PolykeyService_BatchUpdateKeyMetadata_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BatchUpdateKeyMetadataRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PolykeyServiceServer).BatchUpdateKeyMetadata(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PolykeyService_BatchUpdateKeyMetadata_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PolykeyServiceServer).BatchUpdateKeyMetadata(ctx, req.(*BatchUpdateKeyMetadataRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PolykeyService_BatchGetKeyMetadata_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BatchGetKeyMetadataRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PolykeyServiceServer).BatchGetKeyMetadata(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PolykeyService_BatchGetKeyMetadata_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PolykeyServiceServer).BatchGetKeyMetadata(ctx, req.(*BatchGetKeyMetadataRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PolykeyService_StreamGetKeys_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(StreamGetKeysRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(PolykeyServiceServer).StreamGetKeys(m, &grpc.GenericServerStream[StreamGetKeysRequest, StreamGetKeysResponse]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type PolykeyService_StreamGetKeysServer = grpc.ServerStreamingServer[StreamGetKeysResponse]
+
+func _PolykeyService_StreamCreateKeys_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(PolykeyServiceServer).StreamCreateKeys(&grpc.GenericServerStream[StreamCreateKeysRequest, StreamCreateKeysResponse]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type PolykeyService_StreamCreateKeysServer = grpc.BidiStreamingServer[StreamCreateKeysRequest, StreamCreateKeysResponse]
+
+func _PolykeyService_StreamRotateKeys_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(PolykeyServiceServer).StreamRotateKeys(&grpc.GenericServerStream[StreamRotateKeysRequest, StreamRotateKeysResponse]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type PolykeyService_StreamRotateKeysServer = grpc.BidiStreamingServer[StreamRotateKeysRequest, StreamRotateKeysResponse]
+
+func _PolykeyService_StreamRevokeKeys_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(PolykeyServiceServer).StreamRevokeKeys(&grpc.GenericServerStream[StreamRevokeKeysRequest, StreamRevokeKeysResponse]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type PolykeyService_StreamRevokeKeysServer = grpc.BidiStreamingServer[StreamRevokeKeysRequest, StreamRevokeKeysResponse]
+
+func _PolykeyService_StreamUpdateKeyMetadata_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(PolykeyServiceServer).StreamUpdateKeyMetadata(&grpc.GenericServerStream[StreamUpdateKeyMetadataRequest, StreamUpdateKeyMetadataResponse]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type PolykeyService_StreamUpdateKeyMetadataServer = grpc.BidiStreamingServer[StreamUpdateKeyMetadataRequest, StreamUpdateKeyMetadataResponse]
+
+func _PolykeyService_StreamGetKeyMetadata_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(PolykeyServiceServer).StreamGetKeyMetadata(&grpc.GenericServerStream[StreamGetKeyMetadataRequest, StreamGetKeyMetadataResponse]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type PolykeyService_StreamGetKeyMetadataServer = grpc.BidiStreamingServer[StreamGetKeyMetadataRequest, StreamGetKeyMetadataResponse]
 
 func _PolykeyService_Authenticate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AuthenticateRequest)
@@ -453,6 +829,10 @@ var PolykeyService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*PolykeyServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "HealthCheck",
+			Handler:    _PolykeyService_HealthCheck_Handler,
+		},
+		{
 			MethodName: "GetKey",
 			Handler:    _PolykeyService_GetKey_Handler,
 		},
@@ -481,8 +861,28 @@ var PolykeyService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _PolykeyService_GetKeyMetadata_Handler,
 		},
 		{
-			MethodName: "HealthCheck",
-			Handler:    _PolykeyService_HealthCheck_Handler,
+			MethodName: "BatchGetKeys",
+			Handler:    _PolykeyService_BatchGetKeys_Handler,
+		},
+		{
+			MethodName: "BatchCreateKeys",
+			Handler:    _PolykeyService_BatchCreateKeys_Handler,
+		},
+		{
+			MethodName: "BatchRotateKeys",
+			Handler:    _PolykeyService_BatchRotateKeys_Handler,
+		},
+		{
+			MethodName: "BatchRevokeKeys",
+			Handler:    _PolykeyService_BatchRevokeKeys_Handler,
+		},
+		{
+			MethodName: "BatchUpdateKeyMetadata",
+			Handler:    _PolykeyService_BatchUpdateKeyMetadata_Handler,
+		},
+		{
+			MethodName: "BatchGetKeyMetadata",
+			Handler:    _PolykeyService_BatchGetKeyMetadata_Handler,
 		},
 		{
 			MethodName: "Authenticate",
@@ -497,6 +897,42 @@ var PolykeyService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _PolykeyService_RevokeToken_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "StreamGetKeys",
+			Handler:       _PolykeyService_StreamGetKeys_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "StreamCreateKeys",
+			Handler:       _PolykeyService_StreamCreateKeys_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+		{
+			StreamName:    "StreamRotateKeys",
+			Handler:       _PolykeyService_StreamRotateKeys_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+		{
+			StreamName:    "StreamRevokeKeys",
+			Handler:       _PolykeyService_StreamRevokeKeys_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+		{
+			StreamName:    "StreamUpdateKeyMetadata",
+			Handler:       _PolykeyService_StreamUpdateKeyMetadata_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+		{
+			StreamName:    "StreamGetKeyMetadata",
+			Handler:       _PolykeyService_StreamGetKeyMetadata_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+	},
 	Metadata: "polykey/v2/service.proto",
 }
