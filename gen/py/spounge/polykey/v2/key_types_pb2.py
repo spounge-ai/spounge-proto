@@ -20,7 +20,7 @@ _sym_db = _symbol_database.Default()
 
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(
-    b"\n\x1apolykey/v2/key_types.proto\x12\npolykey.v2*\x7f\n\x07KeyType\x12\x18\n\x14KEY_TYPE_UNSPECIFIED\x10\x00\x12\x14\n\x10KEY_TYPE_API_KEY\x10\x01\x12\x14\n\x10KEY_TYPE_AES_256\x10\x02\x12\x15\n\x11KEY_TYPE_RSA_4096\x10\x03\x12\x17\n\x13KEY_TYPE_ECDSA_P384\x10\x04*\x8a\x01\n\tKeyStatus\x12\x1a\n\x16KEY_STATUS_UNSPECIFIED\x10\x00\x12\x15\n\x11KEY_STATUS_ACTIVE\x10\x01\x12\x17\n\x13KEY_STATUS_ROTATING\x10\x02\x12\x19\n\x15KEY_STATUS_DEPRECATED\x10\x03\x12\x16\n\x12KEY_STATUS_REVOKED\x10\x04*\x8f\x01\n\x10RotationStrategy\x12!\n\x1dROTATION_STRATEGY_UNSPECIFIED\x10\x00\x12\x19\n\x15ROTATION_STRATEGY_HOT\x10\x01\x12\x1c\n\x18ROTATION_STRATEGY_STAGED\x10\x02\x12\x1f\n\x1bROTATION_STRATEGY_SCHEDULED\x10\x03\x42\xa9\x01\n\x0e\x63om.polykey.v2B\rKeyTypesProtoP\x01Z?github.com/spounge-ai/spounge-proto/gen/go/polykey/v2;polykeyv2\xa2\x02\x03PXX\xaa\x02\nPolykey.V2\xca\x02\nPolykey\\V2\xe2\x02\x16Polykey\\V2\\GPBMetadata\xea\x02\x0bPolykey::V2b\x06proto3"
+    b"\n\x1apolykey/v2/key_types.proto\x12\npolykey.v2*\x7f\n\x07KeyType\x12\x18\n\x14KEY_TYPE_UNSPECIFIED\x10\x00\x12\x14\n\x10KEY_TYPE_API_KEY\x10\x01\x12\x14\n\x10KEY_TYPE_AES_256\x10\x02\x12\x15\n\x11KEY_TYPE_RSA_4096\x10\x03\x12\x17\n\x13KEY_TYPE_ECDSA_P384\x10\x04*\x8a\x01\n\tKeyStatus\x12\x1a\n\x16KEY_STATUS_UNSPECIFIED\x10\x00\x12\x15\n\x11KEY_STATUS_ACTIVE\x10\x01\x12\x17\n\x13KEY_STATUS_ROTATING\x10\x02\x12\x19\n\x15KEY_STATUS_DEPRECATED\x10\x03\x12\x16\n\x12KEY_STATUS_REVOKED\x10\x04*\x8f\x01\n\x10RotationStrategy\x12!\n\x1dROTATION_STRATEGY_UNSPECIFIED\x10\x00\x12\x19\n\x15ROTATION_STRATEGY_HOT\x10\x01\x12\x1c\n\x18ROTATION_STRATEGY_STAGED\x10\x02\x12\x1f\n\x1bROTATION_STRATEGY_SCHEDULED\x10\x03*m\n\x0eStorageProfile\x12\x1f\n\x1bSTORAGE_PROFILE_UNSPECIFIED\x10\x00\x12\x1c\n\x18STORAGE_PROFILE_STANDARD\x10\x01\x12\x1c\n\x18STORAGE_PROFILE_HARDENED\x10\x02\x42\xa9\x01\n\x0e\x63om.polykey.v2B\rKeyTypesProtoP\x01Z?github.com/spounge-ai/spounge-proto/gen/go/polykey/v2;polykeyv2\xa2\x02\x03PXX\xaa\x02\nPolykey.V2\xca\x02\nPolykey\\V2\xe2\x02\x16Polykey\\V2\\GPBMetadata\xea\x02\x0bPolykey::V2b\x06proto3"
 )
 
 _globals = globals()
@@ -39,4 +39,6 @@ if not _descriptor._USE_C_DESCRIPTORS:
     _globals["_KEYSTATUS"]._serialized_end = 310
     _globals["_ROTATIONSTRATEGY"]._serialized_start = 313
     _globals["_ROTATIONSTRATEGY"]._serialized_end = 456
+    _globals["_STORAGEPROFILE"]._serialized_start = 458
+    _globals["_STORAGEPROFILE"]._serialized_end = 567
 # @@protoc_insertion_point(module_scope)
