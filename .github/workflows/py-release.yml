@@ -9,6 +9,7 @@ on:
       - '.github/workflows/py-release.yml'
       - 'gen/py/pyproject.toml'
       - 'Makefile'
+      - 'version.txt'
 
 jobs:
   release:
