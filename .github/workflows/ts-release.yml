@@ -9,6 +9,7 @@ on:
       - 'gen/go/**'
       - '.changeset/**'
       - 'package.json'
+      - 'version.txt'
  
 jobs:
   release:
